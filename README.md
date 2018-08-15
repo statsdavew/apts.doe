@@ -2,4 +2,8 @@
 
 20 - 24 August 2018, Glasgow
 
-The notes can be found [here](doe.html)
+Preliminary material can be found [here](preliminary/doe_preliminary.html).
+
+Notes can be found [here](notes/doe.html).
+
+Source for the <tt>R</tt>tt> package is [here](https://github.com/statsdavew/apts.doe).

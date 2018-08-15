@@ -1,0 +1,207 @@
+---
+title: "APTS Design of Studies - Preliminary Material"
+subtitle: "August 2018"
+author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southmpton"
+output: 
+#beamer_presentation
+#pdf_document
+  html_document:
+    theme: null
+    highlights: null
+bibliography: ../notes/apts_doe.bib
+#csl: american-statistical-association.csl
+number_sections: true
+---
+
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bvarepsilon}{\boldsymbol{\varepsilon}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\rT}{\mathrm{T}}
+\newcommand{\Var}{\operatorname{Var}}
+
+
+<style>
+pre {
+  font-size: 15px;
+}
+</style>
+
+```{r, echo=FALSE}
+options(width=80)
+library(knitr)
+library(xtable)
+set.seed(1)
+knit_hooks$set(no.main = function(before, options, envir) {
+    if (before) par(mar = c(4.1, 4.1, 1.1, 1.1), pty = "s")  # smaller margin on top
+})
+opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+```
+
+This APTS module concerns how to influence the data generating process (mostly via carefully designed experiments) in order to "improve" the quality of the inferences and conclusions that can be drawn. To that end, it makes sense to review some simple ways we can assess the quality of a fitted statistical model.
+
+Further good preparation for this module would be to review the material from the APTS courses on Statistical Computing and Statistical Modelling (available from https://warwick.ac.uk/fac/sci/statistics/apts/students/resources/).
+
+Throughout this preliminary material, we will assume we observe independent data $\by = (y_1,\ldots, y_n)^\rT$, where the $i$th observation follows a distribution with density/mass function $\pi(y_i;\,\btheta, \bx_i)$, where $\btheta$ is a $q$-vector of unknown parameters (requiring estimation) and $\bx_i = (x_{1i},\ldots,x_{ki})^\rT$ is a $k$-vector of values of controllable variables.
+
+For example, in a simple chemistry experiment, $y_i$ might be the measurement of product yield from the $i$th reaction, with $x_{1i}$ being the setting of temperature for this reaction and $x_{2i}$ being the setting of pressure. 
+
+## Maximum likelihood, Fisher information and asymptotic normality
+
+The likelihood is simply the joint distribution of the data $\by$ considered as a function of the parameters $\btheta$. For independent data:
+
+$$
+\begin{equation}\label{eq:likelihood}
+L(\btheta) = \prod_{i=1}^n \pi(y_i;\,\btheta, \bx_i)\,.
+\end{equation}
+$$
+The maximum likelihood estimator (MLE), $\hat{\btheta}$, maximises this quantity. Equivalently, $\hat{\btheta}$ maximises the *log-likelihood* $l(\btheta) = \log L(\btheta)$; it is more usual to work with the log-likelihood rather than the likelihood directly.
+
+Under a few (common) regularity conditions, the (expected) Fisher information matrix is given by the expectation of the negative hessian of $l(\btheta)$:
+
+$$
+\begin{equation}\label{eq:eFI}
+M(\btheta) = E_y\left[- \frac{\partial^2 l(\btheta)}{\partial\btheta\partial\btheta^\rT}\right]\,.
+\end{equation}
+$$
+Informally, the Fisher information at $\hat{\btheta}$ measures the curvature of the log-likelihood around the estimate; the more "peaked" the likelihood function, the "better" we know the parameter. Slightly more formally, it can be shown [see, eg, @GJJ2002] that asymptotically the MLE follows the normal distribution
+$$
+\begin{equation}\label{eq:asympNormal}
+\hat{\btheta}\sim N(\btheta, M(\btheta)^{-1})\,.
+\end{equation}
+$$
+That is, asymptotically, $\hat{\btheta}$ is **unbiased** with **variance-covariance** matrix 
+$$
+\begin{equation}\label{eq:varcov}
+\Var(\hat{\btheta}) = M(\btheta)^{-1}\,.
+\end{equation}
+$$
+Hence (functions of) $M(\btheta)$ summarise the precision of the MLE. 
+
+So far, in our notation we have ignored the fact that the (log-) likelihood and the Fisher information are also functions of $\bx_{1},\ldots,\bx_{n}$. If we assume we can choose these values in an experiment, we call $\xi = \left(\bx_{1},\ldots,\bx_{n}\right)$ a **design** and we can explicitly acknowledge the dependence of the information matrix on $\xi$, $M(\btheta) = M(\xi;\, \btheta)$. Hence, it becomes natural to think about choosing a design to maximise (a function of) the Fisher information.
+
+### Simple example 1
+Assume $y_1,\ldots, y_n$ are observations from a Binomial random variable, each with $m=10$ trials. The likelihood and log-likelihood are given by
+
+$$
+L(\theta) = \prod_{i=1}^n{m \choose y_i}\theta^{y_i}(1-\theta)^{m-y_i}\,;
+$$
+$$
+l(\theta) = \text{constant} + \sum_{i=1}^n y_i\log \theta + \left(nm - \sum_{i=1}^n y_i\right)\log(1-\theta)\,.
+$$
+The MLE is given by $\hat{\theta} = \sum_{i=1}^ny_i/(nm)$ and the Fisher information by $M(\theta) = \frac{nm}{\theta(1-\theta)}$. Notice that the Fisher information is a function of the unknown parameter $\theta$. This is common for models which are nonlinear in the unknown parameters, and creates an issue for design of experiments (see below).
+
+Here, there are no controllable variables $x$ (all the $y_i$ are identically distributed) but there is still a "design" problem": how large should $n$ be? Such **sample size** problems are common in, eg, clinical trials. As a demonstration, we can use the following <tt>R</tt> code, where we substitute the observed information (the negative hessian of the log-likelihood at the MLE) for the expected information for two different values of $n$, and examine the curvature of the likelihood surface.
+
+```{r hessian_example, fig.align = "center"}
+nloglik <- function(prob, y, m) -1 * sum(log(dbinom(y, m, prob)))
+n <- 20 
+m <- 10 
+tp <- 0.7 
+y1 <- rbinom(n, m, tp) 
+mle1 <- nlm(nloglik, p = .5, y = y1, m = m, hessian = T)
+y2 <- rbinom(5 * n, m, tp)
+mle2 <- nlm(nloglik, p = .5, y = y2, m = m, hessian = T) 
+p <- seq(.05, .95, by = .01) 
+l1 <- sapply(p, nloglik, y = y1, m = m) 
+l2 <- sapply(p, nloglik, y = y2, m = m)
+matplot(p, cbind(-1 * l1 + mle1$minimum, -1 * l2 + mle2$minimum), type = "l", ylab = "Log-likelihood", xlab = expression(theta))
+abline(v = sum(y1)/(n * m), lty = 3)
+abline(v = sum(y2)/(5 * n * m), lty = 4, col = "red")
+mle2$hessian / mle1$hessian
+```
+
+Two things to note in the above plot: 1. when we increase the sample size by a factor of five, the MLE moves closer to the true probability (the MLE is only asymptotically unbiased); and 2. the curvature of the likelihood surface (which is measured by the Fisher information) is much greater for the larger experiment. As measured by the inverse of the observed information, the larger experiment has (asymptotic) variance of the MLE about five times smaller, as we might expect.  
+
+**Exercise 1**
+  Now assume there is a single controllable variable $x$ such that $P(y_i = 1) = \frac{1}{1+\exp(-x_i\theta)}$. Either by adapting the code above, or by hand, find the expected or observed information for $\theta$ and examine how it changes for different choices of $x_1,\ldots, x_n$ (eg produce plots like the one above for at least two different designs).
+
+## Linear models
+
+Consider the linear model
+$$
+\by = X\bbeta + \bvarepsilon\,,
+$$
+with $X$ a $n\times p$ model matrix, $\bbeta$ a $p$-vector of regression parameters and $\bvarepsilon\sim N(0, \sigma^2 I_n)$, so $\btheta = (\bbeta^\rT, \sigma^2)^\rT$. The information matrix for $\bbeta$ (treating $\sigma^2$ as known) has a simple form:
+$$
+M(\xi;\,\bbeta) = \frac{1}{\sigma^2}X^\rT X\,.
+$$
+**Exercise 2**
+Derive this equation.
+
+Compare this information matrix to the Fisher information of the Binomial example - a key difference is that for the linear model, the information matrix does not depend on values of the unknown parameters $\bbeta$ that require estimation. This is important for design; it means that we can designs experiments that maximise a function of $M(\xi; \bbeta)$ without requiring a priori knowledge about the values of $\bbeta$.
+
+The least squares estimators for the linear model have the well-known form
+$$
+\hat{\bbeta} = \left(X^\rT X\right)^{-1}X^\rT \by
+$$
+and, assuming the linear model is correct for the underlying data-generating process, 
+$$
+\hat{\bbeta}\sim N\left(\bbeta, M(\xi;\,\bbeta)^{-1}\right)\,.
+$$
+For the linear model, this result is exact rather than asymptotic. However, what if the data were actually generated by a different linear model? For example,
+$$
+\by = X\bbeta + X_2\bbeta_2 + \bvarepsilon\,,
+$$
+with $X_2$ a second $n\times p_2$ model matrix and $\bbeta_2$ a second $p_2$-vector of parameters?
+
+**Exercise 3** 
+Assuming that we still fit the original linear model $\by = X\bbeta + \bvarepsilon$, show that the variance of $\hat{\bbeta}$ is unchanged but that the expected value becomes
+$$
+E(\hat{\bbeta}) = \bbeta + A\bbeta_2\,,
+$$
+where $A = \left(X^\rT X\right)^{-1}X^\rT X_2$.
+
+The matrix $A$ is commonly referred to as the **alias** matrix; its entries determine the biases of the MLEs. Notice that $A$ also depends on the choice of design through the matrices $X$ and $X_2$. It therefore follows that if we fit a submodel to our data, the resulting bias of the parameter estimators can be influenced (and maybe reduced) through choice of design. Such situations are common - we may not have sufficient resource to design an experiment large enough to fit the full model, or we may be uncertain about which model terms should be included.
+
+### Simple example 2
+
+The <tt>EngrExpt</tt> package in <tt>R</tt> contains a dataset <tt>bright</tt> for a designed experiment on the "de-inking" process of newspaper in recycling. We will use this as an example design for a linear model to examine the information and alias matrices. The data set contains columns for five controllable variables, see <tt>?bright</tt>. We will assume that the assumed model contains linear and two-way interactions (with corresponding columns in $X$), and that the true model also contains three-way interactions (with columns in $X_2$).
+
+The features to note about the below output are the structure of the information matrix (diagonal) and the alias matrix (entries either -1 or 0). These features are common in **two-level regular fractional factorial designs** [see @WH2009].
+
+```{r factorial_example}
+library(EngrExpt)
+Design <- 2 * as.data.frame(lapply(bright[, 1:5], as.numeric)) - 3
+X <- model.matrix(~(.) ^ 2, data = Design)
+X2 <- model.matrix(~(.) ^ 3, data = Design)[, -(1:16)]
+t(X) %*% X
+solve(as.matrix(t(X) %*% X)) %*% t(X) %*% X2
+```
+**Exercise 4**
+What does the alias matrix tell you about the bias of $\hat{\bbeta}$?
+
+##Nonlinear models
+
+If a statistical model is nonlinear in the unknown parameters, assessment of a design is more complicated. For the model
+
+$$
+y_i = f(\bx_i;\,\bbeta) + \varepsilon_i\,,\qquad i=1,\ldots,n\,,
+$$
+with independent errors $\varepsilon_i\sim N(0,\sigma^2)$, the information matrix for $\bbeta$ has the form
+$$
+M(\xi;\,\bbeta) = \frac{1}{\sigma^2}F^\rT F\,,
+$$
+where $n\times p$ **sensitivity** matrix $F$ has $ij$th entry $\partial f(\bx_i;\,\bbeta)/\partial \beta_j$ [see @ADT2007].
+
+**Exercise 5**
+Derive the form of this informatio matrix.
+
+**Exercise 6**
+Show that the information matrix for the linear model is a special case.
+
+The main complication for assessing design performance for nonlinear models is the dependence of $F$ on the value of $\bbeta$ (eg see the binomial example above where the information depended on $\theta$). Often, this dependence means designs are assessed **locally** for assumed values of $\bbeta$. Other approaches attempt to robustify the design by assuming its worst-case performance across a set of values of $\bbeta$ (maximin) or through **Bayesian methods**. 
+
+##Bayesian methods
+If a Bayesian paradigm is adopted, design performance can be assesed using the posterior variance-covariance matrix of the parameters of interest. Assume a linear regression model with conjugate prior distributions $\bbeta | \sigma^2 \sim N(\bbeta_0, \sigma^2R^{-1})$ and $\sigma^2\sim\text{Inverse-Gamma}(a, b)$, with known prior mean $p$-vector $\bbeta$, known conditional $p\times p$ prior variance-covariance matrix $\sigma^2R^{-1}$, and $a>0, b>0$. The conditional posterior variance-covariance matrix for $\bbeta$ is given by:
+$$
+\Var(\bbeta | \by, \sigma^2) = \sigma^2\left(X^\rT X + R\right)^{-1}\,.
+$$
+It is therefore natural to use (the inverse of) this matrix to assess the quality of a design from a Bayesian perspective [@CV1995].
+
+For nonlinear models, the situation tends to be more complicated. The posterior variance covariance matrix of the parameters is usually not available in closed form. The information matrix, evaluated at the posterior mode, can be used as an asymptotic approximation, but suffers once again from the problem of depending on quantities unknown prior to experimentation. In the course, we will review approaches that overcome these issues, including decision-theoretic appraoches and associated computational methods [see @RDMP2016, @OW2017]
+
+
+##References 
+ 
