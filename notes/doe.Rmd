@@ -1,7 +1,7 @@
 ---
 title: "APTS Design of Experiments"
 subtitle: "August 2018"
-author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southmpton"
+author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
 #pdf_document
@@ -53,7 +53,7 @@ opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 
 ##Preliminaries
 
-A few example designs and data sets for this module are available in the <tt>R</tt> package <tt>apts.doe</tt>, which can be installed from <tt>Github</tt>
+A few example designs and data sets for this module are available in the <tt>R</tt> package <tt>apts.doe</tt>, which can be installed from <tt>GitHub</tt>
 
 ```{r prelim}
 library(devtools)
@@ -193,7 +193,7 @@ curve(eff, from = 0, to = n, ylab = "Eff", xlab = expression(n[1]))
  - **Treatment** -- entities of scientific interest to be studied in the experiment <br>
  eg varieties of crop, doses of a drug, combinations of temperature and pressure
  
- - **Unit** -- smallest subdivison of the experimental material such that two units may recieve different treatments <br>
+ - **Unit** -- smallest subdivision of the experimental material such that two units may receive different treatments <br>
  eg plots of land, subjects in a clinical trial, samples of reagent
  
  - **Run** -- application of a treatment to a unit 
@@ -259,7 +259,7 @@ Replication
 ##
 Randomisation
 
-  - we randomise features such as the allocation of units to treatments, the order in which treatments are applied, $\ldots$
+  - we randomise features such as the allocation of units to treatments, the order in which treatments are applied, ...
     - protects against lurking (uncontrolled) variables (model-robust) and subjectively in the allocation of treatments to units
 
 Randomisation is perhaps the **key** principle in the design of experiments
@@ -816,8 +816,8 @@ where $x_{ijr}$ is the value taken by the $r$th variable.
 **Prior distributions** (for later use):
 
   - $\beta_0 \sim U(-3,3)$, $\beta_1 \sim U(4, 10)$, $\beta_2 \sim U(5, 11)$, $\beta_3 \sim U(-6, 0)$, $\beta_4 \sim U(-2.5, 3.5)$
-  1.  standard logistic regession - $\omega_{ir} = 0$ 
-  2.  hierarchical logsitic regression - $\omega_{ir} \sim U(-s_r, +s_r)$. with $s_{r}>0$ following a triangular distribution 
+  1.  standard logistic regression - $\omega_{ir} = 0$ 
+  2.  hierarchical logistic regression - $\omega_{ir} \sim U(-s_r, +s_r)$. with $s_{r}>0$ following a triangular distribution 
   
 ##Classical optimal designs
 Many Frequentist criteria for finding optimal designs for both linear and nonlinear models optimise a function of the information matrix; see @ADT2007, ch.10
@@ -979,7 +979,7 @@ $D$-efficiency
 ##
 Use of the "wrong" design can lead to uninformative experiments (with "small" information matrices)
 
-For the logistic regression example, the drop in efficiency is closely related to the phenonomen of separation [see @Firth1993]
+For the logistic regression example, the drop in efficiency is closely related to the phenomenon of separation [see @Firth1993]
 
 Motivates the need for designs which are robust to the values of the model parameters
 
@@ -1152,7 +1152,7 @@ Alternatively, the optimisation can be embedded within a simulation scheme and s
 
 ## Smoothing-based optimisation
 
-Instead of directly minimising a Monte Carlo approximation to the expected utilty, find designs via **curve fitting** [@MP1996]
+Instead of directly minimising a Monte Carlo approximation to the expected utility, find designs via **curve fitting** [@MP1996]
 
   1. Evaluate the Monte Carlo approximation $\tilde{U}(\xi)$ for a small number of designs, $\xi_1,\ldots,\xi_Q$
   2. Smooth the "data" $\left\{\xi_i, \tilde{U}(\xi_i)\right\}$, i.e. fit a statistical model, to obtain a surrogate $\hat{U}(\xi)$
@@ -1242,7 +1242,7 @@ pairs(optdeshlrsig(18), pch = 16,
 ## Introduction
 Many physical and social processes can be approximated by computer codes which encapsulate mathematical models
 
-  - eg partial diferential equations solved using finite element methods
+  - eg partial differential equations solved using finite element methods
   - eg reaction kinetics modelling in computational biology, in-silico chemistry
   
 ```{r compcode, echo = F, out.width="75%", fig.align='center'}
@@ -1367,7 +1367,7 @@ Roughly speaking, an Mm design **spreads** out the design points, and an mM desi
 Intuitively, covering the design region seems more desirable (eg for prediction), but optimising the mM objective function is computationally challenging. Hence, Mm designs are more commonly used
   
 ## Latin hypercube designs
-For high-dimensionl problems, space-filling is difficult
+For high-dimensional problems, space-filling is difficult
 
   - many points are required to adequate space-fill a high-dimensional space (curse of dimensionality)
   
@@ -1376,7 +1376,7 @@ For high-dimensionl problems, space-filling is difficult
   - each variable has no overlapping points, and good coverage (compare with a factorial design, which has hidden replication)
   - can be easily constructed using permutations of integers
 
-An LHD only guarantees space-filling properties in each one-dimensional projection, not overall. So we normally combine the Latin hypcube principle with a space-filling criteria, eg to find a Mm LHD
+An LHD only guarantees space-filling properties in each one-dimensional projection, not overall. So we normally combine the Latin hypercube principle with a space-filling criteria, eg to find a Mm LHD
 
 ##
 ```{r simplelhd, out.width = "50%", fig.align='center'}
@@ -1579,12 +1579,12 @@ When $g(\bx)$ is computationally expensive to evaluate, computer experiments and
 The field of **Bayesian optimisation** uses sequentially collected evaluations of $g(\bx)$
 
   - place a prior distribution (eg GP) on $g(\bx)$
-  - collect function evaluations at points chosen sequentially via an acquistion function
+  - collect function evaluations at points chosen sequentially via an acquisition function
   - update the prior to a posterior distribution, and infer the maximum/minimum of $g(\bx)$
   
 Uncertainty in the posterior (i.e. for $g(\bx)$ at unobserved $\bx$) leads to **exploration/exploitation** trade-off
 
-The most common acquistion function is **expected improvement (EI)**
+The most common acquisition function is **expected improvement (EI)**
 
 See @JSW1998
 
@@ -1720,7 +1720,7 @@ A (normalised measure) of the impact of each variable can be obtained by assessi
 $$
 S_i = \frac{\mbox{Var}_{x_i}\left\{\mu_i(\bx)\right\}}{\mbox{Var}_\bx\left\{g(\bx)\right\}} \in [0,1]
 $$
-The impact of higher-order terms can be assesed via the **total variance index**:
+The impact of higher-order terms can be assessed via the **total variance index**:
 $$
 T_i = 1 - \frac{\mbox{Var}_{\bx_{(i)}}\left\{\mu_{-i}(\bx)\right\}}{\mbox{Var}_{\bx}\left\{g(\bx)\right\}} \in [0,1]
 $$
