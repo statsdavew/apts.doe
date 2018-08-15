@@ -1,0 +1,385 @@
+65.50 * 4
+80/3
+120/3
+80/3
+39/6
+38/6
+40/6
+6*7
+6*5
+7*5
+24*50
+8760 + 31447 + 390713 + 973523 + 22366 + 39676 + 415486 + 86000 + 3900 + 1150 + 5000 + 2174 + 66000 + 195187 + 3000+ 20000 + 32000 + 5000 + 100000
+8760 + 31447 + 390713 + 973523 + 22366 + 39676 + 415486 + 86000 + 3900 + 1150 + 5000 + 2174 + 66000 + 195187 + 3000+ 20000 + 32000 + 5000 + 100000 + 2600000 + 737000 + 160000
+3^4
+275000/12000
+28+8+53
+64*12
+64*24
+84*24
+49*24
+84-49
+9*30.99+20
+12*25.99+35
+9*25.99+35
+6*25.99+35
+7*1.2
+7*1.3
+7*1.4
+2500000 + 8760+31447+390713+973523+22366+39676+415486+86000+3900+1150+5000+2174
+2500000 + 8760+31447+390713+973523+22366+39676+415486+86000+3900+1150+5000+2174 + 66000+195187+3000+20000+32000+5000+100000+723000+154000+97000
+8760+31447+390713+39676+86000+3900+1150+5000+2174 + 66000+195187+3000+20000+32000+5000+100000+723000
+3.79/4
+3.31/4
+3.19/4
+15*20*20
+15*20*20 + 15*20
+(15*20*20 + 15*20) * 20
+18,900 * 5000
+18900 * 5000
+(15*20*20*1000 + 15*20*20000) * 20
+library(acebayes)
+tmp <- installed.packages()#
+installedpkgs <- as.vector(tmp[is.na(tmp[,"Priority"]), 1])#
+save(installedpkgs, file="installed_old.rda")
+getwd()
+x <-seq(0,1, l=100)
+plot(x, 1-exp(-x))
+.99/(.99 + .02*999)
+alpha <- 1/12
+theta <- 1/12
+10/15 - 1/12*1/12
+(10/15 - 1/12*1/12) / 12
+(10/15 - 11/12*1/12) / 12
+(15/15 - 11/12*1/12) / 12
+1/12
+(10/15 - 11/12*11/12) / 12
+(10/15 - (11/12)*(11/12)) / 12
+phat <- function(x, n, theta) (x/n - 1 + theta)/(2*theta-1)
+phat(5, 10, .5)
+phat(5, 10, 1)
+phat(5, 10, 0)
+phat(5, 10, 1/12)
+phat(5, 10, 3/12)
+phat(5, 10, 4/12)
+phat(5, 10, 1/5)
+phat(3, 10, 1/5)
+phat(3, 10, 1/12)
+phat(1, 10, 1/12)
+phat(10, 10, 1/12)
+phat <- function(x, n, theta, alpha) (x/n - (1-theta) * alpha) / theta
+phat(5, 15, 1/12, 1)
+phat(5, 15, 1/12, 1/11)
+phat(5, 15, 1/2, 1/2)
+phat(5, 15, 1/12, 1/2)
+phat(1, 15, 1/12, 1/2)
+phat(1, 15, 1/2, 1/2)
+phat(7, 15, 1/2, 1/2)
+phat(1, 15, 1/12, 1/11)
+phat(2, 15, 1/12, 1/11)
+phat(3, 15, 1/12, 1/11)
+phat <- function(x, n, theta) (x/n - (1-theta)) / theta
+phat{5, 15, .5}
+phat(5, 15, .5)
+phat(7, 15, .5)
+phat(10, 15, .5)
+phat(10, 15, 1/12)
+phat(1, 15, 1/12)
+phat(15, 15, 1/12)
+phat(14, 15, 1/12)
+library(docopulae)
+?Dsensitivity
+choose(11,2)
+64/192
+(64/192)^2
+17*11
+choose(17,2)
+75.87+4
+23.50+32.80+73
+test <- function(x) 2 * x
+test(8)
+test2 <- test
+test2(8)
+4000/12
+1300000 + 8760+31447+390713+973523+22366+39676+415486+86000+3900+1150+5000+2174+144324+2500000+698000+148000+93000
+66000+195187+3000+20000+32000+5000+100000
+3.21/5
+75.87+32.80+73+2+2
+8047+10425+8634+8093
+(8047+10425+8634+8093)/4
+m <- (8047+10425+8634+8093)/4
+8047-m
+10425 - m
+8634-m
+8093-m
+2.4+8.9
+11.3/2
+12*.75
+100*.75
+60*.75
+80*.75
+21420+711.10
+22131.10 + 781+9825.75+725.10+3020+2199+714+353.90+70
+39024.75+70+725.10
+39024.75+70+725.10-200
+priorMFL <- function(B) {#
+  b0 <- runif(B, -3, 3)#
+  b1 <- runif(B, 4, 10)#
+  b2 <- runif(B, 5, 11)#
+  b3 <- runif(B, -6, 0)#
+  b4 <- runif(B, -2.5, 2.5)#
+  cbind(b0, b1, b2, b3, b4)#
+}
+priorMFL(10)
+paste0("x", 1:4)
+## set up prior#
+priorMFL <- function(B) {#
+  b0 <- runif(B, -3, 3)#
+  b1 <- runif(B, 4, 10)#
+  b2 <- runif(B, 5, 11)#
+  b3 <- runif(B, -6, 0)#
+  b4 <- runif(B, -2.5, 2.5)#
+  cbind(b0, b1, b2, b3, b4)#
+}#
+## define the utility function#
+MFL.utilSIG <- utilityglm(formula = ~ x1 + x2 + x3 + x4, family = binomial, prior = priorMFL, criterion = "SIG")$utility#
+## starting design with n=16 runs, on [-1, 1]#
+d <- 2 * randomLHS(16, 4) - 1#
+colnames(d) <- paste0("x", 1:4)#
+## approximate expected utility for starting design#
+MFL.utilSIG(d, 1000)
+library(acebayes)
+## set up prior#
+priorMFL <- function(B) {#
+  b0 <- runif(B, -3, 3)#
+  b1 <- runif(B, 4, 10)#
+  b2 <- runif(B, 5, 11)#
+  b3 <- runif(B, -6, 0)#
+  b4 <- runif(B, -2.5, 2.5)#
+  cbind(b0, b1, b2, b3, b4)#
+}#
+## define the utility function#
+MFL.utilSIG <- utilityglm(formula = ~ x1 + x2 + x3 + x4, family = binomial, prior = priorMFL, criterion = "SIG")$utility#
+## starting design with n=16 runs, on [-1, 1]#
+d <- 2 * randomLHS(16, 4) - 1#
+colnames(d) <- paste0("x", 1:4)#
+## approximate expected utility for starting design#
+MFL.utilSIG(d, 1000)
+MLF.ace <- ace(utility = MFL.utilSIG, start.d = d, progress = T)
+?acebayes
+optdeslrsig(16)
+optdeshlrsig(16)
+optdeshlrsig
+optdeshlrsig(16)
+optdeshlrsig(48)
+optdeshlrsig(16)
+optdeshlrsig(18)
+optdeslrsig(18)
+optdeshlrsig(18)
+c("red", "green3", "blue")[iris$Species]
+c("red", "green3", "blue")rep(1:3, rep(6, 3))
+c("red", "green3", "blue")[rep(1:3, rep(6, 3))]
+c("black", "red", "blue")[rep(1:3, rep(6, 3))]
+tableBox <- function(labels, x=.5, y=.5) {#
+      nlabel <- length(labels)#
+      tablevp <-#
+          viewport(x=x, y=y,#
+                   width=max(stringWidth(labels)) +#
+                         unit(4, "mm"),#
+                   height=unit(nlabel, "lines"))#
+      pushViewport(tablevp)#
+      grid.roundrect()#
+      if (nlabel > 1) {#
+          for (i in 1:(nlabel - 1)) {#
+              fill <- c("white", "grey")[i %% 2 + 1]#
+              grid.clip(y=unit(i, "lines"), just="bottom")#
+              grid.roundrect(gp=gpar(fill=fill))#
+} }#
+      grid.clip()#
+      grid.text(labels,#
+                x=unit(2, "mm"), y=unit(nlabel:1 - .5, "lines"),#
+                just="left")#
+      popViewport()#
+}
+tableBox("help")
+library(grid)
+tableBox("help")
+tableBox(c("help", "me"))
+tableBox("Computer code")
+tableBox(c("Computer code", "g(x)"))
+grob()
+tableBox(c("Computer code", "g(x)"), x = 2, y = 2)
+tableBox(c("Computer code", "g(x)"), x = 2, y = 2)
+tableBox(c("Computer code", "g(x)"), x = 1, y = 1)
+tableBox(c("Computer code", "g(x)"), x = 0, y = 0)
+tableBox(c("Computer code", "g(x)"), x = 0.5, y = 0.5)
+tableBox(c("Computer code", expression(g(x))))
+tableBox(c("Computer code", expression(g(x))))
+tableBox(c("Computer code", expression(italic(g(x))))
+tableBox(c("Computer code", expression(italic(g(x)))))
+tableBox(c("Computer code", expression(g(x))))
+tableBox <- function(labels, x=.5, y=.5) {#
+      nlabel <- length(labels)#
+      tablevp <-#
+          viewport(x=x, y=y,#
+                   width=max(stringWidth(labels)) +#
+                         unit(4, "mm"),#
+                   height=unit(nlabel, "lines"))#
+      pushViewport(tablevp)#
+      grid.roundrect()#
+      if (nlabel > 1) {#
+          for (i in 1:(nlabel - 1)) {#
+              fill <- c("white", "grey")[i %% 2 + 1]#
+              grid.clip(y=unit(i, "lines"), just="bottom")#
+              grid.roundrect(gp=gpar(fill=fill))#
+} } #
+      grid.clip()#
+      grid.text(labels,#
+                x=unit(2, "mm"), y=unit(nlabel:1 - .5, "lines"),#
+                just="center")#
+      popViewport()#
+} #
+tableBox(c("Computer code", expression(g(x))))
+tableBox <- function(labels, x=.5, y=.5) {#
+      nlabel <- length(labels)#
+      tablevp <-#
+          viewport(x=x, y=y,#
+                   width=max(stringWidth(labels)) +#
+                         unit(4, "mm"),#
+                   height=unit(nlabel, "lines"))#
+      pushViewport(tablevp)#
+      grid.roundrect()#
+      if (nlabel > 1) {#
+          for (i in 1:(nlabel - 1)) {#
+              fill <- c("white", "grey")[i %% 2 + 1]#
+              grid.clip(y=unit(i, "lines"), just="bottom")#
+              grid.roundrect(gp=gpar(fill=fill))#
+} } #
+      grid.clip()#
+      grid.text(labels,#
+                x=unit(2, "mm"), y=unit(nlabel:1 - .5, "lines"),#
+                just="left")#
+      popViewport()#
+} #
+tableBox(c("Computer code", expression(g(x))))
+tableBox <- function(labels, x=.5, y=.5) {#
+      nlabel <- length(labels)#
+      tablevp <-#
+          viewport(x=x, y=y,#
+                   width=max(stringWidth(labels)) +#
+                         unit(4, "mm"),#
+                   height=unit(nlabel, "lines"))#
+      pushViewport(tablevp)#
+      grid.roundrect()#
+      if (nlabel > 1) {#
+          for (i in 1:(nlabel - 1)) {#
+              fill <- c("white", "grey")[i %% 2 + 1]#
+              grid.clip(y=unit(i, "lines"), just="bottom")#
+              grid.roundrect(gp=gpar(fill=fill))#
+} } #
+      grid.clip()#
+      grid.text(labels,#
+                x=unit(2, "mm"), y=unit(nlabel:1 - .5, "lines"),#
+                just="left")#
+      popViewport()#
+} #
+tableBox(c("Computer code", expression(g(x))))
+tableBox("Inputs x", x = .1)
+tableBox("Inputs x", x = .3)
+tableBox("Inputs x", x = .2)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)
+x1 <- c(.2, .5)#
+y1 <- c(.5, .5)#
+grid.xplines(x1, y1)
+x1 <- c(.2, .5)#
+y1 <- c(.5, .5)#
+grid.xspline(x1, y1)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .3; x1b <- .4#
+y <- .5#
+grid.curve(x1, y, x1b, y)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .37; x1b <- .38#
+y <- .5#
+grid.curve(x1, y, x1b, y)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .4; x1b <- .4#
+y <- .5#
+grid.curve(x1, y, x1b, y)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .3; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .25; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .27; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y)
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .26; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y, arrow = arrow(angle = 0))
+?grid.curve
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .26; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y, arrow = arrow(angle = 15))
+x2a <- .6; x2b <- .74#
+grid.curve(x2a, y, x2b, y, arrow = arrow(angle = 15))
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .26; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y, arrow = arrow(angle = 15))#
+x2a <- .6; x2b <- .72#
+grid.curve(x2a, y, x2b, y, arrow = arrow(angle = 15))
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .26; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y, arrow = arrow(angle = 15))#
+x2a <- .6; x2b <- .73#
+grid.curve(x2a, y, x2b, y, arrow = arrow(angle = 15))
+df(file = "computer_code.pdf")#
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .26; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y, arrow = arrow(angle = 15))#
+x2a <- .6; x2b <- .73#
+grid.curve(x2a, y, x2b, y, arrow = arrow(angle = 15))#
+dev.off()
+pdf(file = "computer_code.pdf")#
+tableBox(c("Computer code", expression(g(x))))#
+tableBox("Inputs x", x = .2)#
+tableBox("Outputs y", x = .8)#
+x1a <- .26; x1b <- .4#
+y <- .5#
+grid.curve(x1a, y, x1b, y, arrow = arrow(angle = 15))#
+x2a <- .6; x2b <- .73#
+grid.curve(x2a, y, x2b, y, arrow = arrow(angle = 15))#
+dev.off()
