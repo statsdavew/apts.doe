@@ -1,5 +1,5 @@
 ---
-title: "APTS Design of Studies - Preliminary Material"
+title: "APTS Design of Studies - Practical 1"
 subtitle: "August 2018"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
@@ -58,7 +58,7 @@ L(\btheta) = \prod_{i=1}^n \pi(y_i;\,\btheta, \bx_i)\,.
 $$
 The maximum likelihood estimator (MLE), $\hat{\btheta}$, maximises this quantity. Equivalently, $\hat{\btheta}$ maximises the *log-likelihood* $l(\btheta) = \log L(\btheta)$; it is more usual to work with the log-likelihood rather than the likelihood directly.
 
-Under a few (common) regularity conditions, the (expected) Fisher information matrix is given by the expectation of the negative Hessian of $l(\btheta)$:
+Under a few (common) regularity conditions, the (expected) Fisher information matrix is given by the expectation of the negative hessian of $l(\btheta)$:
 
 $$
 \begin{equation}\label{eq:eFI}
@@ -92,7 +92,7 @@ l(\theta) = \text{constant} + \sum_{i=1}^n y_i\log \theta + \left(nm - \sum_{i=1
 $$
 The MLE is given by $\hat{\theta} = \sum_{i=1}^ny_i/(nm)$ and the Fisher information by $M(\theta) = \frac{nm}{\theta(1-\theta)}$. Notice that the Fisher information is a function of the unknown parameter $\theta$. This is common for models which are nonlinear in the unknown parameters, and creates an issue for design of experiments (see below).
 
-Here, there are no controllable variables $x$ (all the $y_i$ are identically distributed) but there is still a "design" problem": how large should $n$ be? Such **sample size** problems are common in, eg, clinical trials. As a demonstration, we can use the following <tt>R</tt> code, where we substitute the observed information (the negative Hessian of the log-likelihood at the MLE) for the expected information for two different values of $n$, and examine the curvature of the likelihood surface.
+Here, there are no controllable variables $x$ (all the $y_i$ are identically distributed) but there is still a "design" problem": how large should $n$ be? Such **sample size** problems are common in, eg, clinical trials. As a demonstration, we can use the following <tt>R</tt> code, where we substitute the observed information (the negative hessian of the log-likelihood at the MLE) for the expected information for two different values of $n$, and examine the curvature of the likelihood surface.
 
 ```{r hessian_example, fig.align = "center"}
 nloglik <- function(prob, y, m) -1 * sum(log(dbinom(y, m, prob)))
@@ -186,7 +186,7 @@ $$
 where $n\times p$ **sensitivity** matrix $F$ has $ij$th entry $\partial f(\bx_i;\,\bbeta)/\partial \beta_j$ [see @ADT2007].
 
 **Exercise 5**
-Derive the form of this information matrix.
+Derive the form of this informatio matrix.
 
 **Exercise 6**
 Show that the information matrix for the linear model is a special case.
@@ -194,13 +194,13 @@ Show that the information matrix for the linear model is a special case.
 The main complication for assessing design performance for nonlinear models is the dependence of $F$ on the value of $\bbeta$ (eg see the binomial example above where the information depended on $\theta$). Often, this dependence means designs are assessed **locally** for assumed values of $\bbeta$. Other approaches attempt to robustify the design by assuming its worst-case performance across a set of values of $\bbeta$ (maximin) or through **Bayesian methods**. 
 
 ##Bayesian methods
-If a Bayesian paradigm is adopted, design performance can be assessed using the posterior variance-covariance matrix of the parameters of interest. Assume a linear regression model with conjugate prior distributions $\bbeta | \sigma^2 \sim N(\bbeta_0, \sigma^2R^{-1})$ and $\sigma^2\sim\text{Inverse-Gamma}(a, b)$, with known prior mean $p$-vector $\bbeta$, known conditional $p\times p$ prior variance-covariance matrix $\sigma^2R^{-1}$, and $a>0, b>0$. The conditional posterior variance-covariance matrix for $\bbeta$ is given by:
+If a Bayesian paradigm is adopted, design performance can be assesed using the posterior variance-covariance matrix of the parameters of interest. Assume a linear regression model with conjugate prior distributions $\bbeta | \sigma^2 \sim N(\bbeta_0, \sigma^2R^{-1})$ and $\sigma^2\sim\text{Inverse-Gamma}(a, b)$, with known prior mean $p$-vector $\bbeta$, known conditional $p\times p$ prior variance-covariance matrix $\sigma^2R^{-1}$, and $a>0, b>0$. The conditional posterior variance-covariance matrix for $\bbeta$ is given by:
 $$
 \Var(\bbeta | \by, \sigma^2) = \sigma^2\left(X^\rT X + R\right)^{-1}\,.
 $$
 It is therefore natural to use (the inverse of) this matrix to assess the quality of a design from a Bayesian perspective [@CV1995].
 
-For nonlinear models, the situation tends to be more complicated. The posterior variance covariance matrix of the parameters is usually not available in closed form. The information matrix, evaluated at the posterior mode, can be used as an asymptotic approximation, but suffers once again from the problem of depending on quantities unknown prior to experimentation. In the course, we will review approaches that overcome these issues, including decision-theoretic approaches and associated computational methods [see @RDMP2016, @OW2017]
+For nonlinear models, the situation tends to be more complicated. The posterior variance covariance matrix of the parameters is usually not available in closed form. The information matrix, evaluated at the posterior mode, can be used as an asymptotic approximation, but suffers once again from the problem of depending on quantities unknown prior to experimentation. In the course, we will review approaches that overcome these issues, including decision-theoretic appraoches and associated computational methods [see @RDMP2016, @OW2017]
 
 
 ##References 

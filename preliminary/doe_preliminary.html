@@ -10,7 +10,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Dave Woods (D.Woods@southampton.ac.uk ; http://www.southampton.ac.uk/~davew)   Statistical Sciences Research Institute, University of Southmpton" />
+<meta name="author" content="Dave Woods (D.Woods@southampton.ac.uk ; http://www.southampton.ac.uk/~davew)   Statistical Sciences Research Institute, University of Southampton" />
 
 
 <title>APTS Design of Studies - Preliminary Material</title>
@@ -42,7 +42,7 @@ if (window.hljs) {
 
 <h1 class="title toc-ignore">APTS Design of Studies - Preliminary Material</h1>
 <h3 class="subtitle"><em>August 2018</em></h3>
-<h4 class="author"><em>Dave Woods (<a href="mailto:D.Woods@southampton.ac.uk">D.Woods@southampton.ac.uk</a> ; <a href="http://www.southampton.ac.uk/~davew" class="uri">http://www.southampton.ac.uk/~davew</a>) <br> Statistical Sciences Research Institute, University of Southmpton</em></h4>
+<h4 class="author"><em>Dave Woods (<a href="mailto:D.Woods@southampton.ac.uk">D.Woods@southampton.ac.uk</a> ; <a href="http://www.southampton.ac.uk/~davew" class="uri">http://www.southampton.ac.uk/~davew</a>) <br> Statistical Sciences Research Institute, University of Southampton</em></h4>
 
 
 
@@ -63,7 +63,7 @@ pre {
 L({\boldsymbol{\theta}}) = \prod_{i=1}^n \pi(y_i;\,{\boldsymbol{\theta}}, {\boldsymbol{x}}_i)\,.
 \end{equation}
 \]</span> The maximum likelihood estimator (MLE), <span class="math inline">\(\hat{{\boldsymbol{\theta}}}\)</span>, maximises this quantity. Equivalently, <span class="math inline">\(\hat{{\boldsymbol{\theta}}}\)</span> maximises the <em>log-likelihood</em> <span class="math inline">\(l({\boldsymbol{\theta}}) = \log L({\boldsymbol{\theta}})\)</span>; it is more usual to work with the log-likelihood rather than the likelihood directly.</p>
-<p>Under a few (common) regularity conditions, the (expected) Fisher information matrix is given by the expectation of the negative hessian of <span class="math inline">\(l({\boldsymbol{\theta}})\)</span>:</p>
+<p>Under a few (common) regularity conditions, the (expected) Fisher information matrix is given by the expectation of the negative Hessian of <span class="math inline">\(l({\boldsymbol{\theta}})\)</span>:</p>
 <p><span class="math display">\[
 \begin{equation}\label{eq:eFI}
 M({\boldsymbol{\theta}}) = E_y\left[- \frac{\partial^2 l({\boldsymbol{\theta}})}{\partial{\boldsymbol{\theta}}\partial{\boldsymbol{\theta}}^{\mathrm{T}}}\right]\,.
@@ -86,7 +86,7 @@ L(\theta) = \prod_{i=1}^n{m \choose y_i}\theta^{y_i}(1-\theta)^{m-y_i}\,;
 \]</span> <span class="math display">\[
 l(\theta) = \text{constant} + \sum_{i=1}^n y_i\log \theta + \left(nm - \sum_{i=1}^n y_i\right)\log(1-\theta)\,.
 \]</span> The MLE is given by <span class="math inline">\(\hat{\theta} = \sum_{i=1}^ny_i/(nm)\)</span> and the Fisher information by <span class="math inline">\(M(\theta) = \frac{nm}{\theta(1-\theta)}\)</span>. Notice that the Fisher information is a function of the unknown parameter <span class="math inline">\(\theta\)</span>. This is common for models which are nonlinear in the unknown parameters, and creates an issue for design of experiments (see below).</p>
-<p>Here, there are no controllable variables <span class="math inline">\(x\)</span> (all the <span class="math inline">\(y_i\)</span> are identically distributed) but there is still a “design” problem“: how large should <span class="math inline">\(n\)</span> be? Such <strong>sample size</strong> problems are common in, eg, clinical trials. As a demonstration, we can use the following <tt>R</tt> code, where we substitute the observed information (the negative hessian of the log-likelihood at the MLE) for the expected information for two different values of <span class="math inline">\(n\)</span>, and examine the curvature of the likelihood surface.</p>
+<p>Here, there are no controllable variables <span class="math inline">\(x\)</span> (all the <span class="math inline">\(y_i\)</span> are identically distributed) but there is still a “design” problem“: how large should <span class="math inline">\(n\)</span> be? Such <strong>sample size</strong> problems are common in, eg, clinical trials. As a demonstration, we can use the following <tt>R</tt> code, where we substitute the observed information (the negative Hessian of the log-likelihood at the MLE) for the expected information for two different values of <span class="math inline">\(n\)</span>, and examine the curvature of the likelihood surface.</p>
 <pre class="r"><code>nloglik &lt;- function(prob, y, m) -1 * sum(log(dbinom(y, m, prob)))
 n &lt;- 20 
 m &lt;- 10 
@@ -284,16 +284,16 @@ y_i = f({\boldsymbol{x}}_i;\,{\boldsymbol{\beta}}) + \varepsilon_i\,,\qquad i=1,
 \]</span> with independent errors <span class="math inline">\(\varepsilon_i\sim N(0,\sigma^2)\)</span>, the information matrix for <span class="math inline">\({\boldsymbol{\beta}}\)</span> has the form <span class="math display">\[
 M(\xi;\,{\boldsymbol{\beta}}) = \frac{1}{\sigma^2}F^{\mathrm{T}}F\,,
 \]</span> where <span class="math inline">\(n\times p\)</span> <strong>sensitivity</strong> matrix <span class="math inline">\(F\)</span> has <span class="math inline">\(ij\)</span>th entry <span class="math inline">\(\partial f({\boldsymbol{x}}_i;\,{\boldsymbol{\beta}})/\partial \beta_j\)</span> <span class="citation">(see Atkinson, Donev, and Tobias 2007)</span>.</p>
-<p><strong>Exercise 5</strong> Derive the form of this informatio matrix.</p>
+<p><strong>Exercise 5</strong> Derive the form of this information matrix.</p>
 <p><strong>Exercise 6</strong> Show that the information matrix for the linear model is a special case.</p>
 <p>The main complication for assessing design performance for nonlinear models is the dependence of <span class="math inline">\(F\)</span> on the value of <span class="math inline">\({\boldsymbol{\beta}}\)</span> (eg see the binomial example above where the information depended on <span class="math inline">\(\theta\)</span>). Often, this dependence means designs are assessed <strong>locally</strong> for assumed values of <span class="math inline">\({\boldsymbol{\beta}}\)</span>. Other approaches attempt to robustify the design by assuming its worst-case performance across a set of values of <span class="math inline">\({\boldsymbol{\beta}}\)</span> (maximin) or through <strong>Bayesian methods</strong>.</p>
 </div>
 <div id="bayesian-methods" class="section level2">
 <h2>Bayesian methods</h2>
-<p>If a Bayesian paradigm is adopted, design performance can be assesed using the posterior variance-covariance matrix of the parameters of interest. Assume a linear regression model with conjugate prior distributions <span class="math inline">\({\boldsymbol{\beta}}| \sigma^2 \sim N({\boldsymbol{\beta}}_0, \sigma^2R^{-1})\)</span> and <span class="math inline">\(\sigma^2\sim\text{Inverse-Gamma}(a, b)\)</span>, with known prior mean <span class="math inline">\(p\)</span>-vector <span class="math inline">\({\boldsymbol{\beta}}\)</span>, known conditional <span class="math inline">\(p\times p\)</span> prior variance-covariance matrix <span class="math inline">\(\sigma^2R^{-1}\)</span>, and <span class="math inline">\(a&gt;0, b&gt;0\)</span>. The conditional posterior variance-covariance matrix for <span class="math inline">\({\boldsymbol{\beta}}\)</span> is given by: <span class="math display">\[
+<p>If a Bayesian paradigm is adopted, design performance can be assessed using the posterior variance-covariance matrix of the parameters of interest. Assume a linear regression model with conjugate prior distributions <span class="math inline">\({\boldsymbol{\beta}}| \sigma^2 \sim N({\boldsymbol{\beta}}_0, \sigma^2R^{-1})\)</span> and <span class="math inline">\(\sigma^2\sim\text{Inverse-Gamma}(a, b)\)</span>, with known prior mean <span class="math inline">\(p\)</span>-vector <span class="math inline">\({\boldsymbol{\beta}}\)</span>, known conditional <span class="math inline">\(p\times p\)</span> prior variance-covariance matrix <span class="math inline">\(\sigma^2R^{-1}\)</span>, and <span class="math inline">\(a&gt;0, b&gt;0\)</span>. The conditional posterior variance-covariance matrix for <span class="math inline">\({\boldsymbol{\beta}}\)</span> is given by: <span class="math display">\[
 {\operatorname{Var}}({\boldsymbol{\beta}}| {\boldsymbol{y}}, \sigma^2) = \sigma^2\left(X^{\mathrm{T}}X + R\right)^{-1}\,.
 \]</span> It is therefore natural to use (the inverse of) this matrix to assess the quality of a design from a Bayesian perspective <span class="citation">(Chaloner and Verdinelli 1995)</span>.</p>
-<p>For nonlinear models, the situation tends to be more complicated. The posterior variance covariance matrix of the parameters is usually not available in closed form. The information matrix, evaluated at the posterior mode, can be used as an asymptotic approximation, but suffers once again from the problem of depending on quantities unknown prior to experimentation. In the course, we will review approaches that overcome these issues, including decision-theoretic appraoches and associated computational methods <span class="citation">(see Ryan et al. 2016, <span class="citation">Overstall and Woods (2017)</span>)</span></p>
+<p>For nonlinear models, the situation tends to be more complicated. The posterior variance covariance matrix of the parameters is usually not available in closed form. The information matrix, evaluated at the posterior mode, can be used as an asymptotic approximation, but suffers once again from the problem of depending on quantities unknown prior to experimentation. In the course, we will review approaches that overcome these issues, including decision-theoretic approaches and associated computational methods <span class="citation">(see Ryan et al. 2016, <span class="citation">Overstall and Woods (2017)</span>)</span></p>
 </div>
 <div id="references" class="section level2 unnumbered">
 <h2>References</h2>
