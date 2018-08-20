@@ -42,7 +42,7 @@ opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 In this practical session, you will use the <tt>acebayes</tt> package to investigate some aspects of (Bayesian) optimal design. Feel free to also use the practical sessions to understand and reproduce results from the notes.
 
 <!-- pseudo-Bayesian design using optim-->
-1.\. **Bayesian $D$-optimal design using <tt>optim</tt>**  
+1\. **Bayesian $D$-optimal design using <tt>optim</tt>**  
 Adapt the code from the notes to find locally $D$-optimal designs with $n=2$ runs for the Poisson regression model with linear predictor $\eta(x) = \beta_0 + \beta_1 x$ with the log link (log-linear regression).
 
 Fix $\beta_0=0$ and find designs for $\beta_1 = 1, \ldots, 6$, restricting to $-1\le x\le 1$. For each design, plot the design points along with the expected response. There is a pattern in the optimal designs, can you identify it?
@@ -54,7 +54,7 @@ The <tt>acebayes</tt> package has a function <tt>aceglm</tt> that can find Bayes
 **Important**: when using <tt>aceglm</tt> set $N2 = 0$ (otherwise it will result in a nasty crash!).
 
 <!-- pseudo-Bayesian design using ace -->
-2.\. **Bayesian $D$-optimal design using <tt>acebayes</tt>**  
+2\. **Bayesian $D$-optimal design using <tt>acebayes</tt>**  
 In the notes, we examine a compartmental model. A simplified version of this model is given by
 $$
 y_i \sim N\left(\mu(x_i\,;\,\btheta), \sigma^2\right)\,, 

@@ -53,14 +53,14 @@ pre {
 </style>
 <p>In this practical session, you will use the <tt>acebayes</tt> package to investigate some aspects of (Bayesian) optimal design. Feel free to also use the practical sessions to understand and reproduce results from the notes.</p>
 <!-- pseudo-Bayesian design using optim-->
-<p>1.. <strong>Bayesian <span class="math inline">\(D\)</span>-optimal design using <tt>optim</tt></strong><br />
+<p>1. <strong>Bayesian <span class="math inline">\(D\)</span>-optimal design using <tt>optim</tt></strong><br />
 Adapt the code from the notes to find locally <span class="math inline">\(D\)</span>-optimal designs with <span class="math inline">\(n=2\)</span> runs for the Poisson regression model with linear predictor <span class="math inline">\(\eta(x) = \beta_0 + \beta_1 x\)</span> with the log link (log-linear regression).</p>
 <p>Fix <span class="math inline">\(\beta_0=0\)</span> and find designs for <span class="math inline">\(\beta_1 = 1, \ldots, 6\)</span>, restricting to <span class="math inline">\(-1\le x\le 1\)</span>. For each design, plot the design points along with the expected response. There is a pattern in the optimal designs, can you identify it?</p>
 <p>(Hint: there is a relationship between the second design point and <span class="math inline">\(1/\beta_1\)</span>).</p>
 <p>The <tt>acebayes</tt> package has a function <tt>aceglm</tt> that can find Bayesian optimal designs for generalised linear models. Read the help file, and the use the function to find a Bayesian <span class="math inline">\(D\)</span>-optimal design when we assume <span class="math inline">\(\beta_0 = 0\)</span> and a uniform prior distribution for <span class="math inline">\(\beta_1\)</span> with support <span class="math inline">\([1,6]\)</span>.</p>
 <p><strong>Important</strong>: when using <tt>aceglm</tt> set <span class="math inline">\(N2 = 0\)</span> (otherwise it will result in a nasty crash!).</p>
 <!-- pseudo-Bayesian design using ace -->
-<p>2.. <strong>Bayesian <span class="math inline">\(D\)</span>-optimal design using <tt>acebayes</tt></strong><br />
+<p>2. <strong>Bayesian <span class="math inline">\(D\)</span>-optimal design using <tt>acebayes</tt></strong><br />
 In the notes, we examine a compartmental model. A simplified version of this model is given by <span class="math display">\[
 y_i \sim N\left(\mu(x_i\,;\,{\boldsymbol{\theta}}), \sigma^2\right)\,, 
 \]</span> with <span class="math display">\[
