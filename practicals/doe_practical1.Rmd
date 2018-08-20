@@ -1,10 +1,10 @@
 ---
-title: "APTS Design of Studies - Practical 1"
+title: "APTS Design of Experiments - Practical 1"
 subtitle: "August 2018"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
-#pdf_document
+#pdf_document:
   html_document:
     theme: null
     highlights: null
@@ -60,7 +60,7 @@ What do you think will have happened to the alias structure of the new design? U
 (c)\. We can also generate partial foldover designs, by only folding over on subsets of columns (ie only multiplying some columns by -1). Use <tt>fold.design</tt> to generate a design by folding over on $x_5$ only. Then examine the aliasing structure for the generated design. What has happened to the aliasing for the main effects and two-factor interactions involving $x_5$?
 
 <!-- Blocking and split-plots -->
-2\. **Blocking and split-plot designs**
+2\. **Blocking and split-plot designs**  
 As briefly discussed in the notes, blocks are used when the experimental units can be separated into groups, where it is anticipated that, after the application of a treatment, two units within a group (or block) may give more similar results than two units from different groups. 
 
 If we assign the treatments from a factorial design at random to blocks, we may alias important factorial effects with blocks (aliasing between factorial effects and blocks is usually called *confounding*). A better scheme for blocking a factorial design into $b = 2^g$ blocks, each of size $2^{k-g}$ is to choose some higher order interactions to confound with blocks, and then  assign the treatments so the contrasts for these interactions (ie the columns of the $X$ matrix) are constant within block. 

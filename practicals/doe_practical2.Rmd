@@ -1,10 +1,10 @@
 ---
-title: "APTS Design of Studies - Practical 2"
+title: "APTS Design of Experiments - Practical 2"
 subtitle: "August 2018"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
-#pdf_document
+#pdf_document:
   html_document:
     theme: null
     highlights: null
@@ -69,4 +69,4 @@ $$
 $$
 with $\theta_3 = 21.8$; see @GJS2009 and @OWA2017. Plot the optimal design and realisations from the model.
 
-## References
+# References
