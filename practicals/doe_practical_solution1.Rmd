@@ -8,7 +8,7 @@ output:
   html_document:
     theme: null
     highlights: null
-bibliography: ../content/notes/apts_doe.bib
+bibliography: ../notes/apts_doe.bib
 #csl: american-statistical-association.csl
 number_sections: true
 ---
@@ -79,6 +79,7 @@ Previously, $x_1 = x_8x_9$ (for example); now, for half the design $x_1 = x_8x_9
 ```{r partialfold}
 q1c.design <- fold.design(q1a.design, columns = 5)
 q1c.alias <- alias(y ~ (.)^2, data = data.frame(q1c.design[, c(-5)], y = vector(length = 2 * n)))
+q1c.alias
 ```
 Notice now that the main effect of $x_5$ and all the two-factor interactions involving this factor are not aliased with any other two-factor interactions. For example, in the original design $x_3x_5 = x_1x_2$; now, in the folded-over half of the design, $x_3x_5 = -x_1x_2,$ and so this alias is broken (similarly for all two-factor interactions involving $x_5$).
 
