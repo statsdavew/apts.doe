@@ -11,7 +11,7 @@ Notes can be found [here](notes/doe.html).
 
 Worksheets for the computer labs.
 
-  - [Practical 1](practicals/doe_practical1.html) [Example solutions](practicals/doe_practical_solution1.html)
+  - [Practical 1](practicals/doe_practical1.html) [(Example solutions)](practicals/doe_practical_solution1.html)
   - [Practical 2](practicals/doe_practical2.html)
 
 Source for the <tt>R</tt> package is [here](https://github.com/statsdavew/apts.doe).
