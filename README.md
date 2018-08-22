@@ -1,3 +1,3 @@
 # APTS Design of Experiments
 
-This package provides the example designs and data sets used in this module.
+This package provides the example designs, data sets and data simulation functions used in this module.
