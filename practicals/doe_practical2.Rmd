@@ -63,7 +63,7 @@ with
 $$
 \mu(x_i\,;\,\btheta) = \theta_3\left[\exp\left(-\theta_1 x\right) - \exp\left(-\theta_2 x\right)\right]\,.
 $$
-Use the <tt>acenlm</tt> function in <tt>acebayes</tt> to find a Bayesian $D$-optimal design with $n=18$ runs, assuming $x \in [0, 24]$. Assume uniform prior distributions for $theta_1,theta_2$:
+Use the <tt>acenlm</tt> function in <tt>acebayes</tt> to find a Bayesian $D$-optimal design with $n=18$ runs, assuming $x \in [0, 24]$. Assume uniform prior distributions for $\theta_1,\theta_2$:
 $$
 \theta_1 \sim U(0.01884, 0.09884);\qquad \theta_2 \sim U(0.298, 8.298)
 $$

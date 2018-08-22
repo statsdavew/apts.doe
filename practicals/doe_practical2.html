@@ -65,7 +65,7 @@ In the notes, we examine a compartmental model. A simplified version of this mod
 y_i \sim N\left(\mu(x_i\,;\,{\boldsymbol{\theta}}), \sigma^2\right)\,, 
 \]</span> with <span class="math display">\[
 \mu(x_i\,;\,{\boldsymbol{\theta}}) = \theta_3\left[\exp\left(-\theta_1 x\right) - \exp\left(-\theta_2 x\right)\right]\,.
-\]</span> Use the <tt>acenlm</tt> function in <tt>acebayes</tt> to find a Bayesian <span class="math inline">\(D\)</span>-optimal design with <span class="math inline">\(n=18\)</span> runs, assuming <span class="math inline">\(x \in [0, 24]\)</span>. Assume uniform prior distributions for <span class="math inline">\(theta_1,theta_2\)</span>: <span class="math display">\[
+\]</span> Use the <tt>acenlm</tt> function in <tt>acebayes</tt> to find a Bayesian <span class="math inline">\(D\)</span>-optimal design with <span class="math inline">\(n=18\)</span> runs, assuming <span class="math inline">\(x \in [0, 24]\)</span>. Assume uniform prior distributions for <span class="math inline">\(\theta_1,\theta_2\)</span>: <span class="math display">\[
 \theta_1 \sim U(0.01884, 0.09884);\qquad \theta_2 \sim U(0.298, 8.298)
 \]</span> with <span class="math inline">\(\theta_3 = 21.8\)</span>; see <span class="citation">Gotwalt, Jones, and Steinberg (2009)</span> and <span class="citation">Overstall, Woods, and Adamou (2017)</span>. Plot the optimal design and realisations from the model.</p>
 <div id="references" class="section level1 unnumbered">
