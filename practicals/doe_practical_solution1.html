@@ -59,7 +59,26 @@ pre {
   k &lt;- 9
   q1a.design &lt;- FrF2(n, k, factor.names = paste0(&quot;x&quot;, 1:k), 
                   generators = list(c(1, 2, 3), c(1, 2, 4), c(1, 3, 4), c(2, 3, 4), c(1, 2, 3, 4)),
-                  randomize = F, alias.info = 3)</code></pre>
+                  randomize = F, alias.info = 3)
+  q1a.design</code></pre>
+<pre><code>##    x1 x2 x3 x4 x5 x6 x7 x8 x9
+## 1  -1 -1 -1 -1 -1 -1 -1 -1  1
+## 2   1 -1 -1 -1  1  1  1 -1 -1
+## 3  -1  1 -1 -1  1  1 -1  1 -1
+## 4   1  1 -1 -1 -1 -1  1  1  1
+## 5  -1 -1  1 -1  1 -1  1  1 -1
+## 6   1 -1  1 -1 -1  1 -1  1  1
+## 7  -1  1  1 -1 -1  1  1 -1  1
+## 8   1  1  1 -1  1 -1 -1 -1 -1
+## 9  -1 -1 -1  1 -1  1  1  1 -1
+## 10  1 -1 -1  1  1 -1 -1  1  1
+## 11 -1  1 -1  1  1 -1  1 -1  1
+## 12  1  1 -1  1 -1  1 -1 -1 -1
+## 13 -1 -1  1  1  1  1 -1 -1  1
+## 14  1 -1  1  1 -1 -1  1 -1 -1
+## 15 -1  1  1  1 -1 -1 -1  1 -1
+## 16  1  1  1  1  1  1  1  1  1
+## class=design, type= FrF2.generators</code></pre>
 <p>Each item in <tt>generators</tt> needs to specify the interaction column from the 16 run full factorial design (with four factors) to which the fifth, sixth, etc. factor will be assigned, eg the first generator specifies that factor <span class="math inline">\(x_5\)</span> is assigned to the interaction column <span class="math inline">\(x_1x_2x_3\)</span>.</p>
 <p>The alias scheme can be examined using either the <tt>design.info()$aliased</tt> or <tt>alias</tt> functions. Either way, notice that each main effect is completely aliased with at least one two-factor interaction.</p>
 <pre class="r"><code>    design.info(q1a.design)$aliased</code></pre>
@@ -343,7 +362,7 @@ design.info(q2a)$aliased.with.blocks</code></pre>
 <pre><code>## [1] &quot;ABC&quot; &quot;ADE&quot;</code></pre>
 <p>Here, two three-factor interactions have been confound with blocks. Don’t forget that the product of these two interactions will also be confounded (a four-factor interaction).</p>
 <p>(b). If we confound <span class="math inline">\(x_2x_3x_4x_5\)</span> and <span class="math inline">\(x_1x_2x_3x_4\)</span> with blocks, we also confound the product: <span class="math inline">\(x_2x_3x_4x_5 \times x_1x_2x_3x_4 = x_1x_5\)</span>.</p>
-<pre class="r"><code>q2b &lt;- FrF2(32, 5, factor.names = paste0(&quot;x&quot;, 1:5), blocks = list(c(2, 3, 4, 5), c(1, 2, 3, 4)), randomize = F)
+<pre class="r"><code>q2b &lt;- FrF2(32, 5, factor.names = paste0(&quot;x&quot;, 1:5), blocks = list(c(2, 3, 4, 5), c(1, 2, 3, 4)), randomize = F, alias.info = 3)
 design.info(q2b)$aliased.with.blocks</code></pre>
 <pre><code>## [1] &quot;AE&quot;</code></pre>
 <p>This example demonstrates a common issue with blocked (and fractional) factorial designs; often, choosing too high-order effects to confound or alias will result in also confounding a lower-order effect. Notice how in part (a), <tt>FrF2</tt> chose two three-factor interactions to confound, not two four-factor interactions.</p>
