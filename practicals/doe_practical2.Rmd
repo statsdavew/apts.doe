@@ -47,7 +47,7 @@ Adapt the code from the notes to find locally $D$-optimal designs with $n=2$ run
 
 Fix $\beta_0=0$ and find designs for $\beta_1 = 1, \ldots, 6$, restricting to $-1\le x\le 1$. For each design, plot the design points along with the expected response. There is a pattern in the optimal designs, can you identify it?
 
-(Hint: there is a relationship between the second design point and $1/\beta_1$).
+(Hint: there is a relationship between the first design point and $1/\beta_1$).
 
 The <tt>acebayes</tt> package has a function <tt>aceglm</tt> that can find Bayesian optimal designs for generalised linear models. Read the help file, and the use the function to find a Bayesian $D$-optimal design when we assume $\beta_0 = 0$ and a uniform prior distribution for $\beta_1$ with support $[1,6]$.
 
