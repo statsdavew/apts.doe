@@ -806,7 +806,7 @@ y_{ij} \sim \mbox{Bernoulli}\left(\rho(\bx_{ij})\right)
 $$
 with
 $$
-\log\left(\frac{\rho(\bx_{ij})}{1-\rho(\bx_{ij})}\right) = \left(\beta_0 + \omega_{i0}\right) + \sum_{r=1}^k\left(\beta_r + \omega_{ir}x_{ijr}\right)\,,
+\log\left(\frac{\rho(\bx_{ij})}{1-\rho(\bx_{ij})}\right) = \left(\beta_0 + \omega_{i0}\right) + \sum_{r=1}^k\left(\beta_r + \omega_{ir}\right)x_{ijr}\,,
 $$
 where $x_{ijr}$ is the value taken by the $r$th variable.
 
@@ -1116,7 +1116,7 @@ bdopt$par
 As an alternative to analytical approximations, Monte Carlo approximation to the expected utility is simple to implement and intuitively appealing
 
 $$
-\tilde{U}(\xi) = \sum_{i=1}^B\tilde{u}(\xi, \by_i, \btheta_i)
+\tilde{U}(\xi) = \frac{1}{B}\sum_{i=1}^B\tilde{u}(\xi, \by_i, \btheta_i)
 $$
 where 
 
