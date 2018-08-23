@@ -1158,7 +1158,7 @@ Instead of directly minimising a Monte Carlo approximation to the expected utili
   2. Smooth the "data" $\left\{\xi_i, \tilde{U}(\xi_i)\right\}$, i.e. fit a statistical model, to obtain a surrogate $\hat{U}(\xi)$
   3. Find $\xi$ that maximises $\hat{U}(\xi)$
   
-Return to [Example 1, compartmental model](#56)
+Return to [Example 1, compartmental model](#57)
 
   - find a design with $n=2$ runs, with **fixed** $x_1 = 5$
   - use Monte Carlo approximation to SIG for 10 values of $x_2$
