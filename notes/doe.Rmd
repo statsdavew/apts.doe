@@ -1698,7 +1698,7 @@ plot(xs, sapply(xs, EI, model = gp3), type = "l", lwd = 3, ylab = "", xlab = "x"
 ```
 
 ## Sensitivity analysis
-To analyse the relative importance of different model outputs, functional analysis of variance (FANOVA) can be used to decompose $g(\bx)$ into an additive form [see @SRACCGST2008]
+To analyse the relative importance of different model inputs, functional analysis of variance (FANOVA) can be used to decompose $g(\bx)$ into an additive form [see @SRACCGST2008]
 
 Assume $x_i\sim w_i(x)$, eg the input variables may be normally distributed or uniformly distributed. Then
 
