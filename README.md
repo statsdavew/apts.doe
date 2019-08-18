@@ -15,7 +15,9 @@ Worksheets for the computer labs.
   
   [comment]: # [(Example solutions)](practicals/doe_practical_solution1.html)
   
-  - [Practical 2](practicals/doe_practical2.html) [(Example solutions)](practicals/doe_practical_solution2.html)
+  - [Practical 2](practicals/doe_practical2.html) 
+  
+  [comment]: # [(Example solutions)](practicals/doe_practical_solution2.html)
 
 The assessment can be found [here](assessment/doe_assessment.html).
 
