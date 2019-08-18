@@ -16,6 +16,22 @@
 "cirfab"
 
 
+#' @title bact
+#' @description \eqn{2^{5-2}} fractional factorial design and response from an experiment on the growth of bacteriocin, a food preservative.
+#' Each factor has coded levels \code{-1,+1}
+#' @format A data frame with 8 rows and 7 variables:
+#' \describe{
+#'   \item{\code{x1}}{amount of glucose}
+#'   \item{\code{x2}}{initial inoculum size}
+#'   \item{\code{x3}}{level of aeration}
+#'   \item{\code{x4}}{temperature}
+#'   \item{\code{x5}}{amount of sodium}
+#'   \item{\code{yA}}{bacteriocin activity for strain A (log_{10} AU/ml)}
+#'   \item{\code{yB}}{bacteriocin activity for strain B (log_{10} AU/ml)}
+#'}
+#' @source Morris, M.D. (2011). Design of Experiments: An Introduction Based on Linear Models. CRC Press, Boca Raton. Page 231
+"bact"
+
 #' @title ssd
 #' @description A Bayesian D-optimal supersaturated design with 16 factors and 10 runs
 #' Each factor has coded levels \code{-1,+1}
