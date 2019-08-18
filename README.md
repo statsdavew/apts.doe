@@ -1,6 +1,6 @@
 # APTS Design of Experiments
 
-20 - 24 August 2018, Glasgow
+2 - 6 September 2019, Oxford
 
 Preliminary material can be found [here](preliminary/doe_preliminary.html).
 

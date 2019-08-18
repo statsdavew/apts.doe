@@ -63,10 +63,10 @@ library(apts.doe)
 
 References will be provided throughout but some good general purpose texts are
 
-  - Santner, Williams and Notz (2003). The Design and Analysis of Computer Experiments. Springer.
   - Atkinson, Donev and Tobias (2007). Optimum Experimental Design, with SAS. OUP
   - Wu and Hamada (2009). Experiments: Planning, Analysis, and Parameter Design Optimization (2nd ed.). Wiley.
   - Morris (2011). Design of Experiments: An Introduction based on Linear Models. Chapman and Hall/CRC Press.
+  - Santner, Williams and Notz (2019). The Design and Analysis of Computer Experiments (2nd ed.). Springer.
   
 These notes and other resources can be found at [https://statsdavew.github.io/apts.doe/](https://statsdavew.github.io/apts.doe/)
 
@@ -623,7 +623,7 @@ ff.alias$Complete
 ##
 These linear dependencies can be seen if we attempt to fit a linear model
 ```{R lmNA}
-bact.lm <- lm(yB ~ (.)^2, data = bact)
+bact.lm <- lm(yB ~ (x1 + x2 + x3 + x4 + x5)^2, data = bact)
 summary(bact.lm)
 ```
 
@@ -1183,7 +1183,8 @@ Return to [Example 1, compartmental model](#57)
 
 ```{r compsmooth, fig.align = 'center', out.width = "60%"}
 library(DiceKriging)
-n <- 10; x1<- -0.583; x2 <- 2 * optimumLHS(n, k = 1) - 1
+library(DiceDesign)
+n <- 10; x1<- -0.583; x2 <- 2 * maximinSA_LHS(lhsDesign(n, 1)$design)$design- 1
 u <- NULL; for(i in 1:n) u[i] <- mean(utilcomp15sig(c(x1, x2[i]), B = 1000))
 par(mar = c(4, 4, 2, 2) + 0.1)
 plot(12 * (x2 + 1), u, xlab = expression(x[2]), ylab = "Approx. expected SIG", xlim = c(0, 24), 
