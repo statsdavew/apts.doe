@@ -5,7 +5,7 @@
 cirfab <- read.csv("data-raw/cir_fab.csv", row.names = 1)
 
 ## bacteriocin experiment
-bact <- read.csv("data-raw/bac.csv", row.names = 1)
+bact <- read.csv("data-raw/bact.csv", row.names = 1)
 
 ## GSK SSD
 ssd <- read.csv("data-raw/ssd.csv", row.names = 1)
