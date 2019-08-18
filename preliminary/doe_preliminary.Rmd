@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Studies - Preliminary Material"
-subtitle: "August 2018"
+subtitle: "September 2019"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
@@ -201,7 +201,6 @@ $$
 It is therefore natural to use (the inverse of) this matrix to assess the quality of a design from a Bayesian perspective [@CV1995].
 
 For nonlinear models, the situation tends to be more complicated. The posterior variance covariance matrix of the parameters is usually not available in closed form. The information matrix, evaluated at the posterior mode, can be used as an asymptotic approximation, but suffers once again from the problem of depending on quantities unknown prior to experimentation. In the course, we will review approaches that overcome these issues, including decision-theoretic approaches and associated computational methods [see @RDMP2016, @OW2017]
-
 
 ##References 
  

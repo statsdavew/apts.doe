@@ -450,7 +450,16 @@ Replication also increases the power of the design
 
   - common to replicate a centre point
   - allows a portmanteau test of curvature
-  - allows unbiased estimation of $\sigma^2$
+
+##
+Refit a linear model to the fabricated circuits experiment *excluding* interactions.
+```{r}
+cirfab2.lm <- lm(ybar ~ (.), data = cirfab)
+coef(cirfab.lm)
+coef(cirfab2.lm)
+cbind(sigma1 = summary(cirfab.lm)$sigma, df1 = summary(cirfab.lm)$df[2],  
+      sigma2 = summary(cirfab2.lm)$sigma, df2 = summary(cirfab2.lm)$df[2])
+```
       
 ## Principles of factorial experimentation
 Effect sparsity
@@ -609,6 +618,13 @@ The **transpose** of the alias matrix is provided by the <tt>`alias`</tt> functi
 ```{R alias}
 ff.alias <- alias(y ~ (.)^2, data = data.frame(bact.design, y = vector(length = 8)))
 ff.alias$Complete
+```
+
+##
+These linear dependencies can be seen if we attempt to fit a linear model
+```{R lmNA}
+bact.lm <- lm(yB ~ (.)^2, data = bact)
+summary(bact.lm)
 ```
 
 ## The role of fractional factorial designs in a sequential strategy
