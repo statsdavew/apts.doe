@@ -4,8 +4,8 @@ subtitle: "September 2019"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
-#pdf_document:
-  html_document:
+pdf_document:
+#  html_document:
     theme: null
     highlights: null
 bibliography: ../notes/apts_doe.bib
