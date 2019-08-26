@@ -114,6 +114,42 @@ Why do we experiment?
  
 **Design of experiments**: a statistical approach to the arrangement of the operational details of the experiment (eg sample size, specific experimental conditions investigated, ...) so that the quality of the answers to be derived from the data is as high as possible.
 
+## Motivating examples
+**1. Multi-factor experiment in pharmaceutical development.**
+
+Key to developing new medicines is the identification of optimal **and robust** process conditions (e.g. settings of temperature, pressure etc.) at which the active pharmaceutical ingredient should be synthesized.
+
+[Somewhat confusinging, the FDA refer to this as identification of a "design space".]
+
+An important step in is this methodology is a robustness experiment to assess the sensitivity of identified conditions to changes in all (or at least very many) controllable factors.
+
+While developing a new melanoma drug, GlaxoSmithKline performed an experiment to investigate sensitivity to 20 factors. Their experimental budget allowed only 10 individual experiments (runs) to be performed.
+
+## Motivating examples
+**2. Optimal design to calibrate a physical model.**
+
+Physical (mechanistic, mathematical, ...) models are used in many scientific fields. Typically, they are derived from fundamental understanding of the physics, chemistry, biology ...
+
+Most commonly, these models are solutions to differential equations. The models usually contain unknown parameters that should be estimated from experimental data.
+
+<center> 
+![](figures/placenta1.jpg)
+![](figures/placenta2.jpg)
+</center>
+
+Biologists at Southampton were studying the transfer of amino acids between mother and baby through the placenta. They could control the times at which observations were taken and the initial concentrations of amino acids  [see @OWP2019]. 
+
+## Motivating examples
+**3. Computer experiments to optimise ride performance in luxury cars**
+
+<center>
+![](figures/variants.jpg)
+</center>
+
+Suspension settings can be used to improve the ride performance in cars. Optimising settings across many different car models would take many hundreds of hours of testing, so computer simulations are used.
+
+Jaguar-Land Rover wanted to find suspension settings **robust** across different car models using a computer experiment (KTN workshop).  
+
 ## Simple motivating example
 Consider an experiment to compare two treatments (eg drugs, diets, fertilisers). 
 
