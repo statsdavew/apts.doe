@@ -1,7 +1,11 @@
 Package: apts.doe
 Type: Package
 Title: Example Experimental Designs (and Data) for APTS Design of Experiments
+<<<<<<< HEAD
 Version: 0.4.0
+=======
+Version: 0.3.0
+>>>>>>> 5f41c9e12e9e27c71cea8f7cd2952902fd70c92c
 Authors@R: person("David", "Woods", email = "D.Woods@southampton.ac.uk", role = c("cre")) 
 Maintainer@R: person("David", "Woods", email = "D.Woods@southampton.ac.uk") 
 Description: This package provides the example designs and data sets used in the Academy for PhD Training in Statistics module "Design of Experiments and Studies"
