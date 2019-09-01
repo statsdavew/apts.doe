@@ -4,6 +4,9 @@
 ## FF
 cirfab <- read.csv("data-raw/cir_fab.csv", row.names = 1)
 
+## bacteriocin experiment
+bact <- read.csv("data-raw/bac.csv", row.names = 1)
+
 ## GSK SSD
 ssd <- read.csv("data-raw/ssd.csv", row.names = 1)
 
@@ -13,4 +16,4 @@ temp <- as.numeric(read.table("data-raw/meanTemp.txt"))
 ebm <- data.frame(temp, des.frame)
 names(ebm) <- c("y", "x1", "x2")
 
-devtools::use_data(cirfab, ssd, ebm, overwrite = T)
+usethis::use_data(cirfab, bact, ssd, ebm, overwrite = T)

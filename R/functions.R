@@ -98,3 +98,68 @@ borehole <- function(xx)
   y <- frac1 / frac2
   return(y)
 }
+
+#' flighttime
+#'
+#' Function to simulate the response (flight time) from the paper helicopter experiment, using a semi-physical model based on dimensional analysis
+#' @param w rotor width [0.03, 0.09]m
+#' @param r rotor length [0.07, 0.12]m
+#' @param t tail length [0.07, 0.12]m
+#' @param d paper density [0.06, 0.12] kgm^-2
+#' @param phi standard deviation of response distribution
+#' @return Simulated helicopter flight time (seconds)
+#' @details The flight time is simulated from a normal distribution with mean derived from a dimensional analysis regression model and standard deviation phi.
+#'
+#' Other parameters (theta0, theta1 and int) are regression parameters.
+#' @examples
+#' x <- c(0.03, 0.12, 0.12, 0.06)
+#' flighttime(w = x[, 1], r = x[, 2], t = x[, 3], d = x[, 4])
+#' @references
+#' \url{https://www.paperhelicopterexperiment.com}
+#'
+#' Box, G. E. P. and P. Y. T. Liu (1999). Statistics as a catalyst to learning by scientific method part I - an example. Journal of Quality Technology 31, 1–15.
+#'
+#' Shen, W., T. Davis, D. K. J. Lin, and C. J. Nachtsheim (2014). Dimensional analysis and its applications in statistics. Journal of Quality Technology 46, 185–198.
+#'
+#' Woods, D. C., Overstall, A. M., Adamou, M. and Waite, T. W. (2017). Bayesian design of experiments for generalised linear models and dimensional analysis with industrial and scientific application (with discussion). Quality Engineering, 29, 91-118.
+#' @export
+flighttime <- function(w, r, t, d, theta0 = exp(0.102), theta1 = 1.9, phi = .1, int = 0) {
+  m <- d * (2 * w * (r + 0.025) + t * 0.05)
+  ET <- (theta0 * 5) / sqrt(9.8 * r) * ((1.2 * r ^ 3) / m) ^ theta1
+  n <- length(w)
+  stats::rnorm(n, m = int + ET, sd = phi)
+}
+
+#' contr.twolevel
+#'
+#' Contrasts for two-level factors with levels -1 and +1 (recoding factor levels)
+#'
+#' @examples
+#' x <- factor(letters[1:2])
+#' contrasts(x) <- contr.twolevel()
+#' @export
+contr.twolevel <- function() {
+  contr <- c(-1, 1)
+  cbind(contr, deparse.level = 0)
+}
+
+#' Amatrix
+#'
+#' Calculates an alias matrix for a fractional factorial experiment
+#' @param X1 model matrix for the assumed model
+#' @param X2 model matrix for the additional terms in the true model
+#' @return The alias matrix
+#' @examples
+#' library(FrF2)
+#' design <- FrF2(8, 5, factor.names = paste0("x", 1:5))
+#' X <- model.matrix(~(.) ^ 2, data = design)
+#' X1 <- X[, 1:6]
+#' X2 <- X[, 7:16]
+#' round(Amatrix(X1, X2), 2)
+#' @export
+Amatrix<-function(X1, X2) {
+  X1 <- as.matrix(X1)
+  X2 <- as.matrix(X2)
+  A <- solve(t(X1) %*% X1) %*% t(X1) %*% X2
+  A
+}
