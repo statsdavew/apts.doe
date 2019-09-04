@@ -16,6 +16,11 @@ Worksheets for the computer labs.
   - [Practical 2](practicals/doe_practical2.html) 
   
   [comment]: # [(Example solutions)](practicals/doe_practical_solution2.html)
+  
+R code
+  - [from notes](R/notes.R)
+  
+  - [for simulated helicopter experiment](R/helicopter.R) 
 
 The assessment can be found [here](assessment/doe_assessment.html).
 
