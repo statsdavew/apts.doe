@@ -1,0 +1,135 @@
+---
+title: "APTS Design of Studies - Practical 1 Example Solutions"
+subtitle: "September 2019"
+author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
+output: 
+#beamer_presentation
+pdf_document:
+#  html_document:
+    theme: null
+    highlights: null
+bibliography: ../content/notes/apts_doe.bib
+#csl: american-statistical-association.csl
+number_sections: true
+---
+
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bvarepsilon}{\boldsymbol{\varepsilon}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\rT}{\mathrm{T}}
+\newcommand{\Var}{\operatorname{Var}}
+
+
+<style>
+pre {
+  font-size: 15px;
+}
+</style>
+
+```{r, echo=FALSE}
+options(width=80)
+library(knitr)
+library(xtable)
+set.seed(1)
+knit_hooks$set(no.main = function(before, options, envir) {
+    if (before) par(mar = c(4.1, 4.1, 1.1, 1.1), pty = "s")  # smaller margin on top
+})
+opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+options(warnPartialMatchArgs=FALSE)
+```
+
+<!-- Fold-over and follow-up-->
+1\. **Fractional factorials and fold-over**  
+(a)\. The design can be generated using
+  
+```{r FrF2}
+  library(FrF2)
+  n <- 16
+  k <- 9
+  q1a.design <- FrF2(n, k, factor.names = paste0("x", 1:k), 
+                  generators = list(c(1, 2, 3), c(1, 2, 4), c(1, 3, 4), 
+                                    c(2, 3, 4), c(1, 2, 3, 4)),
+                  randomize = F, alias.info = 3)
+```
+    
+Each item in <tt>generators</tt> needs to specify the interaction column from the 16 run full factorial design (with four factors) to which the fifth, sixth, etc. factor will be assigned, eg the first generator specifies that factor $x_5$ is assigned to the interaction column $x_1x_2x_3$.
+
+The alias scheme can be examined using either the <tt>design.info()$aliased</tt> or <tt>alias</tt> functions. Either way, notice that each main effect is completely aliased with at least one two-factor interaction.
+    
+```{r FrF2alias}
+    design.info(q1a.design)$aliased
+    q1a.alias <- alias(y ~ (.)^2, data = data.frame(q1a.design, y = vector(length = 16)))
+    q1a.alias
+```
+
+(b)\. To generate the foldover design, we can use:
+```{r completefoldover}
+    q1b.design <- fold.design(q1a.design)
+    q1b.design
+```
+Previously, $x_1 = x_8x_9$ (for example); now, for half the design $x_1 = x_8x_9$, and for the other half $x_1 = -x_8x_9$. Therefore, for the whole design the aliasing is broken (knowing the value of $x_1$ no longer determines the value of $x_8x_9$). We can check this using <tt>alias</tt>:
+```{r completefoalias}
+    q1b.alias <- alias(y ~ (.)^2, data = data.frame(q1b.design[, c(-5)], 
+                                                    y = vector(length = 2 * n)))
+    ## Notice I have removed column five from the design, which doesn't correspond to a factor but 
+    ## instead splits the foldover design into the original and addition parts
+    q1b.alias
+```
+
+(c)\. To fold over on a single column, we specify that column number in the <tt>fold.design</tt> function:
+```{r partialfold}
+q1c.design <- fold.design(q1a.design, columns = 5)
+q1c.alias <- alias(y ~ (.)^2, data = data.frame(q1c.design[, c(-5)], y = vector(length = 2 * n)))
+```
+Notice now that the main effect of $x_5$ and all the two-factor interactions involving this factor are not aliased with any other two-factor interactions. For example, in the original design $x_3x_5 = x_1x_2$; now, in the folded-over half of the design, $x_3x_5 = -x_1x_2,$ and so this alias is broken (similarly for all two-factor interactions involving $x_5$).
+
+   
+
+
+
+<!-- Blocking and split-plot designs-->
+2\. **Blocking and split-plot designs**
+
+(a)\. With the <tt>blocks</tt> argument set to a number, <tt>FrF2</tt> will automatically try to find higher-order factorial effects to confound with blocks. If it cannot find effects to confound that are higher than two-factor interactions, it will produce an error. 
+ 
+```{r ffblock1}
+q2a <- FrF2(32, 5, factor.names = paste0("x", 1:5), blocks = 4, alias.info = 3, randomize = F)
+design.info(q2a)$aliased.with.blocks
+```
+Here, two three-factor interactions have been confound with blocks. Don't forget that the product of these two interactions will also be confounded (a four-factor interaction).
+
+(b)\. If we confound $x_2x_3x_4x_5$ and $x_1x_2x_3x_4$ with blocks, we also confound the product: $x_2x_3x_4x_5 \times x_1x_2x_3x_4 = x_1x_5$. 
+```{r ffblock2}
+q2b <- FrF2(32, 5, factor.names = paste0("x", 1:5), blocks = list(c(2, 3, 4, 5), c(1, 2, 3, 4)), randomize = F, alias.block.2fis = TRUE)
+design.info(q2b)$aliased.with.blocks
+```
+This example demonstrates a common issue with blocked (and fractional) factorial designs; often, choosing too high-order effects to confound or alias will result in also confounding a lower-order effect. Notice how in part (a), <tt>FrF2</tt> chose two three-factor interactions to confound, not two four-factor interactions. 
+
+(c)\. To define the fraction, we will choose $I = x_1x_2x_3x_4x_5$. We need to consider the aliasing scheme when we choose the effects to confound with blocks. Choosing any four-factor interaction will also result in confounding a main effect with blocks. Confounding a three-factor interaction will also confound a two-factor interaction but this is the best we can do here. We will choose to confound $x_1x_2 = x_3x_4x_5$ and $x_1x_3 = x_2x_4x_5$ with blocks, which will also confound their product $x_2x_3 = x_1x_4x_5$.
+```{r fracblock}
+q2c <- FrF2(16, 5, factor.names = paste0("x", 1:5), generator = list(c(1, 2, 3, 4)), blocks = list(c(1, 2), c(1, 3)), 
+            alias.info = 3, randomize = F, alias.block.2fis = TRUE)
+design.info(q2c)$aliased
+design.info(q2c)$aliased.with.blocks
+```
+
+(d)\. To find this split-plot design, we can use
+```{r sp1}
+q2d <- FrF2(32, 5, WPs = 4, nfac.WP = 2, factor.names = paste0("x", 1:5), randomize = F)
+q2d
+```
+The design is split into four whole plots, within each of which the two whole-plot factors are constant. The other factors form a $2^3$ full factorial in each whole plot.
+
+We will use <tt>lmer</tt> to fit the model. To define the whole plots, we will add a variable <tt>wp</tt>, with values 1, 2, 3, 4, to define the whole plots.
+
+```{r sp2}
+library(lme4)
+q2d.lm <- lmer(y ~ (x1 + x2 + x3 + x4 + x5)^2 + (1| wp), 
+               data = data.frame(q2d, wp = rep(1:4, rep(8, 4)), y = runif(32)))
+summary(q2d.lm)
+```
+Notice that the coefficients corresponding to the whole-plot effects (two main effects and an interaction) are estimated with larger standard errors. Essentially, this is because these comparisons are made between whole plots, which should be subject to larger errors.  
+
+ 
