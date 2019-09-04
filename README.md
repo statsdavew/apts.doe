@@ -4,7 +4,7 @@
 
 Preliminary material can be found [here](preliminary/doe_preliminary.html).
 
-Notes can be found [here](notes/doe.html).
+Notes can be found [here](notes/doe.html) (updated 04-09-19).
 
   - the web version of the notes has the complete reference list.
   - the notes look better on screen if you press the "w" key (for widescreen).
