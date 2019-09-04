@@ -49,7 +49,6 @@ knit_hooks$set(no.main = function(before, options, envir) {
     if (before) par(mar = c(4.1, 4.1, 1.1, 1.1), pty = "s")  # smaller margin on top
 })
 opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
-options(warnPartialMatchArgs=FALSE)
 ```
 
 ## Preliminaries
