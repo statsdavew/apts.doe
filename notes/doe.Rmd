@@ -49,9 +49,10 @@ knit_hooks$set(no.main = function(before, options, envir) {
     if (before) par(mar = c(4.1, 4.1, 1.1, 1.1), pty = "s")  # smaller margin on top
 })
 opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+options(warnPartialMatchArgs=FALSE)
 ```
 
-##Preliminaries
+## Preliminaries
 
 A few example designs and data sets for this module are available in the <tt>R</tt> package <tt>apts.doe</tt>, which can be installed from <tt>GitHub</tt>
 
@@ -70,7 +71,7 @@ References will be provided throughout but some good general purpose texts are
   
 These notes and other resources can be found at [https://statsdavew.github.io/apts.doe/](https://statsdavew.github.io/apts.doe/)
 
-#Motivation and background
+# Motivation and background
 
 ## Modes of data collection
 
@@ -786,9 +787,9 @@ Analysis via regularised (shrinkage) methods (eg lasso, Dantzig selector; see AP
 include_graphics("figures/ssd_profile.jpg")
 ``` 
 
-#Bayesian optimal design
+# Bayesian optimal design
 
-##Introduction
+## Introduction
 Now consider a more general class of models (cf preliminary material).
 
 Let $\by = (y_1,\ldots,y_n)^\rT$ be iid observations from a distribution with density/mass function $\pi(y_i\,;\,\btheta,\bx_i)$
@@ -837,7 +838,7 @@ lapply(1:M, function(l) {
         xlab = "Time", ylim = c(0, 20), xlim = c(0, 24), add = l!=1) })
 ```
 
-##Crystallography
+## Crystallography
 **Example 2**: multi-factor experiments to build (hierarchical) logistic regression models for pharmaceutical salt formation
 
 Four controllable variables:
@@ -871,7 +872,7 @@ where $x_{ijr}$ is the value taken by the $r$th variable.
   1.  standard logistic regression - $\omega_{ir} = 0$ 
   2.  hierarchical logistic regression - $\omega_{ir} \sim U(-s_r, +s_r)$. with $s_{r}>0$ following a triangular distribution 
   
-##Classical optimal designs
+## Classical optimal designs
 Many Frequentist criteria for finding optimal designs for both linear and nonlinear models optimise a function of the information matrix; see @ADT2007, ch.10
 
   - we have already seen $D$-optimality
@@ -884,7 +885,7 @@ Let $\xi = (\bx_1,\ldots,\bx_n)^\rT$ denote a design, and set $M(\xi;\,\btheta) 
     - where $\hat{y}(x)$ is the predicted response at $\bx$ and the (asymptotic) prediction variance is a function of $M(\xi;\,\btheta)$
   - **$V$- (or $I$-) optimality** - minimise $\phi_V(\xi) = \int_\mathcal{X} \mbox{Var}\left(\hat{y}(\bx)\right)\,\mathrm{d}\bx$
 
-##Optimal design for nonlinear models
+## Optimal design for nonlinear models
 For most nonlinear models, $M(\xi;\,\btheta)$ will be a function of the unknown parameters $\btheta$ (unlike for the linear model, where $M(\xi;\,\bbeta) = X^\rT X$)
 
 This leads to a "chicken and egg" situation
@@ -894,7 +895,7 @@ This leads to a "chicken and egg" situation
 
 For some models/experiments, the quality of a design may change a lot with the value of $\btheta$
 
-##A simple example
+## A simple example
 ```{r simplelogistic, fig.align='center'}
 rho <- function(x, beta0 = 0, beta1 = 1) {
   eta <- beta0 + beta1 * x
