@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Experiments"
-subtitle: "August 2018"
+subtitle: "September 2019"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
@@ -63,10 +63,10 @@ library(apts.doe)
 
 References will be provided throughout but some good general purpose texts are
 
-  - Santner, Williams and Notz (2003). The Design and Analysis of Computer Experiments. Springer.
   - Atkinson, Donev and Tobias (2007). Optimum Experimental Design, with SAS. OUP
   - Wu and Hamada (2009). Experiments: Planning, Analysis, and Parameter Design Optimization (2nd ed.). Wiley.
   - Morris (2011). Design of Experiments: An Introduction based on Linear Models. Chapman and Hall/CRC Press.
+  - Santner, Williams and Notz (2019). The Design and Analysis of Computer Experiments (2nd ed.). Springer.
   
 These notes and other resources can be found at [https://statsdavew.github.io/apts.doe/](https://statsdavew.github.io/apts.doe/)
 
@@ -113,6 +113,42 @@ Why do we experiment?
  - comparison of treatments, factor screening, prediction, optimisation, ...
  
 **Design of experiments**: a statistical approach to the arrangement of the operational details of the experiment (eg sample size, specific experimental conditions investigated, ...) so that the quality of the answers to be derived from the data is as high as possible.
+
+## Motivating examples
+**1. Multi-factor experiment in pharmaceutical development.**
+
+Key to developing new medicines is the identification of optimal **and robust** process conditions (e.g. settings of temperature, pressure etc.) at which the active pharmaceutical ingredient should be synthesized.
+
+[Somewhat confusinging, the FDA refer to this as identification of a "design space".]
+
+An important step in is this methodology is a robustness experiment to assess the sensitivity of identified conditions to changes in all (or at least very many) controllable factors.
+
+While developing a new melanoma drug, GlaxoSmithKline performed an experiment to investigate sensitivity to 20 factors. Their experimental budget allowed only 10 individual experiments (runs) to be performed.
+
+## Motivating examples
+**2. Optimal design to calibrate a physical model.**
+
+Physical (mechanistic, mathematical, ...) models are used in many scientific fields. Typically, they are derived from fundamental understanding of the physics, chemistry, biology ...
+
+Most commonly, these models are solutions to differential equations. The models usually contain unknown parameters that should be estimated from experimental data.
+
+<center> 
+![](figures/placenta1.jpg)
+![](figures/placenta2.jpg)
+</center>
+
+Biologists at Southampton were studying the transfer of amino acids between mother and baby through the placenta. They could control the times at which observations were taken and the initial concentrations of amino acids  [see @OWP2019]. 
+
+## Motivating examples
+**3. Computer experiments to optimise ride performance in luxury cars**
+
+<center>
+![](figures/variants.jpg)
+</center>
+
+Suspension settings can be used to improve the ride performance in cars. Optimising settings across many different car models would take many hundreds of hours of testing, so computer simulations are used.
+
+Jaguar-Land Rover wanted to find suspension settings **robust** across different car models using a computer experiment (KTN workshop).  
 
 ## Simple motivating example
 Consider an experiment to compare two treatments (eg drugs, diets, fertilisers). 
@@ -450,7 +486,16 @@ Replication also increases the power of the design
 
   - common to replicate a centre point
   - allows a portmanteau test of curvature
-  - allows unbiased estimation of $\sigma^2$
+
+##
+Refit a linear model to the fabricated circuits experiment *excluding* interactions.
+```{r}
+cirfab2.lm <- lm(ybar ~ (.), data = cirfab)
+coef(cirfab.lm)
+coef(cirfab2.lm)
+cbind(sigma1 = summary(cirfab.lm)$sigma, df1 = summary(cirfab.lm)$df[2],  
+      sigma2 = summary(cirfab2.lm)$sigma, df2 = summary(cirfab2.lm)$df[2])
+```
       
 ## Principles of factorial experimentation
 Effect sparsity
@@ -609,6 +654,13 @@ The **transpose** of the alias matrix is provided by the <tt>`alias`</tt> functi
 ```{R alias}
 ff.alias <- alias(y ~ (.)^2, data = data.frame(bact.design, y = vector(length = 8)))
 ff.alias$Complete
+```
+
+##
+These linear dependencies can be seen if we attempt to fit a linear model
+```{R lmNA}
+bact.lm <- lm(yB ~ (x1 + x2 + x3 + x4 + x5)^2, data = bact)
+summary(bact.lm)
 ```
 
 ## The role of fractional factorial designs in a sequential strategy
@@ -806,7 +858,7 @@ y_{ij} \sim \mbox{Bernoulli}\left(\rho(\bx_{ij})\right)
 $$
 with
 $$
-\log\left(\frac{\rho(\bx_{ij})}{1-\rho(\bx_{ij})}\right) = \left(\beta_0 + \omega_{i0}\right) + \sum_{r=1}^k\left(\beta_r + \omega_{ir}x_{ijr}\right)\,,
+\log\left(\frac{\rho(\bx_{ij})}{1-\rho(\bx_{ij})}\right) = \left(\beta_0 + \omega_{i0}\right) + \sum_{r=1}^k\left(\beta_r + \omega_{ir}\right)x_{ijr}\,,
 $$
 where $x_{ijr}$ is the value taken by the $r$th variable.
 
@@ -1116,7 +1168,7 @@ bdopt$par
 As an alternative to analytical approximations, Monte Carlo approximation to the expected utility is simple to implement and intuitively appealing
 
 $$
-\tilde{U}(\xi) = \sum_{i=1}^B\tilde{u}(\xi, \by_i, \btheta_i)
+\tilde{U}(\xi) = \frac{1}{B}\sum_{i=1}^B\tilde{u}(\xi, \by_i, \btheta_i)
 $$
 where 
 
@@ -1158,7 +1210,7 @@ Instead of directly minimising a Monte Carlo approximation to the expected utili
   2. Smooth the "data" $\left\{\xi_i, \tilde{U}(\xi_i)\right\}$, i.e. fit a statistical model, to obtain a surrogate $\hat{U}(\xi)$
   3. Find $\xi$ that maximises $\hat{U}(\xi)$
   
-Return to [Example 1, compartmental model](#56)
+Return to [Example 1, compartmental model](#57)
 
   - find a design with $n=2$ runs, with **fixed** $x_1 = 5$
   - use Monte Carlo approximation to SIG for 10 values of $x_2$
@@ -1167,7 +1219,8 @@ Return to [Example 1, compartmental model](#56)
 
 ```{r compsmooth, fig.align = 'center', out.width = "60%"}
 library(DiceKriging)
-n <- 10; x1<- -0.583; x2 <- 2 * optimumLHS(n, k = 1) - 1
+library(DiceDesign)
+n <- 10; x1<- -0.583; x2 <- 2 * maximinSA_LHS(lhsDesign(n, 1)$design)$design- 1
 u <- NULL; for(i in 1:n) u[i] <- mean(utilcomp15sig(c(x1, x2[i]), B = 1000))
 par(mar = c(4, 4, 2, 2) + 0.1)
 plot(12 * (x2 + 1), u, xlab = expression(x[2]), ylab = "Approx. expected SIG", xlim = c(0, 24), 
@@ -1698,7 +1751,7 @@ plot(xs, sapply(xs, EI, model = gp3), type = "l", lwd = 3, ylab = "", xlab = "x"
 ```
 
 ## Sensitivity analysis
-To analyse the relative importance of different model outputs, functional analysis of variance (FANOVA) can be used to decompose $g(\bx)$ into an additive form [see @SRACCGST2008]
+To analyse the relative importance of different model inputs, functional analysis of variance (FANOVA) can be used to decompose $g(\bx)$ into an additive form [see @SRACCGST2008]
 
 Assume $x_i\sim w_i(x)$, eg the input variables may be normally distributed or uniformly distributed. Then
 
