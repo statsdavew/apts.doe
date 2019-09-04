@@ -37,6 +37,7 @@ knit_hooks$set(no.main = function(before, options, envir) {
     if (before) par(mar = c(4.1, 4.1, 1.1, 1.1), pty = "s")  # smaller margin on top
 })
 opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+options(warnPartialMatchArgs=FALSE)
 ```
 
 In this practical session, you will use the <tt>FrF2</tt> package to investigate some aspects of (fractional) factorial designs. Feel free to also use the practical sessions to understand and reproduce results from the notes.
@@ -69,7 +70,7 @@ Essentially, we are splitting the full factorial design into $b$ fractions, but 
 
 (a)\. <tt>FrF2</tt> can be used to find blocked factorial designs, using the argument <tt>blocks</tt>. Start by setting <tt>blocks=4</tt> to find a design with $n=32$ runs, $k=5$ factors and $b=4$ blocks. You can use <tt>design.info()$aliased.with.blocks</tt> to see what factorial effects have been confounded with blocks.
 
-(b)\. You can also select which factorial effects are confounded with blocks by setting the <tt>blocks</tt> argument equal to a list of factorial effects (the same as the <tt>generator</tt> argument for fractional factorial designs). Set <tt>blocks = list(c(2, 3, 4, 5), c(1, 2, 3, 4))</tt>, and compare the results to the previous design found. What other factorial effect is confounded with blocks?
+(b)\. You can also select which factorial effects are confounded with blocks by setting the <tt>blocks</tt> argument equal to a list of factorial effects (the same as the <tt>generator</tt> argument for fractional factorial designs). Set <tt>blocks = list(c(2, 3, 4, 5), c(1, 2, 3, 4))</tt>, and compare the results to the previous design found (new for 2019: you will also need to set <tt>alias.block.2fis = TRUE</tt>). What other factorial effect is confounded with blocks?
 
 (c)\. We can also block fractional factorial designs in a similar way by picking factorial effects to confound with blocks. Of course now, any other effects aliased with the chosen effects will also be confounded with blocks (making the choice a bit trickier).
 
