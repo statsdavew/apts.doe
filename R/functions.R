@@ -127,7 +127,7 @@ flighttime <- function(w, r, t, d, theta0 = exp(0.102), theta1 = 1.9, phi = .1, 
   m <- d * (2 * w * (r + 0.025) + t * 0.05)
   ET <- (theta0 * 5) / sqrt(9.8 * r) * ((1.2 * r ^ 3) / m) ^ theta1
   n <- length(w)
-  stats::rnorm(n, m = int + ET, sd = phi)
+  stats::rnorm(n, mean = int + ET, sd = phi)
 }
 
 #' contr.twolevel
