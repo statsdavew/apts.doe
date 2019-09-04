@@ -400,7 +400,7 @@ As briefly discussed in the notes, blocks are used when the experimental units c
 <p>Split-plot designs can be found via blocking (fractional) factorial designs by confounding the main effects of the whole-plot factors with blocks. Using <tt>FrF2</tt>, we can explicitly find split-plot designs using the <tt>WPs</tt> and <tt>nfac.WP</tt> arguments to set the number of whole plots and number of whole-plot factors, respectively.</p>
 <p>Use <tt>FrF2</tt> to find a split-plot design with <span class="math inline">\(n=32\)</span> runs, <span class="math inline">\(k=5\)</span> factors with two whole-plot factors (<tt>FrF2</tt> assumes these will be the first two factors). The values of the two whole-plot factors should be constant within whole-plots.</p>
 <p>Split-plot designs are usually analysed using a mixed-effects model, with random effects associated with the whole-plot factors. You can do this using <tt>lmer</tt> from the <tt>lme4</tt> package (see APTS Statistical Modelling). Generate some random data and fit a mixed model to your whole-plot design. What do you notice about the standard errors of the different coefficients?</p>
-<p>(Hint - the model formula should be something like <tt>y ~ (x1 + x2 + x3 + x4 + x5)^2 + (x1 + x2 | wp)</tt>, where <tt>wp</tt> is a column identifying the different whole plots in the experiment).</p>
+<p>(Hint - the model formula should be something like <tt>y ~ (x1 + x2 + x3 + x4 + x5)^2 + (1 | wp)</tt>, where <tt>wp</tt> is a column identifying the different whole plots in the experiment).</p>
 
 
 

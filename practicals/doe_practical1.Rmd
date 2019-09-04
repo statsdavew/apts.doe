@@ -84,6 +84,6 @@ Use <tt>FrF2</tt> to find a split-plot design with $n=32$ runs, $k=5$ factors wi
 
 Split-plot designs are usually analysed using a mixed-effects model, with random effects associated with the whole-plot factors. You can do this using <tt>lmer</tt> from the <tt>lme4</tt> package (see APTS Statistical Modelling). Generate some random data and fit a mixed model to your whole-plot design. What do you notice about the standard errors of the different coefficients?
 
-(Hint - the model formula should be something like <tt>y ~ (x1 + x2 + x3 + x4 + x5)^2 + (x1 + x2 | wp)</tt>, where <tt>wp</tt> is a column identifying the different whole plots in the experiment).
+(Hint - the model formula should be something like <tt>y ~ (x1 + x2 + x3 + x4 + x5)^2 + (1 | wp)</tt>, where <tt>wp</tt> is a column identifying the different whole plots in the experiment).
 
  
