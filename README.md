@@ -11,9 +11,7 @@ Notes can be found [here](notes/doe.html) (updated 04-09-19).
 
 Worksheets for the computer labs.
 
-  - [Practical 1](practicals/doe_practical1.html) 
-  
-   - [Example solutions](practicals/doe_practical_solution1.html)
+  - [Practical 1](practicals/doe_practical1.html) [(Example solutions)](practicals/doe_practical_solution1.html)
   
   - [Practical 2](practicals/doe_practical2.html) 
   
