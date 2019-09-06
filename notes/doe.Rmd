@@ -1542,7 +1542,7 @@ The most commonly used correlation functions are **separable** and **stationary*
 Given model evaluations $\bg = \left[g(\bx_1), \ldots, g(\bx_n)\right]$, a posterior GP can be obtained:
 
 $$
-g(\bx)\,|\, \bg,\bbeta,\btheta,\sigma^2 \sim N\left(m(\bx), s^2(\bx)\right) 
+g(\bx)\,|\, \bg,\bbeta,\btheta,\sigma^2 \sim \text{GP}\left(m(\bx), s^2(\bx)\right) 
 $$
 
   - $m(\bx) = \beff(\bx)^\rT\bbeta + \bkappa_n^\rT K^{-1}(\bg - F\bbeta)$
