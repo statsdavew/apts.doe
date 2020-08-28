@@ -1,10 +1,12 @@
 # APTS Design of Experiments
 
-2 - 6 September 2019, Oxford
+14 - 18 September 2020, Oxford
+
+Due to Covid-19, this APTS week has been cancelled but the notes, computer lab materials and assessment are all provided on this page.
 
 Preliminary material can be found [here](preliminary/doe_preliminary.html).
 
-Notes can be found [here](notes/doe.html) (updated 06-09-19).
+Notes can be found [here](notes/doe.html).
 
   - the web version of the notes has the complete reference list.
   - the notes look better on screen if you press the "w" key (for widescreen).
