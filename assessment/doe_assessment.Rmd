@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Experiments - Assessment"
-subtitle: "September 2019"
+subtitle: "September 2020"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
@@ -8,7 +8,7 @@ pdf_document:
 #  html_document:
     theme: null
     highlights: null
-bibliography: ../content/notes/apts_doe.bib
+bibliography: ../notes/apts_doe.bib
 #csl: american-statistical-association.csl
 number_sections: true
 ---
