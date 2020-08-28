@@ -1,4 +1,4 @@
-## APTS Design of Experiments 2019 
+## APTS Design of Experiments 2020 
 ## Simulated paper helicopter experiment
 ## Dave Woods, University of Southampton
 

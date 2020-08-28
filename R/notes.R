@@ -1,4 +1,4 @@
-## APTS Design of Experiments 2019
+## APTS Design of Experiments 2020
 ## R code extracted from the notes
 ## Dave Woods, University of Southampton
 
