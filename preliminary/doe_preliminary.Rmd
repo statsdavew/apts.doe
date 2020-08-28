@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Studies - Preliminary Material"
-subtitle: "September 2019"
+subtitle: "September 2020"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
