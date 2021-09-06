@@ -2,9 +2,8 @@
 title: "APTS Design of Studies - Preliminary Material"
 subtitle: "September 2021"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
-output: 
+output:
 #beamer_presentation
-#pdf_document
   html_document:
     theme: cosmo
     highlights: null
@@ -66,6 +65,7 @@ $$
 M(\btheta) = E_y\left[- \frac{\partial^2 l(\btheta)}{\partial\btheta\partial\btheta^\rT}\right]\,.
 \end{equation}
 $$
+
 Informally, the Fisher information at $\hat{\btheta}$ measures the curvature of the log-likelihood around the estimate; the more "peaked" the likelihood function, the "better" we know the parameter. Slightly more formally, it can be shown [see, eg, @GJJ2002] that asymptotically the MLE follows the normal distribution
 $$
 \begin{equation}\label{eq:asympNormal}

@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Experiments - Practical 2"
-subtitle: "September 2020"
+subtitle: "September 2021"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
@@ -39,34 +39,27 @@ knit_hooks$set(no.main = function(before, options, envir) {
 opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 ```
 
-In this practical session, you will use the <tt>acebayes</tt> package to investigate some aspects of (Bayesian) optimal design. Feel free to also use the practical sessions to understand and reproduce results from the notes.
+In this practical session, you will design and analyse a computer experiment. Feel free to also use the practical sessions to understand and reproduce results from the notes.
 
-<!-- pseudo-Bayesian design using optim-->
-1\. **Bayesian $D$-optimal design using <tt>optim</tt>**  
-Adapt the code from the notes to find locally $D$-optimal designs with $n=2$ runs for the Poisson regression model with linear predictor $\eta(x) = \beta_0 + \beta_1 x$ with the log link (log-linear regression).
+<!-- Computer experiments -->
+**Computer experiments**  
+A common mathematical model used to demonstrate computer experiment methodology in the literature describes the flow of ground water through a borehole from an upper aquifer to a lower aquifer separated by a impermeable rock layer. The model has eight input variables:
 
-Fix $\beta_0=0$ and find designs for $\beta_1 = 1, \ldots, 6$, restricting to $-1\le x\le 1$. For each design, plot the design points along with the expected response. There is a pattern in the optimal designs, can you identify it?
+  - $r_w \in [0.05, 0.15]$: radius of the borehole ($m$)
+  - $r \in [100, 50000]$: radius of infuence ($m$)
+  - $T_u \in [63070, 115600]$: transmissivity of the upper aquifer ($m^2/yr$)
+  - $H_u \in [990, 1110]$: potentiometric head of the upper aquifer ($m$)
+  - $T_l \in [63.1, 116]$: transmissivity of the lower aquifer ($m^2/yr$)
+  - $H_l \in [700, 820]$: potentiometric head of the lower aquifer ($m^2/yr$)
+  - $L \in [1120, 1680]$: length of the borehole ($m$)
+  - $K_w \in [9855, 12045]$: hydraulic conductivity of borehole ($m/yr$)
 
-(Hint: there is a relationship between the first design point and $1/\beta_1$).
+The output from the model is $y$, water flow rate ($m^3/yr$). The function <tt>borehole</tt> implements this model. The input to the model should be a numeric vector of length 8, giving values for the different input variables on the ranges defined above.
 
-The <tt>acebayes</tt> package has a function <tt>aceglm</tt> that can find Bayesian optimal designs for generalised linear models. Read the help file, and the use the function to find a Bayesian $D$-optimal design when we assume $\beta_0 = 0$ and a uniform prior distribution for $\beta_1$ with support $[1,6]$.
+Design a suitable computer experiment, use the <tt>borehole</tt> function to perform the experiment, and fit a Gaussian process (GP) emulator. From the GP output, which variables look to have most impact on the response?
 
-**Important**: when using <tt>aceglm</tt> set $N2 = 0$ (otherwise it will result in a nasty crash!).
+(I would suggest you fit the Gaussian process with all input variables scaled to $[0,1]$ to improve interpretability).
 
-<!-- pseudo-Bayesian design using ace -->
-2\. **Bayesian $D$-optimal design using <tt>acebayes</tt>**  
-In the notes, we examine a compartmental model. A simplified version of this model is given by
-$$
-y_i \sim N\left(\mu(x_i\,;\,\btheta), \sigma^2\right)\,, 
-$$
-with
-$$
-\mu(x_i\,;\,\btheta) = \theta_3\left[\exp\left(-\theta_1 x\right) - \exp\left(-\theta_2 x\right)\right]\,.
-$$
-Use the <tt>acenlm</tt> function in <tt>acebayes</tt> to find a Bayesian $D$-optimal design with $n=18$ runs, assuming $x \in [0, 24]$. Assume uniform prior distributions for $\theta_1,\theta_2$:
-$$
-\theta_1 \sim U(0.01884, 0.09884);\qquad \theta_2 \sim U(0.298, 8.298)
-$$
-with $\theta_3 = 21.8$; see @GJS2009 and @OWA2017. Plot the optimal design and realisations from the model.
+The borehole function is taken from the [Virtual Library of Simulation Experiments](https://www.sfu.ca/~ssurjano/). Choose another test function, and design and analyse the computer experiment.
 
-# References
+

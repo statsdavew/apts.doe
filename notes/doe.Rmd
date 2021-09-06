@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Experiments"
-subtitle: "September 2020"
+subtitle: "September 2021"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
@@ -9,7 +9,8 @@ output:
     smaller: yes
 #    logo: figures/soton.jpg
     transition: faster
-#    widescreen: true
+    widescreen: true
+    theme: flatly
 css: apts.css
 bibliography: apts_doe.bib
 #csl: american-statistical-association.csl
@@ -28,7 +29,7 @@ header-includes:
 \newcommand{\rT}{\mathrm{T}}
 \newcommand{\Var}{\operatorname{Var}}
 \newcommand{\bY}{\boldsymbol{Y}}
-\newcommand{\beff}{\boldsymbol{f}}
+\newcommand{\beff}{\mathbf{f}}
 \newcommand{\bphi}{\boldsymbol{\phi}}
 \newcommand{\bg}{\boldsymbol{g}}
 \newcommand{\bkappa}{\boldsymbol{\kappa}}
@@ -79,26 +80,36 @@ These notes and other resources can be found at [https://statsdavew.github.io/ap
  - Sample surveys
  - **Designed experiments**
 
-## Experiments {.columns-2}
+## Experiments 
+<!--{.columns-2}-->
 
 **Definition**: An experiment is a procedure whereby controllable factors, or features, of a system or process are **deliberately** varied in order to understand the impact of these changes on one or more measurable responses.
 
- - "prehistory": Bacon, Lind, Peirce, ... (establishing the scientific method)
+:::: {style="display: flex;"}
+
+::: {style="width: 50%;"}
+ - "prehistory": Bacon, Lind, Peirce, ...   
+ (establishing the scientific method)
  - agriculture (1920s)
  - clinical trials (1940s)
  - industry (1950s)
+ - psychology and economics (1960s)
  - in-silico (1980s)
+ - online (2000s)
+:::
 
- <!--
- ```{r, echo = F, out.width = "75%", out.extra = 'style="display: block; margin-left: auto; margin-right: auto;"'}
- include_graphics("figures/fisher.jpg")
+::: {style="width: 50%;"}
+ ```{r, echo = F, out.width = "75%"}
+ include_graphics("figures/broadbalk.jpg")
  ```
- -->
  
-<center> 
-![Ronald A. Fisher (1890 - 1962)](figures/fisher.jpg)
+ Broadbalk experiment, Rothamsted
+:::
 
-</center>
+::::
+
+See @LB2020 for further history, annecdotes and examples, especially from psychology and technology.
+
 
 ## Role of experimentation
 
@@ -127,7 +138,18 @@ An important step in is this methodology is a robustness experiment to assess th
 While developing a new melanoma drug, GlaxoSmithKline performed an experiment to investigate sensitivity to 20 factors. Their experimental budget allowed only 10 individual experiments (runs) to be performed.
 
 ## Motivating examples
-**2. Optimal design to calibrate a physical model.**
+**2. Computer experiments to optimise ride performance in luxury cars**
+
+<center>
+![](figures/variants.jpg)
+</center>
+
+Suspension settings can be used to improve the ride performance in cars. Optimising settings across many different car models would take many hundreds of hours of testing, so computer simulations are used.
+
+Jaguar-Land Rover wanted to find suspension settings **robust** across different car models using a computer experiment (KTN workshop).  
+
+## Motivating examples
+**3. Optimal design to calibrate a physical model.**
 
 Physical (mechanistic, mathematical, ...) models are used in many scientific fields. Typically, they are derived from fundamental understanding of the physics, chemistry, biology ...
 
@@ -140,23 +162,14 @@ Most commonly, these models are solutions to differential equations. The models 
 
 Biologists at Southampton were studying the transfer of amino acids between mother and baby through the placenta. They could control the times at which observations were taken and the initial concentrations of amino acids  [see @OWP2019]. 
 
-## Motivating examples
-**3. Computer experiments to optimise ride performance in luxury cars**
 
-<center>
-![](figures/variants.jpg)
-</center>
-
-Suspension settings can be used to improve the ride performance in cars. Optimising settings across many different car models would take many hundreds of hours of testing, so computer simulations are used.
-
-Jaguar-Land Rover wanted to find suspension settings **robust** across different car models using a computer experiment (KTN workshop).  
 
 ## Simple motivating example
-Consider an experiment to compare two treatments (eg drugs, diets, fertilisers). 
+Consider an experiment to compare two treatments (eg drugs, diets, fertilisers, $\ldots$). 
 
-We have $n$ subjects (eg people, mice, plots of land), each of which can be assigned to one of the two treatments. 
+We have $n$ subjects (eg people, mice, plots of land, $\ldots$), each of which can be assigned to one of the two treatments. 
 
-A response (eg protein measurement, weight, yield) is then measured from each subject.
+A response (eg protein measurement, weight, yield, $\ldots$) is then measured from each subject.
 
 **Question:** How should the two treatments be assigned to the subjects to gain the most precise inference about the difference in expected response from the two treatments.
 
@@ -237,10 +250,11 @@ curve(eff, from = 0, to = n, ylab = "Eff", xlab = expression(n[1]))
  
 ## Example
 
-Fabrication of integrated circuits [see @WH2009]
+An initial step in fabricating integrated circuits is the growth of an epitaxial layer on polished silicon wafers via chemical deposition [see @WH2009, p155].
 
- - an initial step in fabricating integrated circuits is the growth of an epitaxial layer on polished silicon wafers via chemical deposition
- 
+:::: {style="display: flex;"}
+
+::: {style="width: 60%;"}
 Unit
 
   - set of six wafers (mounted in a rotating cylinder)
@@ -252,17 +266,31 @@ Treatment
     - B : nozzle position ($x_2$)
     - C : deposition temperature ($x_3$)
     - D : deposition time ($x_4$) 
+:::
+ 
+::: {style="width: 40%;"}
+  ```{r, echo = F, out.width = "85%"}
+ include_graphics("figures/pcb.jpg")
+ ```
+ 
+<font size="1">© Raimond Spekking / CC BY-SA 4.0 (via Wikimedia Commons)</font> 
+:::
+ 
+::::
+
  
 ## A unit-treatment statistical model
 
 $$
-y_{ij} = \tau_i + \varepsilon_{ij}\,,\qquad i=1,\ldots,t;\,j=1,\ldots,n_i\,, 
+y_{ij} = \mu + \tau_i + \varepsilon_{ij}\,,\qquad i=1,\ldots,t;\,j=1,\ldots,n_i\,, 
 $$
  where
  
  - $y_{ij}$ : measured response from the $j$th unit to which treatment $i$ has been applied
  
- - $\tau_i$ : treatment effect (expected response from application of the $i$th treatment)
+ - $\mu$ : overall mean response (often labelled $\beta_0$)
+ 
+ - $\tau_i$ : treatment effect ($\tau_i$ is the expected difference in response from the overall mean after application of the $i$th treatment)
  
  - $\varepsilon_{ij}$ : random deviation from the expected response [typically $\sim N(0,\sigma^2)$] 
  
@@ -380,7 +408,7 @@ A treatment is then defined as a combination of four values of $-1, +1$
     
 Assume each treatment effect is determined by a regression model in the four factors, eg
 $$
-\tau(\bx) = \beta_0 + \sum_{i=1}^4\beta_ix_i + \sum_{j=1}^4\sum_{i>j}^4\beta_{ij}x_ix_j
+\tau(\bx) = \sum_{i=1}^4\beta_ix_i + \sum_{j=1}^4\sum_{i>j}^4\beta_{ij}x_ix_j
 $$
  
 ## (Two-level) Factorial design
@@ -433,7 +461,7 @@ Assuming -1,+1 coding, there is a straightforward relationship between **factori
  - interaction between $x_j$ and $x_k$ is equal to $2\beta_{jk}$ 
 
 ##
-Using the <tt>`effects`</tt> package:
+Using the `effects` package:
  
 ```{r eval = F}
 library(effects)
@@ -454,8 +482,8 @@ plot(Effect("x4", cirfab.lm), main = "", rug = F, ylim = c(13.8, 14.5))
 ```
 
 ## Interactions
-```{r, echo = T}
-plot(Effect(c("x3", "x4"), cirfab.lm), main = "", rug = F, ylim = c(13.5, 15), 
+```{r, echo = T, fig.align = 'center'}
+plot(Effect(c("x3", "x4"), cirfab.lm, xlevels = 2), main = "", rug = F, ylim = c(13.5, 15), 
      x.var = "x4")
 ```
 
@@ -470,8 +498,8 @@ Hence, we can treat the identification of important effects (ie large $\beta$) a
  @Cuthbert1959
  
 ##
-Using the <tt>`FrF2`</tt> package
-```{r, fig.show='hold', out.width = "100%"}
+Using the `FrF2` package
+```{r, fig.show='hold', out.width = "100%", fig.align = 'center'}
 library(FrF2)
 par(pty = "s", mar = c(8, 4, 1, 2))
 DanielPlot(cirfab.lm, main = "", datax = F, half = T)
@@ -494,8 +522,8 @@ Refit a linear model to the fabricated circuits experiment *excluding* interacti
 cirfab2.lm <- lm(ybar ~ (.), data = cirfab)
 coef(cirfab.lm)
 coef(cirfab2.lm)
-cbind(sigma1 = summary(cirfab.lm)$sigma, df1 = summary(cirfab.lm)$df[2],  
-      sigma2 = summary(cirfab2.lm)$sigma, df2 = summary(cirfab2.lm)$df[2])
+cbind(sigma1 = sigma(cirfab.lm), df1 = df.residual(cirfab.lm),  
+      sigma2 = sigma(cirfab2.lm), df2 = df.residual(cirfab2.lm))
 ```
       
 ## Principles of factorial experimentation
@@ -524,16 +552,17 @@ Resource constraints (eg cost) may mean not all $2^m$ combinations can be run
 Lots of degrees of freedom are devoted to estimating higher-order interactions
 
   - eg in a $2^5$ experiment, 16 degrees of freedom are used to estimate three-factor and higher-order interactions
-  - principles of effect hierarchy and sparsity suggest may be wasteful
+  - principles of effect hierarchy and sparsity suggest this may be wasteful
 
-Need to trade-off **what you want to estimate** against the **number of runs** you can afford
+Need to trade-off **what you need to estimate** against the **number of runs** you can afford
  
 
 ## Example
-Production of bacteriocin [@Morris2011, p231]
+Production of bacteriocin, a targetted antibacterial used as a natural food preservative [@Morris2011, p231]
 
- - bacteriocin is a natural food preservative frown from bacteria
+:::: {style="display: flex;"}
 
+::: {style="width: 60%;"}
 Unit
 
   - a single bio-reaction
@@ -545,12 +574,23 @@ Treatment: combination of settings of the factors
   - C: level of aeration ($x_3$)
   - D: temperature ($x_4$)
   - E: amount of sodium ($x_5$)
+:::
+
+::: {style="width: 60%;"}
+  ```{r, echo = F, out.width = "85%"}
+ include_graphics("figures/bacteriocin.jpg")
+ ```
+ 
+<font size="1">© Rooneyw / CC BY-SA 4.0 (via Wikimedia Commons)</font> 
+:::
+
+::::
 
 Assume each factor has two-levels, coded -1 and +1
   
  
 ##
-Find an $n=8$ run design using <tt>FrF2</tt>
+Find an $n=8$ run design using `FrF2`
 
 ```{r bact}
 bact.design <- FrF2(8, 5, factor.names = paste0("x", 1:5), 
@@ -568,7 +608,7 @@ Assuming the number of runs is a power of two, $n = 2^{k-q}$, we can construct $
   - assign the remaining $q$ factors to interaction columns
 
 ```{r bact2}
-model.matrix(~ (x1 + x2 + x3) ^ 3, bact.design[, 1:3])[, ]
+model.matrix(~ (x1 + x2 + x3) ^ 3, bact.design[, 1:3])[, -1]
 ```  
 
 ## Aliasing scheme
@@ -601,7 +641,7 @@ $\ldots$ and the complete aliasing scheme
   - $x_1x_5 = x_3x_4x_5 = x_1x_2x_3 = x_2x_4$
 
 ##
-<tt>`FrF2`</tt> will summarise the aliasing amongst main effects and two- and three-factor interactions.
+`FrF2` will summarise the aliasing amongst main effects and two- and three-factor interactions.
 
 ```{r bact3}
 design.info(bact.design)$aliased 
@@ -631,11 +671,12 @@ $A$ is the alias matrix
   - if the columns of $X_1$ and $X_2$ are not orthogonal, $\hat{\bbeta}_1$ is biased
     
 ##
-For the $2^{5-2}$ example:
+For the $2^{5-2}$ example considering "main effects" and "two-factor interactions":
 
-  - $X_1$ is an $8\times 6$ matrix with columns for the intercept and five linear terms ("main effects")
-  - $X_2$ is an $8\times 10$ matrix with columns for the 10 product terms ("two-factor interactions")
+  - $X_1$ is an $8\times 8$ matrix with columns for the intercept, five linear and two product terms
+  - $X_2$ is an $8\times 8$ matrix with columns for the 8 remaining product terms
 
+<!--
 $$
 A = \left(
 \begin{array}{cccccccccc}
@@ -648,14 +689,15 @@ A = \left(
 \end{array}
 \right)
 $$
-For a regular design, the matrix $A$ will only have entries 0, $\pm 1$ (no aliasing or complete aliasing) 
+-->
 
-##
-The **transpose** of the alias matrix is provided by the <tt>`alias`</tt> function.
+The **transpose** of the alias matrix is provided by the `alias` function.
 ```{R alias}
 ff.alias <- alias(y ~ (.)^2, data = data.frame(bact.design, y = vector(length = 8)))
-ff.alias$Complete
+t(ff.alias$Complete)[, order(rownames(ff.alias$Complete))]
 ```
+
+For a regular design, the matrix $A$ will only have entries 0, $\pm 1$ (no aliasing or complete aliasing) 
 
 ##
 These linear dependencies can be seen if we attempt to fit a linear model
@@ -745,7 +787,7 @@ This 12-run PB design is probably the most studied non-regular design
 
 ```{R pbalias}
 pb.alias <- alias(y ~ (.)^2, data = data.frame(pb.design, y = vector(length = 12)))
-head(pb.alias$Complete, n = 15)
+t(pb.alias$Complete)[, 1:8]
 ```
 
 ## Example: supersaturated design
@@ -786,6 +828,556 @@ Analysis via regularised (shrinkage) methods (eg lasso, Dantzig selector; see AP
 ```{r ssdshrink, echo = F, out.width="50%", fig.align='center'}
 include_graphics("figures/ssd_profile.jpg")
 ``` 
+
+
+# Computer experiments
+
+## Introduction
+Many physical and social processes can be approximated by computer codes which encapsulate mathematical models
+
+  - eg partial differential equations solved using finite element methods
+  - eg reaction kinetics modelling in computational biology, in-silico chemistry
+  
+```{r compcode, echo = F, out.width="75%", fig.align='center'}
+include_graphics("figures/computer_code.jpg")
+```   
+  - computer code: numerical implementation of the mathematical model
+
+**Key feature**: the model does not have a closed-form; it can only be evaluated numerically, and this is typically (relatively) expensive
+
+We will focus on **deterministic** computer models
+
+## Computer experiments
+**Assumption**: $g(\bx)$ can only be evaluated numerically; i.e. $g(\bx)$ can be computed for a given $\bx$ but the general form is unknown
+
+**How do we learn about the function $g(\bx)$?**
+
+In an analogy to a physical system, we experiment on $g(\bx)$, i.e.
+
+  - choose a design $\xi = (\bx_1,\ldots, \bx_n)$
+  - evaluate $g(\bx_i)$ (run the computer code)
+  
+Use the "data" $\left\{\bx_i, g(\bx_i)\right\}$ to build statistical models linking $\bx$ and $g(\bx)$
+
+  - called **emulators**; typically use a Gaussian process
+
+See @SWN2003
+
+## (Very) simple example
+Climate modelling involves the solution of many intractable equations, leading to mathematical models evaluated via computationally expensive computer codes
+
+  - lots of applications of computer experiments
+  
+We will illustrate methods on a very simple example: a time-stepping advective/diffusive surface layer meridional EBM (energy balance model)
+
+  - 2D earth with no land
+  - each surface object has a percentage of ice cover
+  - different albedo (fraction of solar energy reflected) for ice vs non-ice surfaces
+  - ocean circulation is explicitly modelled (cf Atlantic gulf stream)
+  - two variables: $x_1$ - solar constant; $x_2$ - non-ice albedo
+  - output is mean temperature
+
+See [https://wiki.aston.ac.uk/foswiki/bin/view/MUCM/SurfebmModel](https://wiki.aston.ac.uk/foswiki/bin/view/MUCM/SurfebmModel)   (temporarily unavailable - hopefully back soon!)
+
+##
+
+```{r ebmex, fig.align = 'center'}
+## design and data are in 'ebm'
+library(akima)
+fld <- interp(x = ebm$x1, y = ebm$x2, z = ebm$y, extrap = TRUE, linear = FALSE)
+filled.contour(x = fld$x, y = fld$y, z = fld$z, ylim = c(-1, 1), xlim = c(-1, 1), asp = 1, 
+               plot.title = title(xlab = "solar constant", ylab = "non-ice albedo"), 
+               plot.axes = {axis(1, seq(-1, 1, l = 5))
+                 axis(2, seq(-1, 1, l = 5))})
+```
+
+## Space-filling designs
+As we will see later, emulators are usually constructed using nonparametric statistical models
+
+This choice leads naturally to using **space-filling** designs
+
+  - such designs do not rely on the functional form of the relationship between the code inputs and the response
+  - good coverage is important for prediction (we will predict "better" near points we have already run the computer model)
+  
+**Common designs** are chosen to optimise some space-filling metric, or formed from (stratified) random sampling
+
+Space-filling designs do not have **replication**, so ideal for deterministic computer models 
+
+## Uniform designs
+Many designs proposed for computer experiments are related to ideas underpinning quadrature, and the approximation of an expectation.
+
+Let $\bar{g} = \frac{1}{n}\sum_{i=1}^n g(\bx_i)$, the sample mean of $g(\cdot)$ for $\xi$. Then
+
+$$
+|E_\bx[g(\bx)] - \bar{g}| \le \mbox{constant}\times D(\xi)
+$$
+where $D(\xi)$ is the **star discrepancy** of the design
+
+  - $D(\xi)$ is a measure of the uniformity of the design points
+
+This relationship leads to the criterion of design selection via minimising discrepancy
+
+  - $D(\xi)$ is difficult to compute for moderate to high numbers of dimensions
+  - therefore, it is more common to minimise the related **centred $L_2$-discrepancy**
+
+@FLS2006, Ch.3
+ 
+## Designs based on measures of distance
+
+Two sensible criteria for the selection of a space-filling design are
+
+  - make sure no two points in the design are too close together
+  - make sure no point in the design region is too far from a design point
+
+[@JMY1990]
+
+The Euclidean distance between points $\bx$ and $\bx^\prime$ is given by
+
+$$
+\delta(\bx, \bx^\prime) = \sqrt{\sum_{i=1}^k \left(x_{j} - x^\prime_j\right)^2}
+$$
+
+## Mm and mM designs
+
+Using Euclidean distance, we can define
+
+  - maximin (Mm) criterion: maximise 
+  
+  $$
+  \min_{\bx_i, \bx_j\in\xi}\delta(\bx_i, \bx_j)
+  $$
+
+  - minimax (mM) criterion: minimise
+  
+  $$
+  \max_{\bx}\delta(\bx, \xi)
+  $$
+    where the distance between a point $\bx$ and a design $\xi$ is defined as
+  
+  $$
+  \delta(\bx, \xi) = \min_{\bx_j\in\xi}\delta(\bx, \bx_i)
+  $$
+
+Roughly speaking, an Mm design **spreads** out the design points, and an mM design **covers** the design region
+
+Intuitively, covering the design region seems more desirable (eg for prediction), but optimising the mM objective function is computationally challenging. Hence, Mm designs are more commonly used
+  
+## Latin hypercube designs
+For high-dimensional problems, space-filling is difficult
+
+  - many points are required to adequate space-fill a high-dimensional space (curse of dimensionality)
+  
+**Latin hypercube designs (LHDs)** are randomly chosen sets of points with the restriction of uniform one-dimensional projections [@MBC1979]
+
+  - each variable has no overlapping points, and good coverage (compare with a factorial design, which has hidden replication)
+  - can be easily constructed using permutations of integers
+
+An LHD only guarantees space-filling properties in each one-dimensional projection, not overall. So we normally combine the Latin hypercube principle with a space-filling criteria, eg to find a Mm LHD
+
+##
+```{r simplelhd, out.width = "50%", fig.align='center'}
+LH <- function(n = 3, d = 2) {
+	D <- NULL
+	for(i in 1:d) D <- cbind(D, sample(1:n, n))
+	D 
+}
+set.seed(4)
+par(mar=c(5,6,2,4)+0.1, pty = "s")
+plot((LH() - .5) / 3, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
+     ylab = expression(x[2]), pch = 16, cex.lab = 1.5, cex.axis = 1, cex = 2)
+abline(v = c(0, 1/3, 2/3, 1), lty = 2)
+abline(h = c(0, 1/3, 2/3, 1), lty = 2)
+```
+
+  
+##
+The <tt>DiceDesign</tt> package has functions to generate various LHDs
+
+```{r lhs, fig.show='hold', eval = F}
+library(DiceDesign)
+lhs.d <- lhsDesign(9, 2)
+plot(lhs.d$design, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
+     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2, 
+     main = "random", cex.main = 2)
+abline(v = seq(0, 9) / 9, lty = 2)
+abline(h = seq(0, 9) / 9, lty = 2)
+
+discrep.d <- discrepSA_LHS(lhs.d$design, criterion = "C2")
+plot(discrep.d$design, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
+     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2, 
+     main = "discrepancy", cex.main = 2)
+abline(v = seq(0, 9) / 9, lty = 2)
+abline(h = seq(0, 9) / 9, lty = 2)
+
+maximin.d <- maximinSA_LHS(discrep.d$design)
+plot(maximin.d$design, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
+     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2, 
+     main = "maximin", cex.main = 2)
+abline(v = seq(0, 9) / 9, lty = 2)
+abline(h = seq(0, 9) / 9, lty = 2)
+```
+
+##
+
+```{r lhs2, fig.show='hold', echo = F, out.width = "33%"}
+include_graphics("figures/randomLHS.jpg")
+include_graphics("figures/discrepLHS.jpg")
+include_graphics("figures/maximinLHS.jpg")
+```
+
+## 
+The design for the EBM example is a Mm LHD
+
+```{r ebmdesign, fig.align="center"}
+par(mar=c(5,6,2,4)+0.1, pty = "s")
+plot(ebm[, 2:3], xlim = c(-1, 1), ylim = c(-1, 1), pty = "s", xlab = expression(x[1]), 
+     ylab = expression(x[2]), pch = 16, asp = 1)
+abline(v = 2 * seq(0:20) / 20 - 1, lty = 2)
+abline(h = 2 * seq(0:20) / 20 - 1, lty = 2)
+```
+
+## Gaussian process
+The most common statistical model used to emulate computer models is the Gaussian process (GP)
+
+  - flexible, nonparametric regression model (few assumptions made about $g(\bx)$)
+  - naturally allows for uncertainty quantification (eg prediction intervals)
+  - interpolates observed responses
+  
+An intuitive way to think about a GP is as a prior for the unknown function $g(\bx)$ within a Bayesian framework
+
+##
+We say that
+
+$$
+g(\bx)\sim \text{GP}\left(\beff(\bx)^\rT\bbeta, \sigma^2\kappa(\bx,\bx^\prime;\,\btheta)\right)\,,
+$$
+where $\beff(\bx)^\rT\bbeta$ is the mean, $\kappa(\bx,\bx^\prime;\,\bphi)$ is the correlation function, $\btheta$ is the vector of correlation parameters and $\sigma^2$ is the constant variance, if:
+
+  - any vector $\bg = \left(g(\bx_1), \dots , g(\bx_n)\right)^{\rT}$ satisfies
+  $$\bg\sim N\left(F\bbeta, \sigma^2 K(\btheta)\right)\,,$$
+  with $F$ a model matrix and $K$ the $m\times m$ covariance matrix defined by $K(\btheta)_{ij} = \kappa(\bx_i,\bx_j;\btheta)$. 
+
+See @RW2006
+
+##
+Typically, very simple mean functions are chosen for the GP, eg
+
+  - constant: $\beff(\bx)^\rT\bbeta = \beta_0$ (sometimes called ordinary kriging)
+  - linear: $\beff(\bx)^\rT\bbeta = \beta_0 + \sum_{j=1}^k\beta_jx_j$ (universal kriging)
+  
+The most commonly used correlation functions are **separable** and **stationary**
+
+  - squared exponential:
+  
+  $$
+  \kappa(\bx, \bx^\prime;\,\btheta)=\exp\left[-\sum_j\left(\frac{|x_{j} - x^\prime_{j} |}{\theta_j }\right)^2\right]
+  $$
+
+  - Mat&eacute;rn $\nu = 5/2$
+  
+  $$
+  \kappa(\bx, \bx^\prime; \,\btheta) = \prod_{j}\left(1 + \sqrt{5}\frac{|x_j - x_j^\prime|}{\theta_j} + \frac{5}{3}\left(\frac{|x_j - x_j^\prime|}{\theta_j}\right)^2\right)\exp\left(-\sqrt{5}\frac{|x_j - x_j^\prime|}{\theta_j}\right)
+  $$
+  The Mat&eacute;rn function can be defined for other values of $\nu$; for $\nu\rightarrow\infty$, the squared exponential function is obtained
+
+##
+Given model evaluations $\bg = \left[g(\bx_1), \ldots, g(\bx_n)\right]$, a posterior GP can be obtained:
+
+$$
+g(\bx)\,|\, \bg,\bbeta,\btheta,\sigma^2 \sim \text{GP}\left(m(\bx), s^2(\bx)\right) 
+$$
+
+  - $m(\bx) = \beff(\bx)^\rT\bbeta + \bkappa_n^\rT K^{-1}(\bg - F\bbeta)$
+  - $s^2(\bx) = \sigma^2\left(1 - \bkappa_n^\rT K^{-1}\bkappa_n\right)$
+
+where $\bkappa_n = [\kappa(\bx,\bx_i\,;\,\btheta)]_{i=1}^n$ is a vector of correlations between $g(\bx)$ and $g(\bx_1),\ldots,g(\bx_n)$
+
+The updating of the prior mean and variance depends on the "distance" between $\bx$ and the points in $\xi$
+
+  - the posterior mean will be adjusted more for points closer to the design
+  - predictions at these points will have smaller posterior variance
+
+##
+If $\bx = \bx_i$ (so we are predicting at a design point), $K^{-1}\bkappa_n = \be_i$, the $i$th unit vector
+
+  - $m(\bx_i) = \beff(\bx_i)^\rT\bbeta + \be_i^\rT(\bg - F\bbeta) = g(\bx_i)$
+  - $s^2(\bx_i) = \sigma^2\left(1 - \bkappa_n^\rT \be_i\right) = \sigma^2\left(1 - \kappa(\bx_i,\bx_i\,;\,\btheta)\right) = 0$
+
+The posterior GP **interpolates** - exactly what you want for a deterministic computer code
+ 
+Inference unconditional on all the hyperparameters requires numerical approximation (eg Markov chain Monte Carlo)
+
+  - it is common to estimate the parameters, eg using maximum likelihood, to "plug-in" to the posterior predictive distribution
+
+## 
+**A simple example**: $g(x) = \sin(2\pi x)$ using the <tt>DiceKriging</tt> package
+
+```{r gpsimpex1, eval = F}
+library(DiceDesign)
+library(DiceKriging)
+xi <- lhsDesign(6, 1)$design
+y <- sin(2 * pi * xi)
+gp <- km(design = xi, response = y, control = list(trace = F))
+xs <- sort(c(seq(-.1, 1.1, length = 100), xi))
+gpp <- predict(gp, newdata = xs, type = "SK")
+
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, sin(2 * pi * xs), lty = 1, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+legend(x = "topright", legend = c("posterior mean of g", "posterior quantiles for g", 
+                                  expression(paste("observed data ", g(x[i]))), 
+                                    "function g(.)"), lty = c(1, 2, NA, 1), 
+       pch = c(NA, NA, 4, NA), lwd = c(2, 2, 2, 2), col = c("red", "black", "blue", "blue"))
+```
+
+##
+```{r gpsimpex, fig.align='center', echo = F}
+library(DiceDesign)
+library(DiceKriging)
+xi <- lhsDesign(6, 1)$design
+y <- sin(2 * pi * xi)
+gp <- km(design = xi, response = y, control = list(trace = F))
+xs <- sort(c(seq(-.1, 1.1, length = 100), xi))
+gpp <- predict(gp, newdata = xs, type = "SK")
+
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, sin(2 * pi * xs), lty = 1, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+legend(x = "topright", legend = c("posterior mean of g", "posterior quantiles for g", 
+                                  expression(paste("observed data ", g(x[i]))), 
+                                    "function g(.)"), lty = c(1, 2, NA, 1), 
+       pch = c(NA, NA, 4, NA), lwd = c(2, 2, 2, 2), col = c("red", "black", "blue", "blue"))
+```
+
+##
+**Return to the EBM example**
+```{r gpebm}
+gpebm <- km(formula = ~., design = ebm[, 2:3], response = ebm[, 1], control = list(trace = F))
+gpebm
+```
+
+##
+```{r gpebm2, fig.show="hold", out.width="50%"}
+xs1 <- sort(c(seq(-1, 1, length = 10), ebm[, 2]))
+xs2 <- sort(c(seq(-1, 1, length = 10), ebm[, 3]))
+xs <- expand.grid(x1 = xs1, x2 = xs2)
+gppebm <- predict(gpebm, newdata = xs, type = "UK")
+filled.contour(x = xs1, y = xs2, z = matrix(gppebm$mean, nrow = length(xs1)))
+filled.contour(x = xs1, y = xs2, z = matrix(gppebm$sd, nrow = length(xs1)),
+               plot.axis = {axis(1); axis(2); points(ebm[, 2:3])})
+```
+
+# Bayesian optimisation
+
+## 
+A common task is **optimisation** of $g(\bx)$
+
+When $g(\bx)$ is computationally expensive to evaluate, computer experiments and emulators can be used to facilitate the optimisation.
+
+The field of **Bayesian optimisation** uses sequentially collected evaluations of $g(\bx)$
+
+  - place a prior distribution (eg GP) on $g(\bx)$
+  - collect function evaluations at points chosen sequentially via an acquisition function
+  - update the prior to a posterior distribution, and infer the maximum/minimum of $g(\bx)$
+  
+Uncertainty in the posterior (i.e. for $g(\bx)$ at unobserved $\bx$) leads to **exploration/exploitation** trade-off
+
+The most common acquisition function is **expected improvement (EI)**
+
+See @JSW1998
+
+##
+For a deterministic computer model and a minimisation problem, the improvement from performing one more run is given by:
+$$
+\max(g_\min - g(\bx), 0)
+$$
+where $g_\min$ is the minimum across the model runs performed to date
+
+This quantity is a random variable - we are uncertain about $g(\bx)$ at a point we have not observed.
+
+EI chooses $\bx$ to maximise
+$$
+E_g\left[\max(g_\min - g(\bx), 0)\,;\, \bg\right] = \left[g_\min - m(\bx)\right]\Phi\left(\frac{g_\min - m(\bx)}{s(\bx)}\right) + s(\bx)\phi\left(\frac{g_\min - m(\bx)}{s(\bx)}\right)
+$$
+where $\phi$ and $\Phi$ are the standard normal pdf and cdf, respectively
+
+EI is an decreasing function of $m(\bx)$ and an increasing function of $s^2(\bx)$, so it leads to choosing design points that either minimise the posterior mean or maximise the posterior variance
+
+  - experiment either where our uncertainty is high or near where we predict the minimum to be (**explore or exploit**)
+
+## 
+**A simple example:** $g(\bx) = \sin(2\pi x)$ but with a different starting design using <tt>DiceOptim</tt>
+```{r gpEI, eval = F}
+xi <- matrix(c(0.1, 0.8, 0.9), ncol = 1)
+fn <- function(x) sin(2 * pi * x)
+y <- fn(xi)
+gp <- km(design = xi, response = y, control = list(trace = F))
+xs <- sort(c(seq(0, 1, length = 100), xi))
+gpp <- predict(gp, newdata = xs, type = "SK")
+
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, fn(xs), lty = 1, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+```
+
+##
+```{r gpEIa, echo = F, fig.align='center'}
+xi <- matrix(c(0.1, 0.8, 0.9), ncol = 1)
+fn <- function(x) sin(2 * pi * x)
+y <- fn(xi)
+gp <- km(design = xi, response = y, control = list(trace = F))
+xs <- sort(c(seq(0, 1, length = 100), xi))
+gpp <- predict(gp, newdata = xs, type = "SK")
+
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, fn(xs), lty = 1, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+```
+
+
+##
+```{r gpEI1, message = F}
+library(DiceOptim)
+xin <- max_EI(model = gp, lower = 0, upper = 1)$par
+```
+
+##
+```{r gpEI1a, fig.show="hold", out.width="50%"}
+EI(xin, gp)
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+abline(v = xin)
+plot(xs, sapply(xs, EI, model = gp), type = "l", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
+abline(v = xin)
+```
+
+##
+```{r gpEI2}
+xi <- rbind(xi, xin)
+y <- c(y, fn(xin))
+gp2 <- km(design = xi, response = y, control = list(trace = F))
+xin <- max_EI(model = gp2, lower = 0, upper = 1, control = list(trace = F))$par
+```
+
+##
+```{r gpEI2a, fig.show="hold", out.width="50%"}
+EI(xin, gp2)
+xs <- sort(c(seq(0, 1, length = 100), xi))
+gpp <- predict(gp2, newdata = xs, type = "SK")
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+abline(v = xin)
+plot(xs, sapply(xs, EI, model = gp2), type = "l", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
+abline(v = xin)
+```
+
+##
+```{r gpEI3}
+xi <- rbind(xi, xin)
+y <- c(y, fn(xin))
+gp3 <- km(design = xi, response = y, control = list(trace = F))
+xin <- max_EI(model = gp3, lower = 0, upper = 1, control = list(trace = F))$par
+```
+##
+```{r gpEI3a, fig.show="hold", out.width="50%"}
+EI(xin, gp3)
+xs <- sort(c(seq(0, 1, length = 100), xi))
+gpp <- predict(gp3, newdata = xs, type = "SK")
+plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
+points(xi, y, pch = 4,lwd = 4, col = "blue")
+lines(xs, gpp$upper95, lty = 2, lwd = 3)
+lines(xs, gpp$lower95, lty = 2, lwd = 3)
+abline(v = xin)
+plot(xs, sapply(xs, EI, model = gp3), type = "l", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
+abline(v = xin)
+```
+<!--
+# Sensitivity analysis
+
+##
+To analyse the relative importance of different model inputs, functional analysis of variance (FANOVA) can be used to decompose $g(\bx)$ into an additive form [see @SRACCGST2008]
+
+Assume $x_i\sim w_i(x)$, eg the input variables may be normally distributed or uniformly distributed. Then
+
+$$
+g(\bx) = \mu_0 + \sum_{i=1}^k\mu_i(\bx) + \mathop{\sum\sum}\limits_{i>j}\mu_{ij}(\bx) + \ldots + \mu_{12\cdots k}(\bx)
+$$
+where 
+$$
+\mu_0 = \int g(\bx)\prod_iw(x_i)\,\mathrm{d}(\bx)\,,\qquad \mu_i(\bx) = \int g(\bx)\prod_{j\ne i}w_j(x_j)\,\mathrm{d}x_j - \mu_0\,,
+$$
+and
+$$
+\mu_{ij}(\bx) = \int g(\bx)\prod_{l \ne i,j}w_l(x_l)\,\mathrm{d}x_l - \mu_i(\bx) - \mu_j(\bx) + \mu_0
+$$
+with higher-order terms defined similarly
+
+##
+A (normalised measure) of the impact of each variable can be obtained by assessing the variance of each $\mu_i$ term via a **Sobol' index**:
+$$
+S_i = \frac{\mbox{Var}_{x_i}\left\{\mu_i(\bx)\right\}}{\mbox{Var}_\bx\left\{g(\bx)\right\}} \in [0,1]
+$$
+The impact of higher-order terms can be assessed via the **total variance index**:
+$$
+T_i = 1 - \frac{\mbox{Var}_{\bx_{(i)}}\left\{\mu_{-i}(\bx)\right\}}{\mbox{Var}_{\bx}\left\{g(\bx)\right\}} \in [0,1]
+$$
+where $\bx_{(i)} = (x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_k)^\rT$ and
+
+$$
+\mu_{-i}(\bx) = \int g(\bx)w_i(x_i)\,\mathrm{d}x_i - \mu_0\,,
+$$
+
+
+##
+$S_i$ measures the "main effect" of the $i$th variable, and $T_i$ measures it's total effect including through "interactions" with other variables
+
+  - big differences between $S_i$ and $T_i$ suggest the $i$th variable interacts with other variables
+
+The sensitivity indices can be estimated using Monte Carlo methods (essentially nested MC to estimate the expectations and variances)
+
+  - for computationally expensive models, sample from a GP emulator
+
+Various methods are implemented in the <tt>sensitivity</tt> package
+
+##
+**EBM example**:
+```{r EBM sensitivity}
+library(sensitivity)
+d <- 2; n <- 1000
+X1 <- data.frame(matrix(runif(d * n), nrow = n))
+X2 <- data.frame(matrix(runif(d * n), nrow = n))
+colnames(X1) <- colnames(ebm)[2:3]; colnames(X2) <- colnames(ebm)[2:3]
+res <- sobolGP(model = gpebm, type = "UK", MCmethod = "sobol2002", X1, X2)
+res
+```
+-->
+
+## Uncertainty quantification
+Computer experiments are an important statistical contribution to the field of **uncertainty quantification (UQ)**
+
+  - interdisciplinary topic on the interface of Statistics and Applied Maths
+  - methodologies for taking account of uncertainties when mathematical and computer models are used to describe real-world phenomena
+  
+Space-filling designs and (GP) emulators are very general, and can be applied to a variety of **black box** computer models
+
+  - typically require a lot less knowledge about the model than alternative methods from numerical analysis (although at some loss of efficiency)
+  
+GP emulators can be used as priors for Bayesian calibration of computer models [@KOH2001] 
+
+  - eg learning tuning parameters (cf parameter estimation, albeit with various important nuances around interpretation and physical understanding)
+  - data fusion: combining computer model runs and data from real experiments
 
 # Bayesian optimal design
 
@@ -886,7 +1478,7 @@ Let $\xi = (\bx_1,\ldots,\bx_n)^\rT$ denote a design, and set $M(\xi;\,\btheta) 
   - **$V$- (or $I$-) optimality** - minimise $\phi_V(\xi) = \int_\mathcal{X} \mbox{Var}\left(\hat{y}(\bx)\right)\,\mathrm{d}\bx$
 
 ## Optimal design for nonlinear models
-For most nonlinear models, $M(\xi;\,\btheta)$ will be a function of the unknown parameters $\btheta$ (unlike for the linear model, where $M(\xi;\,\bbeta) = X^\rT X$)
+For most nonlinear models, $M(\xi;\,\btheta)$ will be a function of the unknown parameters $\btheta$ (unlike for the linear model, where $M(\xi;\,\bbeta) = X^\rT X / \sigma^2$)
 
 This leads to a "chicken and egg" situation
 
@@ -1265,8 +1857,6 @@ MFL.utilSIG <- utilityglm(formula = ~ x1 + x2 + x3 + x4, family = binomial, prio
 ## starting design with n=18 runs, on [-1, 1]
 d <- 2 * randomLHS(18, 4) - 1
 colnames(d) <- paste0("x", 1:4)
-## approximate expected utility for starting design
-mean(MFL.utilSIG(d, 1000))
 ```
 
 ```{r MFLace, eval = F}
@@ -1291,537 +1881,18 @@ pairs(optdeshlrsig(18), pch = 16,
       col = c("black", "red", "blue")[rep(1:3, rep(6, 3))], cex = 2)
 ```
 
-# Computer experiments
+# Further reading and resources
 
-## Introduction
-Many physical and social processes can be approximated by computer codes which encapsulate mathematical models
+## Some suggestions
+Reasonably recent overviews of the topics discussed here, and many more, are given in the Handbook of Design and Analysis of Experiments (2015, eds Dean, Morris, Stufken, Bingham; CRC Press).
 
-  - eg partial differential equations solved using finite element methods
-  - eg reaction kinetics modelling in computational biology, in-silico chemistry
-  
-```{r compcode, echo = F, out.width="75%", fig.align='center'}
-include_graphics("figures/computer_code.jpg")
-```   
-  - computer code: numerical implementation of the mathematical model
+Some nice examples of recent experiments in technology, economics and social science are described by Luca and Bazerman (2020, The Power of Experiments; MIT Press).
 
-**Key feature**: the model does not have a closed-form; it can only be evaluated numerically, and this is typically (relatively) expensive
+Good online resources include
 
-We will focus on **deterministic** computer models
-
-## Computer experiments
-**Assumption**: $g(\bx)$ can only be evaluated numerically; i.e. $g(\bx)$ can be computed for a given $\bx$ but the general form is unknown
-
-**How do we learn about the function $g(\bx)$?**
-
-In an analogy to a physical system, we experiment on $g(\bx)$, i.e.
-
-  - choose a design $\xi = (\bx_1,\ldots, \bx_n)$
-  - evaluate $g(\bx_i)$ (run the computer code)
-  
-Use the "data" $\left\{\bx_i, g(\bx_i)\right\}$ to build statistical models linking $\bx$ and $g(\bx)$
-
-  - called **emulators**; typically use a Gaussian process
-
-See @SWN2003
-
-## (Very) simple example
-Climate modelling involves the solution of many intractable equations, leading to mathematical models evaluated via computationally expensive computer codes
-
-  - lots of applications of computer experiments
-  
-We will illustrate methods on a very simple example: a time-stepping advective/diffusive surface layer meridional EBM (energy balance model)
-
-  - 2D earth with no land
-  - each surface object has a percentage of ice cover
-  - different albedo (fraction of solar energy reflected) for ice vs non-ice surfaces
-  - ocean circulation is explicitly modelling (cf Atlantic gulf stream)
-  - two variables: $x_1$ - solar constant; $x_2$ - non-ice albedo
-  - output is mean temperature
-
-See [https://wiki.aston.ac.uk/foswiki/bin/view/MUCM/SurfebmModel](https://wiki.aston.ac.uk/foswiki/bin/view/MUCM/SurfebmModel)
-
-##
-
-```{r ebmex, fig.align = 'center'}
-## design and data are in 'ebm'
-library(akima)
-fld <- interp(x = ebm$x1, y = ebm$x2, z = ebm$y)
-filled.contour(x = fld$x, y = fld$y, z = fld$z, asp = 1)
-```
-
-## Space-filling designs
-As we will see later, emulators are usually constructed using nonparametric statistical models
-
-This choice leads naturally to using **space-filling** designs
-
-  - such designs do not rely on the functional form of the relationship between the code inputs and the response
-  - good coverage is important for prediction (we will predict "better" near points we have already run the computer model)
-  
-**Common designs** are chosen to optimise some space-filling metric, or formed from (stratified) random sampling
-
-Space-filling designs do not have **replication**, so ideal for deterministic computer models 
-
-## Uniform designs
-Many designs proposed for computer experiments are related to ideas underpinning quadrature, and the approximation of an expectation.
-
-Let $\bar{g} = \frac{1}{n}\sum_{i=1}^n g(\bx_i)$, the sample mean of $g(\cdot)$ for $\xi$. Then
-
-$$
-|E_\bx[g(\bx)] - \bar{g}| \le \mbox{constant}\times D(\xi)
-$$
-where $D(\xi)$ is the **star discrepancy** of the design
-
-  - $D(\xi)$ is a measure of the uniformity of the design points
-
-This relationship leads to the criterion of design selection via minimising discrepancy
-
-  - $D(\xi)$ is difficult to compute for moderate to high numbers of dimensions
-  - therefore, it is more common to minimise the related **centred $L_2$-discrepancy**
-
-@FLS2006, Ch.3
- 
-## Designs based on measures of distance
-
-Two sensible criteria for the selection of a space-filling design are
-
-  - make sure no two points in the design are too close together
-  - make sure no point in the design region is too far from a design point
-
-[@JMY1990]
-
-The Euclidean distance between points $\bx$ and $\bx^\prime$ is given by
-
-$$
-\delta(\bx, \bx^\prime) = \sqrt{\sum_{i=1}^k \left(x_{j} - x^\prime_j\right)^2}
-$$
-
-## Mm and mM designs
-
-Using Euclidean distance, we can define
-
-  - maximin (Mm) criterion: maximise 
-  
-  $$
-  \min_{\bx_i, \bx_j\in\xi}\delta(\bx_i, \bx_j)
-  $$
-
-  - minimax (mM) criterion: minimise
-  
-  $$
-  \max_{\bx}\delta(\bx, \xi)
-  $$
-    where the distance between a point $\bx$ and a design $\xi$ is defined as
-  
-  $$
-  \delta(\bx, \xi) = \min_{\bx_j\in\xi}\delta(\bx, \bx_i)
-  $$
-
-Roughly speaking, an Mm design **spreads** out the design points, and an mM design **covers** the design region
-
-Intuitively, covering the design region seems more desirable (eg for prediction), but optimising the mM objective function is computationally challenging. Hence, Mm designs are more commonly used
-  
-## Latin hypercube designs
-For high-dimensional problems, space-filling is difficult
-
-  - many points are required to adequate space-fill a high-dimensional space (curse of dimensionality)
-  
-**Latin hypercube designs (LHDs)** are randomly chosen sets of points with the restriction of uniform one-dimensional projections [@MBC1979]
-
-  - each variable has no overlapping points, and good coverage (compare with a factorial design, which has hidden replication)
-  - can be easily constructed using permutations of integers
-
-An LHD only guarantees space-filling properties in each one-dimensional projection, not overall. So we normally combine the Latin hypercube principle with a space-filling criteria, eg to find a Mm LHD
-
-##
-```{r simplelhd, out.width = "50%", fig.align='center'}
-LH <- function(n = 3, d = 2) {
-	D <- NULL
-	for(i in 1:d) D <- cbind(D, sample(1:n, n))
-	D 
-}
-set.seed(4)
-par(mar=c(5,6,2,4)+0.1, pty = "s")
-plot((LH() -.5)/ 3, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
-     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2)
-abline(v = c(0, 1/3, 2/3, 1), lty = 2)
-abline(h = c(0, 1/3, 2/3, 1), lty = 2)
-```
-
-  
-##
-The <tt>DiceDesign</tt> package has functions to generate various LHDs
-
-```{r lhs, fig.show='hold', eval = F}
-library(DiceDesign)
-lhs.d <- lhsDesign(9, 2)
-plot(lhs.d$design, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
-     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2, 
-     main = "random", cex.main = 2)
-abline(v = seq(0, 9) / 9, lty = 2)
-abline(h = seq(0, 9) / 9, lty = 2)
-
-discrep.d <- discrepSA_LHS(lhs.d$design, criterion = "C2")
-plot(discrep.d$design, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
-     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2, 
-     main = "discrepancy", cex.main = 2)
-abline(v = seq(0, 9) / 9, lty = 2)
-abline(h = seq(0, 9) / 9, lty = 2)
-
-maximin.d <- maximinSA_LHS(discrep.d$design)
-plot(maximin.d$design, xlim = c(0, 1), ylim = c(0, 1), pty = "s", xlab = expression(x[1]), 
-     ylab = expression(x[2]), pch = 16, cex.lab = 2, cex.axis = 2, cex = 2, 
-     main = "maximin", cex.main = 2)
-abline(v = seq(0, 9) / 9, lty = 2)
-abline(h = seq(0, 9) / 9, lty = 2)
-```
-
-##
-
-```{r lhs2, fig.show='hold', echo = F, out.width = "33%"}
-include_graphics("figures/randomLHS.jpg")
-include_graphics("figures/discrepLHS.jpg")
-include_graphics("figures/maximinLHS.jpg")
-```
-
-## 
-The design for the EBM example is a Mm LHD
-
-```{r ebmdesign, fig.align="center"}
-par(mar=c(5,6,2,4)+0.1, pty = "s")
-plot(ebm[, 2:3], xlim = c(-1, 1), ylim = c(-1, 1), pty = "s", xlab = expression(x[1]), 
-     ylab = expression(x[2]), pch = 16, asp = 1)
-abline(v = 2 * seq(0:20) / 20 - 1, lty = 2)
-abline(h = 2 * seq(0:20) / 20 - 1, lty = 2)
-```
-
-## Gaussian process
-The most common statistical model used to emulate computer models is the Gaussian process (GP)
-
-  - flexible, nonparametric regression model (few assumptions made about $g(\bx)$)
-  - naturally allows for uncertainty quantification (eg prediction intervals)
-  - interpolates observed responses
-  
-An intuitive way to think about a GP is as a prior for the unknown function $g(\bx)$ within a Bayesian framework
-
-##
-We say that
-
-$$
-g(\bx)\sim \text{GP}\left(\beff(\bx)^\rT\bbeta, \sigma^2\kappa(\bx,\bx^\prime;\,\btheta)\right)\,,
-$$
-where $\beff(\bx)^\rT\bbeta$ is the mean, $\kappa(\bx,\bx^\prime;\,\bphi)$ is the correlation function, $\btheta$ is the vector of correlation parameters and $\sigma^2$ is the constant variance, if:
-
-  - any vector $\bg = \left(g(\bx_1), \dots , g(\bx_n)\right)^{\rT}$ satisfies
-  $$\bg\sim N\left(F\bbeta, \sigma^2 K(\btheta)\right)\,,$$
-  with $F$ a model matrix and $K$ the $m\times m$ covariance matrix defined by $K(\btheta)_{ij} = \kappa(\bx_i,\bx_j;\btheta)$. 
-
-See @RW2006
-
-##
-Typically, very simple mean functions are chosen for the GP, eg
-
-  - constant: $\beff(\bx)^\rT\bbeta = \beta_0$ (sometimes called ordinary kriging)
-  - linear: $\beff(\bx)^\rT\bbeta = \beta_0 + \sum_{j=1}^k\beta_jx_j$ (universal kriging)
-  
-The most commonly used correlation functions are **separable** and **stationary**
-
-  - squared exponential:
-  
-  $$
-  \kappa(\bx, \bx^\prime;\,\btheta)=\exp\left[-\sum_j\left(\frac{|x_{j} - x^\prime_{j} |}{\theta_j }\right)^2\right]
-  $$
-
-  - Mat&eacute;rn $\nu = 5/2$
-  
-  $$
-  \kappa(\bx, \bx^\prime; \,\btheta) = \prod_{j}\left(1 + \sqrt{5}\frac{|x_j - x_j^\prime|}{\theta_j} + \frac{5}{3}\left(\frac{|x_j - x_j^\prime|}{\theta_j}\right)^2\right)\exp\left(-\sqrt{5}\frac{|x_j - x_j^\prime|}{\theta_j}\right)
-  $$
-  The Mat&eacute;rn function can be defined for other values of $\nu$; for $\nu\rightarrow\infty$, the squared exponential function is obtained
-
-##
-Given model evaluations $\bg = \left[g(\bx_1), \ldots, g(\bx_n)\right]$, a posterior GP can be obtained:
-
-$$
-g(\bx)\,|\, \bg,\bbeta,\btheta,\sigma^2 \sim \text{GP}\left(m(\bx), s^2(\bx)\right) 
-$$
-
-  - $m(\bx) = \beff(\bx)^\rT\bbeta + \bkappa_n^\rT K^{-1}(\bg - F\bbeta)$
-  - $s^2(\bx) = \sigma^2\left(1 - \bkappa_n^\rT K^{-1}\bkappa_n\right)$
-
-where $\bkappa_n = [\kappa(\bx,\bx_i\,;\,\btheta)]_{i=1}^n$ is a vector of correlations between $g(\bx)$ and $g(\bx_1),\ldots,g(\bx_n)$
-
-The updating of the prior mean and variance depends on the "distance" between $\bx$ and the points in $\xi$
-
-  - the posterior mean will be adjusted more for points closer to the design
-  - predictions at these points will have smaller posterior variance
-
-##
-If $\bx = \bx_i$ (so we are predicting at a design point), $K^{-1}\bkappa_n = \be_i$, the $i$th unit vector
-
-  - $m(\bx_i) = \beff(\bx_i)^\rT\bbeta + \be_i^\rT(\bg - F\bbeta) = g(\bx_i)$
-  - $s^2(\bx_i) = \sigma^2\left(1 - \bkappa_n^\rT \be_i\right) = \sigma^2\left(1 - \kappa(\bx_i,\bx_i\,;\,\btheta)\right) = 0$
-
-The posterior GP **interpolates** - exactly what you want for a deterministic computer code
- 
-Inference unconditional on all the hyperparameters requires numerical approximation (eg Markov chain Monte Carlo)
-
-  - it is common to estimate the parameters, eg using maximum likelihood, to "plug-in" to the posterior predictive distribution
-
-## 
-**A simple example**: $g(x) = \sin(2\pi x)$ using the <tt>DiceKriging</tt> package
-
-```{r gpsimpex1, eval = F}
-library(DiceDesign)
-library(DiceKriging)
-xi <- lhsDesign(6, 1)$design
-y <- sin(2 * pi * xi)
-gp <- km(design = xi, response = y, control = list(trace = F))
-xs <- sort(c(seq(0, 1, length = 100), xi))
-gpp <- predict(gp, newdata = xs, type = "SK")
-
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-legend(x = "topright", legend = c("posterior mean of g", "posterior quantiles for g", 
-                                  expression(paste("observed data ", g(x[i])))), lty = c(1, 2, NA), 
-       pch = c(NA, NA, 4), lwd = c(4, 4, 4), col = c("red", "black", "blue"))
-```
-
-##
-```{r gpsimpex2, echo = F, fig.align='center'}
-library(DiceDesign)
-library(DiceKriging)
-xi <- lhsDesign(6, 1)$design
-y <- sin(2 * pi * xi)
-gp <- km(design = xi, response = y, control = list(trace = F))
-xs <- sort(c(seq(0, 1, length = 100), xi))
-gpp <- predict(gp, newdata = xs, type = "SK")
-
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-legend(x = "topright", legend = c("posterior mean of g", "posterior quantiles for g", 
-                                  expression(paste("observed data ", g(x[i])))), lty = c(1, 2, NA), 
-       pch = c(NA, NA, 4), lwd = c(4, 4, 4), col = c("red", "black", "blue"))
-
-```
-
-##
-**Return to the EBM example**
-```{r gpebm}
-gpebm <- km(formula = ~., design = ebm[, 2:3], response = ebm[, 1], control = list(trace = F))
-gpebm
-```
-
-##
-```{r gpebm2, fig.show="hold", out.width="50%"}
-xs1 <- sort(c(seq(-1, 1, length = 10), ebm[, 2]))
-xs2 <- sort(c(seq(-1, 1, length = 10), ebm[, 3]))
-xs <- expand.grid(x1 = xs1, x2 = xs2)
-gppebm <- predict(gpebm, newdata = xs, type = "UK")
-filled.contour(x = xs1, y = xs2, z = matrix(gppebm$mean, nrow = length(xs1)))
-filled.contour(x = xs1, y = xs2, z = matrix(gppebm$sd, nrow = length(xs1)))
-```
-
-## Bayesian optimisation
-A common task is **optimisation** of $g(\bx)$
-
-When $g(\bx)$ is computationally expensive to evaluate, computer experiments and emulators can be used to facilitate the optimisation.
-
-The field of **Bayesian optimisation** uses sequentially collected evaluations of $g(\bx)$
-
-  - place a prior distribution (eg GP) on $g(\bx)$
-  - collect function evaluations at points chosen sequentially via an acquisition function
-  - update the prior to a posterior distribution, and infer the maximum/minimum of $g(\bx)$
-  
-Uncertainty in the posterior (i.e. for $g(\bx)$ at unobserved $\bx$) leads to **exploration/exploitation** trade-off
-
-The most common acquisition function is **expected improvement (EI)**
-
-See @JSW1998
-
-##
-For a deterministic computer model and a minimisation problem, the improvement from performing one more run is given by:
-$$
-\max(g_\min - g(\bx), 0)
-$$
-where $g_\min$ is the minimum across the model runs performed to date
-
-This quantity is a random variable - we are uncertain about $g(\bx)$ at a point we have not observed.
-
-EI chooses $\bx$ to maximise
-$$
-E_g\left[\max(g_\min - g(\bx), 0)\,;\, \bg\right] = \left[g_\min - m(\bx)\right]\Phi\left(\frac{g_\min - m(\bx)}{s(\bx)}\right) + s(\bx)\phi\left(\frac{g_\min - m(\bx)}{s(\bx)}\right)
-$$
-where $\phi$ and $\Phi$ are the standard normal pdf and cdf, respectively
-
-EI is an decreasing function of $m(\bx)$ and an increasing function of $s^2(\bx)$, so it leads to choosing design points that either minimise the posterior mean or the posterior variance
-
-  - experiment either where our uncertainty is high or near where we predict the minimum to be (**explore or exploit**)
-
-## 
-**A simple example:** $g(\bx) = \sin(2\pi x)$ but with a different starting design using <tt>DiceOptim</tt>
-```{r gpEI, eval = F}
-xi <- matrix(c(0.1, 0.8, 0.9), ncol = 1)
-fn <- function(x) sin(2 * pi * x)
-y <- fn(xi)
-gp <- km(design = xi, response = y, control = list(trace = F))
-xs <- sort(c(seq(0, 1, length = 100), xi))
-gpp <- predict(gp, newdata = xs, type = "SK")
-
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-```
-
-##
-```{r gpEIa, echo = F, fig.align='center'}
-xi <- matrix(c(0.1, 0.8, 0.9), ncol = 1)
-fn <- function(x) sin(2 * pi * x)
-y <- fn(xi)
-gp <- km(design = xi, response = y, control = list(trace = F))
-xs <- sort(c(seq(0, 1, length = 100), xi))
-gpp <- predict(gp, newdata = xs, type = "SK")
-
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x")
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-```
-
-
-##
-```{r gpEI1}
-library(DiceOptim)
-xin <- max_EI(model = gp, lower = 0, upper = 1)$par
-```
-
-##
-```{r gpEI1a, fig.show="hold", out.width="50%"}
-EI(xin, gp)
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-abline(v = xin)
-plot(xs, sapply(xs, EI, model = gp), type = "l", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
-```
-
-##
-```{r gpEI2}
-xi <- rbind(xi, xin)
-y <- c(y, fn(xin))
-gp2 <- km(design = xi, response = y, control = list(trace = F))
-xin <- max_EI(model = gp2, lower = 0, upper = 1, control = list(trace = F))$par
-```
-
-##
-```{r gpEI2a, fig.show="hold", out.width="50%"}
-EI(xin, gp2)
-xs <- sort(c(seq(0, 1, length = 100), xi))
-gpp <- predict(gp2, newdata = xs, type = "SK")
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-abline(v = xin)
-plot(xs, sapply(xs, EI, model = gp2), type = "l", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
-```
-
-##
-```{r gpEI3}
-xi <- rbind(xi, xin)
-y <- c(y, fn(xin))
-gp3 <- km(design = xi, response = y, control = list(trace = F))
-xin <- max_EI(model = gp3, lower = 0, upper = 1, control = list(trace = F))$par
-```
-##
-```{r gpEI3a, fig.show="hold", out.width="50%"}
-EI(xin, gp3)
-xs <- sort(c(seq(0, 1, length = 100), xi))
-gpp <- predict(gp3, newdata = xs, type = "SK")
-plot(xs, gpp$mean, ylim = c(-2, 2), type = "l", col = "red", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
-points(xi, y, pch = 4,lwd = 4, col = "blue")
-lines(xs, gpp$upper95, lty = 2, lwd = 3)
-lines(xs, gpp$lower95, lty = 2, lwd = 3)
-abline(v = xin)
-plot(xs, sapply(xs, EI, model = gp3), type = "l", lwd = 3, ylab = "", xlab = "x", cex.lab = 2)
-```
-
-## Sensitivity analysis
-To analyse the relative importance of different model inputs, functional analysis of variance (FANOVA) can be used to decompose $g(\bx)$ into an additive form [see @SRACCGST2008]
-
-Assume $x_i\sim w_i(x)$, eg the input variables may be normally distributed or uniformly distributed. Then
-
-$$
-g(\bx) = \mu_0 + \sum_{i=1}^k\mu_i(\bx) + \mathop{\sum\sum}\limits_{i>j}\mu_{ij}(\bx) + \ldots + \mu_{12\cdots k}(\bx)
-$$
-where 
-$$
-\mu_0 = \int g(\bx)\prod_iw(x_i)\,\mathrm{d}(\bx)\,,\qquad \mu_i(\bx) = \int g(\bx)\prod_{j\ne i}w_j(x_j)\,\mathrm{d}x_j - \mu_0\,,
-$$
-and
-$$
-\mu_{ij}(\bx) = \int g(\bx)\prod_{l \ne i,j}w_l(x_l)\,\mathrm{d}x_l - \mu_i(\bx) - \mu_j(\bx) + \mu_0
-$$
-with higher-order terms defined similarly
-
-##
-A (normalised measure) of the impact of each variable can be obtained by assessing the variance of each $\mu_i$ term via a **Sobol' index**:
-$$
-S_i = \frac{\mbox{Var}_{x_i}\left\{\mu_i(\bx)\right\}}{\mbox{Var}_\bx\left\{g(\bx)\right\}} \in [0,1]
-$$
-The impact of higher-order terms can be assessed via the **total variance index**:
-$$
-T_i = 1 - \frac{\mbox{Var}_{\bx_{(i)}}\left\{\mu_{-i}(\bx)\right\}}{\mbox{Var}_{\bx}\left\{g(\bx)\right\}} \in [0,1]
-$$
-where $\bx_{(i)} = (x_1,\ldots,x_{i-1},x_{i+1},\ldots,x_k)^\rT$ and
-
-$$
-\mu_{-i}(\bx) = \int g(\bx)w_i(x_i)\,\mathrm{d}x_i - \mu_0\,,
-$$
-
-
-##
-$S_i$ measures the "main effect" of the $i$th variable, and $T_i$ measures it's total effect including through "interactions" with other variables
-
-  - big differences between $S_i$ and $T_i$ suggest the $i$th variable interacts with other variables
-
-The sensitivity indices can be estimated using Monte Carlo methods (essentially nested MC to estimate the expectations and variances)
-
-  - for computationally expensive models, sample from a GP emulator
-
-Various methods are implemented in the <tt>sensitivity</tt> package
-
-##
-**EBM example**:
-```{r EBM sensitivity}
-library(sensitivity)
-d <- 2; n <- 1000
-X1 <- data.frame(matrix(runif(d * n), nrow = n))
-X2 <- data.frame(matrix(runif(d * n), nrow = n))
-colnames(X1) <- colnames(ebm)[2:3]; colnames(X2) <- colnames(ebm)[2:3]
-res <- sobolGP(model = gpebm, type = "UK", MCmethod = "sobol2002", X1, X2)
-res
-```
-
-## Uncertainty quantification
-Computer experiments are an important statistical contribution to the field of **uncertainty quantification (UQ)**
-
-  - interdisciplinary topic on the interface of Statistics and Applied Maths
-  - methodologies for taking account of uncertainties when mathematical and computer models are used to describe real-world phenomena
-  
-Space-filling designs and (GP) emulators are very general, and can be applied to a variety of **black box** computer models
-
-  - typically require a lot less knowledge about the model than alternative methods from numerical analysis (although at some loss of efficiency)
-  
-GP emulators can be used as priors for Bayesian calibration of computer models [@KOH2001] 
-
-  - eg learning tuning parameters (cf parameter estimation, albeit with various important nuances around interpretation and physical understanding)
-  - data fusion: combining computer model runs and data from real experiments
+ - [Meier's short intro to ANOVA](https://stat.ethz.ch/~meier/teaching/anova/)
+ - [Taback's design of experiments and observational studies](https://scidesign.github.io/designbook/index.html)
+ - [Krennrich's experimental design and process optimisation in R](https://bookdown.org/gerhard_krennrich/doe_and_optimization/)
 
 
 # References 

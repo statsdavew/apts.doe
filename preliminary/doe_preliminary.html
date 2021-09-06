@@ -215,7 +215,8 @@ L(\boldsymbol{\theta}) = \prod_{i=1}^n \pi(y_i;\,\boldsymbol{\theta}, \boldsymbo
 \begin{equation}\label{eq:eFI}
 M(\boldsymbol{\theta}) = E_y\left[- \frac{\partial^2 l(\boldsymbol{\theta})}{\partial\boldsymbol{\theta}\partial\boldsymbol{\theta}^\mathrm{T}}\right]\,.
 \end{equation}
-\]</span> Informally, the Fisher information at <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> measures the curvature of the log-likelihood around the estimate; the more “peaked” the likelihood function, the “better” we know the parameter. Slightly more formally, it can be shown <span class="citation">(see, eg, Garthwaite, Jolliffe, and Jones 2002)</span> that asymptotically the MLE follows the normal distribution <span class="math display">\[
+\]</span></p>
+<p>Informally, the Fisher information at <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> measures the curvature of the log-likelihood around the estimate; the more “peaked” the likelihood function, the “better” we know the parameter. Slightly more formally, it can be shown <span class="citation">(see, eg, Garthwaite, Jolliffe, and Jones 2002)</span> that asymptotically the MLE follows the normal distribution <span class="math display">\[
 \begin{equation}\label{eq:asympNormal}
 \hat{\boldsymbol{\theta}}\sim N(\boldsymbol{\theta}, M(\boldsymbol{\theta})^{-1})\,.
 \end{equation}

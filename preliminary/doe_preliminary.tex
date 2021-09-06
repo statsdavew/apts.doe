@@ -1,0 +1,627 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={APTS Design of Studies - Preliminary Material},
+  pdfauthor={Dave Woods (D.Woods@southampton.ac.uk ; http://www.southampton.ac.uk/\textasciitilde davew)   Statistical Sciences Research Institute, University of Southampton},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\title{APTS Design of Studies - Preliminary Material}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{September 2021}
+\author{Dave Woods
+(\href{mailto:D.Woods@southampton.ac.uk}{\nolinkurl{D.Woods@southampton.ac.uk}}
+; \url{http://www.southampton.ac.uk/~davew}) Statistical Sciences
+Research Institute, University of Southampton}
+\date{}
+
+\begin{document}
+\maketitle
+
+\newcommand{\bx}{\boldsymbol{x}}
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bbeta}{\boldsymbol{\beta}}
+\newcommand{\bvarepsilon}{\boldsymbol{\varepsilon}}
+\newcommand{\by}{\boldsymbol{y}}
+\newcommand{\rT}{\mathrm{T}}
+\newcommand{\Var}{\operatorname{Var}}
+
+This APTS module concerns how to influence the data generating process
+(mostly via carefully designed experiments) in order to ``improve'' the
+quality of the inferences and conclusions that can be drawn. To that
+end, it makes sense to review some simple ways we can assess the quality
+of a fitted statistical model.
+
+Further good preparation for this module would be to review the material
+from the APTS courses on Statistical Computing and Statistical Modelling
+(available from
+\url{https://warwick.ac.uk/fac/sci/statistics/apts/students/resources/}).
+
+Throughout this preliminary material, we will assume we observe
+independent data \(\boldsymbol{y}= (y_1,\ldots, y_n)^\mathrm{T}\), where
+the \(i\)th observation follows a distribution with density/mass
+function \(\pi(y_i;\,\boldsymbol{\theta}, \boldsymbol{x}_i)\), where
+\(\boldsymbol{\theta}\) is a \(q\)-vector of unknown parameters
+(requiring estimation) and
+\(\boldsymbol{x}_i = (x_{1i},\ldots,x_{ki})^\mathrm{T}\) is a
+\(k\)-vector of values of controllable variables.
+
+For example, in a simple chemistry experiment, \(y_i\) might be the
+measurement of product yield from the \(i\)th reaction, with \(x_{1i}\)
+being the setting of temperature for this reaction and \(x_{2i}\) being
+the setting of pressure.
+
+\hypertarget{maximum-likelihood-fisher-information-and-asymptotic-normality}{%
+\section{Maximum likelihood, Fisher information and asymptotic
+normality}\label{maximum-likelihood-fisher-information-and-asymptotic-normality}}
+
+The likelihood is simply the joint distribution of the data
+\(\boldsymbol{y}\) considered as a function of the parameters
+\(\boldsymbol{\theta}\). For independent data:
+
+\[
+\begin{equation}\label{eq:likelihood}
+L(\boldsymbol{\theta}) = \prod_{i=1}^n \pi(y_i;\,\boldsymbol{\theta}, \boldsymbol{x}_i)\,.
+\end{equation}
+\] The maximum likelihood estimator (MLE),
+\(\hat{\boldsymbol{\theta}}\), maximises this quantity. Equivalently,
+\(\hat{\boldsymbol{\theta}}\) maximises the \emph{log-likelihood}
+\(l(\boldsymbol{\theta}) = \log L(\boldsymbol{\theta})\); it is more
+usual to work with the log-likelihood rather than the likelihood
+directly.
+
+Under a few (common) regularity conditions, the (expected) Fisher
+information matrix is given by the expectation of the negative Hessian
+of \(l(\boldsymbol{\theta})\):
+
+\[
+\begin{equation}\label{eq:eFI}
+M(\boldsymbol{\theta}) = E_y\left[- \frac{\partial^2 l(\boldsymbol{\theta})}{\partial\boldsymbol{\theta}\partial\boldsymbol{\theta}^\mathrm{T}}\right]\,.
+\end{equation}
+\] Informally, the Fisher information at \(\hat{\boldsymbol{\theta}}\)
+measures the curvature of the log-likelihood around the estimate; the
+more ``peaked'' the likelihood function, the ``better'' we know the
+parameter. Slightly more formally, it can be shown (see, eg, Garthwaite,
+Jolliffe, and Jones 2002) that asymptotically the MLE follows the normal
+distribution \[
+\begin{equation}\label{eq:asympNormal}
+\hat{\boldsymbol{\theta}}\sim N(\boldsymbol{\theta}, M(\boldsymbol{\theta})^{-1})\,.
+\end{equation}
+\] That is, asymptotically, \(\hat{\boldsymbol{\theta}}\) is
+\textbf{unbiased} with \textbf{variance-covariance} matrix \[
+\begin{equation}\label{eq:varcov}
+\operatorname{Var}(\hat{\boldsymbol{\theta}}) = M(\boldsymbol{\theta})^{-1}\,.
+\end{equation}
+\] Hence (functions of) \(M(\boldsymbol{\theta})\) summarise the
+precision of the MLE.
+
+So far, in our notation we have ignored the fact that the (log-)
+likelihood and the Fisher information are also functions of
+\(\boldsymbol{x}_{1},\ldots,\boldsymbol{x}_{n}\). If we assume we can
+choose these values in an experiment, we call
+\(\xi = \left(\boldsymbol{x}_{1},\ldots,\boldsymbol{x}_{n}\right)\) a
+\textbf{design} and we can explicitly acknowledge the dependence of the
+information matrix on \(\xi\),
+\(M(\boldsymbol{\theta}) = M(\xi;\, \boldsymbol{\theta})\). Hence, it
+becomes natural to think about choosing a design to maximise (a function
+of) the Fisher information.
+
+\hypertarget{simple-example-1}{%
+\subsection{Simple example 1}\label{simple-example-1}}
+
+Assume \(y_1,\ldots, y_n\) are observations from a Binomial random
+variable, each with \(m=10\) trials. The likelihood and log-likelihood
+are given by
+
+\[
+L(\theta) = \prod_{i=1}^n{m \choose y_i}\theta^{y_i}(1-\theta)^{m-y_i}\,;
+\] \[
+l(\theta) = \text{constant} + \sum_{i=1}^n y_i\log \theta + \left(nm - \sum_{i=1}^n y_i\right)\log(1-\theta)\,.
+\] The MLE is given by \(\hat{\theta} = \sum_{i=1}^ny_i/(nm)\) and the
+Fisher information by \(M(\theta) = \frac{nm}{\theta(1-\theta)}\).
+Notice that the Fisher information is a function of the unknown
+parameter \(\theta\). This is common for models which are nonlinear in
+the unknown parameters, and creates an issue for design of experiments
+(see below).
+
+Here, there are no controllable variables \(x\) (all the \(y_i\) are
+identically distributed) but there is still a ``design'' problem": how
+large should \(n\) be? Such \textbf{sample size} problems are common in,
+eg, clinical trials. As a demonstration, we can use the following
+\texttt{R} code, where we substitute the observed information (the
+negative Hessian of the log-likelihood at the MLE) for the expected
+information for two different values of \(n\), and examine the curvature
+of the likelihood surface.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nloglik }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(prob, y, m) }\SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{*} \FunctionTok{sum}\NormalTok{(}\FunctionTok{dbinom}\NormalTok{(y, m, prob, }\AttributeTok{log =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{n }\OtherTok{\textless{}{-}} \DecValTok{20} 
+\NormalTok{m }\OtherTok{\textless{}{-}} \DecValTok{10} 
+\NormalTok{tp }\OtherTok{\textless{}{-}} \FloatTok{0.7} 
+\NormalTok{y1 }\OtherTok{\textless{}{-}} \FunctionTok{rbinom}\NormalTok{(n, m, tp) }
+\NormalTok{mle1 }\OtherTok{\textless{}{-}} \FunctionTok{nlm}\NormalTok{(nloglik, }\AttributeTok{p =}\NormalTok{ .}\DecValTok{5}\NormalTok{, }\AttributeTok{y =}\NormalTok{ y1, }\AttributeTok{m =}\NormalTok{ m, }\AttributeTok{hessian =}\NormalTok{ T)}
+\NormalTok{y2 }\OtherTok{\textless{}{-}} \FunctionTok{rbinom}\NormalTok{(}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ n, m, tp)}
+\NormalTok{mle2 }\OtherTok{\textless{}{-}} \FunctionTok{nlm}\NormalTok{(nloglik, }\AttributeTok{p =}\NormalTok{ .}\DecValTok{5}\NormalTok{, }\AttributeTok{y =}\NormalTok{ y2, }\AttributeTok{m =}\NormalTok{ m, }\AttributeTok{hessian =}\NormalTok{ T) }
+\NormalTok{p }\OtherTok{\textless{}{-}} \FunctionTok{seq}\NormalTok{(.}\DecValTok{05}\NormalTok{, .}\DecValTok{95}\NormalTok{, }\AttributeTok{by =}\NormalTok{ .}\DecValTok{01}\NormalTok{) }
+\NormalTok{l1 }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(p, nloglik, }\AttributeTok{y =}\NormalTok{ y1, }\AttributeTok{m =}\NormalTok{ m) }
+\NormalTok{l2 }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(p, nloglik, }\AttributeTok{y =}\NormalTok{ y2, }\AttributeTok{m =}\NormalTok{ m)}
+\FunctionTok{matplot}\NormalTok{(p, }\FunctionTok{cbind}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{*}\NormalTok{ l1 }\SpecialCharTok{+}\NormalTok{ mle1}\SpecialCharTok{$}\NormalTok{minimum, }\SpecialCharTok{{-}}\DecValTok{1} \SpecialCharTok{*}\NormalTok{ l2 }\SpecialCharTok{+}\NormalTok{ mle2}\SpecialCharTok{$}\NormalTok{minimum), }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }
+        \AttributeTok{ylab =} \StringTok{"Log{-}likelihood"}\NormalTok{, }\AttributeTok{xlab =} \FunctionTok{expression}\NormalTok{(theta))}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =} \FunctionTok{sum}\NormalTok{(y1)}\SpecialCharTok{/}\NormalTok{(n }\SpecialCharTok{*}\NormalTok{ m), }\AttributeTok{lty =} \DecValTok{3}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{v =} \FunctionTok{sum}\NormalTok{(y2)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{5} \SpecialCharTok{*}\NormalTok{ n }\SpecialCharTok{*}\NormalTok{ m), }\AttributeTok{lty =} \DecValTok{4}\NormalTok{, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{doe_preliminary_files/figure-latex/hessian_example-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mle2}\SpecialCharTok{$}\NormalTok{hessian }\SpecialCharTok{/}\NormalTok{ mle1}\SpecialCharTok{$}\NormalTok{hessian}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          [,1]
+## [1,] 5.304624
+\end{verbatim}
+
+Two things to note in the above plot: 1. when we increase the sample
+size by a factor of five, the MLE moves closer to the true probability
+(the MLE is only asymptotically unbiased); and 2. the curvature of the
+likelihood surface (which is measured by the Fisher information) is much
+greater for the larger experiment. As measured by the inverse of the
+observed information, the larger experiment has (asymptotic) variance of
+the MLE about five times smaller, as we might expect.
+
+\textbf{Exercise 1} Now assume there is a single controllable variable
+\(x\) such that \(P(y_i = 1) = \frac{1}{1+\exp(-x_i\theta)}\). Either by
+adapting the code above, or by hand, find the expected or observed
+information for \(\theta\) and examine how it changes for different
+choices of \(x_1,\ldots, x_n\) (eg produce plots like the one above for
+at least two different designs).
+
+\hypertarget{linear-models}{%
+\section{Linear models}\label{linear-models}}
+
+Consider the linear model \[
+\boldsymbol{y}= X\boldsymbol{\beta}+ \boldsymbol{\varepsilon}\,,
+\] with \(X\) a \(n\times p\) model matrix, \(\boldsymbol{\beta}\) a
+\(p\)-vector of regression parameters and
+\(\boldsymbol{\varepsilon}\sim N(0, \sigma^2 I_n)\), so
+\(\boldsymbol{\theta}= (\boldsymbol{\beta}^\mathrm{T}, \sigma^2)^\mathrm{T}\).
+The information matrix for \(\boldsymbol{\beta}\) (treating \(\sigma^2\)
+as known) has a simple form: \[
+M(\xi;\,\boldsymbol{\beta}) = \frac{1}{\sigma^2}X^\mathrm{T}X\,.
+\] \textbf{Exercise 2} Derive this equation.
+
+Compare this information matrix to the Fisher information of the
+Binomial example - a key difference is that for the linear model, the
+information matrix does not depend on values of the unknown parameters
+\(\boldsymbol{\beta}\) that require estimation. This is important for
+design; it means that we can designs experiments that maximise a
+function of \(M(\xi; \boldsymbol{\beta})\) without requiring a priori
+knowledge about the values of \(\boldsymbol{\beta}\).
+
+The least squares estimators for the linear model have the well-known
+form \[
+\hat{\boldsymbol{\beta}} = \left(X^\mathrm{T}X\right)^{-1}X^\mathrm{T}\boldsymbol{y}
+\] and, assuming the linear model is correct for the underlying
+data-generating process, \[
+\hat{\boldsymbol{\beta}}\sim N\left(\boldsymbol{\beta}, M(\xi;\,\boldsymbol{\beta})^{-1}\right)\,.
+\] For the linear model, this result is exact rather than asymptotic.
+However, what if the data were actually generated by a different linear
+model? For example, \[
+\boldsymbol{y}= X\boldsymbol{\beta}+ X_2\boldsymbol{\beta}_2 + \boldsymbol{\varepsilon}\,,
+\] with \(X_2\) a second \(n\times p_2\) model matrix and
+\(\boldsymbol{\beta}_2\) a second \(p_2\)-vector of parameters?
+
+\textbf{Exercise 3} Assuming that we still fit the original linear model
+\(\boldsymbol{y}= X\boldsymbol{\beta}+ \boldsymbol{\varepsilon}\), show
+that the variance of \(\hat{\boldsymbol{\beta}}\) is unchanged but that
+the expected value becomes \[
+E(\hat{\boldsymbol{\beta}}) = \boldsymbol{\beta}+ A\boldsymbol{\beta}_2\,,
+\] where \(A = \left(X^\mathrm{T}X\right)^{-1}X^\mathrm{T}X_2\).
+
+The matrix \(A\) is commonly referred to as the \textbf{alias} matrix;
+its entries determine the biases of the MLEs. Notice that \(A\) also
+depends on the choice of design through the matrices \(X\) and \(X_2\).
+It therefore follows that if we fit a submodel to our data, the
+resulting bias of the parameter estimators can be influenced (and maybe
+reduced) through choice of design. Such situations are common - we may
+not have sufficient resource to design an experiment large enough to fit
+the full model, or we may be uncertain about which model terms should be
+included.
+
+\hypertarget{simple-example-2}{%
+\subsection{Simple example 2}\label{simple-example-2}}
+
+The \texttt{EngrExpt} package in \texttt{R} contains a dataset
+\texttt{bright} for a designed experiment on the ``de-inking'' process
+of newspaper in recycling. We will use this as an example design for a
+linear model to examine the information and alias matrices. The data set
+contains columns for five controllable variables, see \texttt{?bright}.
+We will assume that the assumed model contains linear and two-way
+interactions (with corresponding columns in \(X\)), and that the true
+model also contains three-way interactions (with columns in \(X_2\)).
+
+The features to note about the below output are the structure of the
+information matrix (diagonal) and the alias matrix (entries either -1 or
+0). These features are common in \textbf{two-level regular fractional
+factorial designs} (see Wu and Hamada 2009).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(EngrExpt)}
+\NormalTok{Design }\OtherTok{\textless{}{-}} \DecValTok{2} \SpecialCharTok{*} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{lapply}\NormalTok{(bright[, }\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{], as.numeric)) }\SpecialCharTok{{-}} \DecValTok{3}
+\NormalTok{X }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{(.) }\SpecialCharTok{\^{}} \DecValTok{2}\NormalTok{, }\AttributeTok{data =}\NormalTok{ Design)}
+\NormalTok{X2 }\OtherTok{\textless{}{-}} \FunctionTok{model.matrix}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\NormalTok{(.) }\SpecialCharTok{\^{}} \DecValTok{3}\NormalTok{, }\AttributeTok{data =}\NormalTok{ Design)[, }\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{)]}
+\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  (Intercept) type percent time hardness speed type:percent
+## (Intercept)               16    0       0    0        0     0            0
+## type                       0   16       0    0        0     0            0
+## percent                    0    0      16    0        0     0            0
+## time                       0    0       0   16        0     0            0
+## hardness                   0    0       0    0       16     0            0
+## speed                      0    0       0    0        0    16            0
+## type:percent               0    0       0    0        0     0           16
+## type:time                  0    0       0    0        0     0            0
+## type:hardness              0    0       0    0        0     0            0
+## type:speed                 0    0       0    0        0     0            0
+## percent:time               0    0       0    0        0     0            0
+## percent:hardness           0    0       0    0        0     0            0
+## percent:speed              0    0       0    0        0     0            0
+## time:hardness              0    0       0    0        0     0            0
+## time:speed                 0    0       0    0        0     0            0
+## hardness:speed             0    0       0    0        0     0            0
+##                  type:time type:hardness type:speed percent:time
+## (Intercept)              0             0          0            0
+## type                     0             0          0            0
+## percent                  0             0          0            0
+## time                     0             0          0            0
+## hardness                 0             0          0            0
+## speed                    0             0          0            0
+## type:percent             0             0          0            0
+## type:time               16             0          0            0
+## type:hardness            0            16          0            0
+## type:speed               0             0         16            0
+## percent:time             0             0          0           16
+## percent:hardness         0             0          0            0
+## percent:speed            0             0          0            0
+## time:hardness            0             0          0            0
+## time:speed               0             0          0            0
+## hardness:speed           0             0          0            0
+##                  percent:hardness percent:speed time:hardness time:speed
+## (Intercept)                     0             0             0          0
+## type                            0             0             0          0
+## percent                         0             0             0          0
+## time                            0             0             0          0
+## hardness                        0             0             0          0
+## speed                           0             0             0          0
+## type:percent                    0             0             0          0
+## type:time                       0             0             0          0
+## type:hardness                   0             0             0          0
+## type:speed                      0             0             0          0
+## percent:time                    0             0             0          0
+## percent:hardness               16             0             0          0
+## percent:speed                   0            16             0          0
+## time:hardness                   0             0            16          0
+## time:speed                      0             0             0         16
+## hardness:speed                  0             0             0          0
+##                  hardness:speed
+## (Intercept)                   0
+## type                          0
+## percent                       0
+## time                          0
+## hardness                      0
+## speed                         0
+## type:percent                  0
+## type:time                     0
+## type:hardness                 0
+## type:speed                    0
+## percent:time                  0
+## percent:hardness              0
+## percent:speed                 0
+## time:hardness                 0
+## time:speed                    0
+## hardness:speed               16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{solve}\NormalTok{(}\FunctionTok{as.matrix}\NormalTok{(}\FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X)) }\SpecialCharTok{\%*\%} \FunctionTok{t}\NormalTok{(X) }\SpecialCharTok{\%*\%}\NormalTok{ X2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                  type:percent:time type:percent:hardness type:percent:speed
+## (Intercept)                      0                     0                  0
+## type                             0                     0                  0
+## percent                          0                     0                  0
+## time                             0                     0                  0
+## hardness                         0                     0                  0
+## speed                            0                     0                  0
+## type:percent                     0                     0                  0
+## type:time                        0                     0                  0
+## type:hardness                    0                     0                  0
+## type:speed                       0                     0                  0
+## percent:time                     0                     0                  0
+## percent:hardness                 0                     0                  0
+## percent:speed                    0                     0                  0
+## time:hardness                    0                     0                 -1
+## time:speed                       0                    -1                  0
+## hardness:speed                  -1                     0                  0
+##                  type:time:hardness type:time:speed type:hardness:speed
+## (Intercept)                       0               0                   0
+## type                              0               0                   0
+## percent                           0               0                   0
+## time                              0               0                   0
+## hardness                          0               0                   0
+## speed                             0               0                   0
+## type:percent                      0               0                   0
+## type:time                         0               0                   0
+## type:hardness                     0               0                   0
+## type:speed                        0               0                   0
+## percent:time                      0               0                  -1
+## percent:hardness                  0              -1                   0
+## percent:speed                    -1               0                   0
+## time:hardness                     0               0                   0
+## time:speed                        0               0                   0
+## hardness:speed                    0               0                   0
+##                  percent:time:hardness percent:time:speed
+## (Intercept)                          0                  0
+## type                                 0                  0
+## percent                              0                  0
+## time                                 0                  0
+## hardness                             0                  0
+## speed                                0                  0
+## type:percent                         0                  0
+## type:time                            0                  0
+## type:hardness                        0                 -1
+## type:speed                          -1                  0
+## percent:time                         0                  0
+## percent:hardness                     0                  0
+## percent:speed                        0                  0
+## time:hardness                        0                  0
+## time:speed                           0                  0
+## hardness:speed                       0                  0
+##                  percent:hardness:speed time:hardness:speed
+## (Intercept)                           0                   0
+## type                                  0                   0
+## percent                               0                   0
+## time                                  0                   0
+## hardness                              0                   0
+## speed                                 0                   0
+## type:percent                          0                  -1
+## type:time                            -1                   0
+## type:hardness                         0                   0
+## type:speed                            0                   0
+## percent:time                          0                   0
+## percent:hardness                      0                   0
+## percent:speed                         0                   0
+## time:hardness                         0                   0
+## time:speed                            0                   0
+## hardness:speed                        0                   0
+\end{verbatim}
+
+\textbf{Exercise 4} What does the alias matrix tell you about the bias
+of \(\hat{\boldsymbol{\beta}}\)?
+
+\hypertarget{nonlinear-models}{%
+\section{Nonlinear models}\label{nonlinear-models}}
+
+If a statistical model is nonlinear in the unknown parameters,
+assessment of a design is more complicated. For the model
+
+\[
+y_i = f(\boldsymbol{x}_i;\,\boldsymbol{\beta}) + \varepsilon_i\,,\qquad i=1,\ldots,n\,,
+\] with independent errors \(\varepsilon_i\sim N(0,\sigma^2)\), the
+information matrix for \(\boldsymbol{\beta}\) has the form \[
+M(\xi;\,\boldsymbol{\beta}) = \frac{1}{\sigma^2}F^\mathrm{T}F\,,
+\] where \(n\times p\) \textbf{sensitivity} matrix \(F\) has \(ij\)th
+entry
+\(\partial f(\boldsymbol{x}_i;\,\boldsymbol{\beta})/\partial \beta_j\)
+(see Atkinson, Donev, and Tobias 2007).
+
+\textbf{Exercise 5} Derive the form of this information matrix.
+
+\textbf{Exercise 6} Show that the information matrix for the linear
+model is a special case.
+
+The main complication for assessing design performance for nonlinear
+models is the dependence of \(F\) on the value of \(\boldsymbol{\beta}\)
+(eg see the binomial example above where the information depended on
+\(\theta\)). Often, this dependence means designs are assessed
+\textbf{locally} for assumed values of \(\boldsymbol{\beta}\). Other
+approaches attempt to robustify the design by assuming its worst-case
+performance across a set of values of \(\boldsymbol{\beta}\) (maximin)
+or through \textbf{Bayesian methods}.
+
+\hypertarget{bayesian-methods}{%
+\section{Bayesian methods}\label{bayesian-methods}}
+
+If a Bayesian paradigm is adopted, design performance can be assessed
+using the posterior variance-covariance matrix of the parameters of
+interest. Assume a linear regression model with conjugate prior
+distributions
+\(\boldsymbol{\beta}| \sigma^2 \sim N(\boldsymbol{\beta}_0, \sigma^2R^{-1})\)
+and \(\sigma^2\sim\text{Inverse-Gamma}(a, b)\), with known prior mean
+\(p\)-vector \(\boldsymbol{\beta}\), known conditional \(p\times p\)
+prior variance-covariance matrix \(\sigma^2R^{-1}\), and \(a>0, b>0\).
+The conditional posterior variance-covariance matrix for
+\(\boldsymbol{\beta}\) is given by: \[
+\operatorname{Var}(\boldsymbol{\beta}| \boldsymbol{y}, \sigma^2) = \sigma^2\left(X^\mathrm{T}X + R\right)^{-1}\,.
+\] It is therefore natural to use (the inverse of) this matrix to assess
+the quality of a design from a Bayesian perspective (Chaloner and
+Verdinelli 1995).
+
+For nonlinear models, the situation tends to be more complicated. The
+posterior variance covariance matrix of the parameters is usually not
+available in closed form. The information matrix, evaluated at the
+posterior mode, can be used as an asymptotic approximation, but suffers
+once again from the problem of depending on quantities unknown prior to
+experimentation. In the course, we will review approaches that overcome
+these issues, including decision-theoretic approaches and associated
+computational methods (see Ryan et al. 2016; Overstall and Woods 2017)
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-ADT2007}{}%
+Atkinson, A. C., A. N. Donev, and R. D. Tobias. 2007. \emph{Optimum
+Experimental Design, with SAS}. 2nd ed. Oxford: Oxford University Press.
+
+\leavevmode\hypertarget{ref-CV1995}{}%
+Chaloner, K., and I. Verdinelli. 1995. {``Bayesian Experimental Design:
+A Review.''} \emph{Statistical Science} 10: 273--304.
+
+\leavevmode\hypertarget{ref-GJJ2002}{}%
+Garthwaite, P. H., I . T. Jolliffe, and B. Jones. 2002.
+\emph{Statistical Inference}. 2nd ed. Oxford: Oxford University Press.
+
+\leavevmode\hypertarget{ref-OW2017}{}%
+Overstall, A. M., and D. C. Woods. 2017. {``Bayesian Design of
+Experiments Using Approximate Coordinate Exchange.''}
+\emph{Technometrics} 59: 458--70.
+
+\leavevmode\hypertarget{ref-RDMP2016}{}%
+Ryan, E. G., C. C. Drovandi, J. M. McGree, and A. N. Pettitt. 2016. {``A
+Review of Modern Computational Algorithms for {B}ayesian Optimal
+Design.''} \emph{International Statistical Review} 84: 128--54.
+
+\leavevmode\hypertarget{ref-WH2009}{}%
+Wu, C. F. J., and M. Hamada. 2009. \emph{Experiments: Planning,
+Analysis, and Parameter Design Optimization}. 2nd ed. New York: Wiley.
+
+\end{CSLReferences}
+
+\end{document}

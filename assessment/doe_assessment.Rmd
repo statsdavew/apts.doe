@@ -1,6 +1,6 @@
 ---
 title: "APTS Design of Experiments - Assessment"
-subtitle: "September 2020"
+subtitle: "September 2021"
 author: "Dave Woods (<D.Woods@southampton.ac.uk> ; <http://www.southampton.ac.uk/~davew>) <br> Statistical Sciences Research Institute, University of Southampton"
 output: 
 #beamer_presentation
@@ -41,7 +41,7 @@ opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 
 These questions provide an opportunity to review concepts from the course and to practise the application of Design of Experiments methods in <tt>R</tt>.
 
-The functions referred to in Questions 1 and 3 below are available in the <tt>apts.doe</tt> package, which can be installed from <tt>GitHub</tt>. Make sure you have the latest version of this package before attempting the assessment.
+The function referred to in Question 1 below is available in the <tt>apts.doe</tt> package, which can be installed from <tt>GitHub</tt>. Make sure you have the latest version of this package before attempting the assessment.
 
 ```{r github, eval = F}
 library(devtools)
@@ -81,48 +81,32 @@ materials.lmAB <- lm(y ~ A*B, data = materials.frame)
 
 Of course, this doesn't break the aliasing in the design! So in this case, <tt>AB</tt> is probably aliased with another interaction (depending on the design you have chosen).
 
+<!-- pseudo-Bayesian design using optim-->
+2\. **Bayesian $D$-optimal design using <tt>optim</tt>**  
+Adapt the code from the notes to find locally $D$-optimal designs with $n=2$ runs for the Poisson regression model with linear predictor $\eta(x) = \beta_0 + \beta_1 x$ with the log link (log-linear regression).
 
-<!-- ACE compartmental model and sample size -->
-2\. **Bayesian optimal design**  
-In Practical Lab 2, we found designs for a two-compartment model, of the type used in pharmacokinetics studies [(the practical sheet and some example solutions can be found here)](https://statsdavew.github.io/apts.doe/). 
+Fix $\beta_0=0$ and find designs for $\beta_1 = 1, \ldots, 6$, restricting to $-1\le x\le 1$. For each design, plot the design points along with the expected response. There is a pattern in the optimal designs, can you identify it?
 
-Find Bayesian $D$-optimal designs (using the asymptotic approximation) for this model for $n = 11, \ldots, 20$ design points under the prior distributions
+The <tt>acebayes</tt> package has a function <tt>aceglm</tt> that can find Bayesian optimal designs for generalised linear models. Read the help file, and the use the function to find a Bayesian $D$-optimal design when we assume $\beta_0 = 0$ and a uniform prior distribution for $\beta_1$ with support $[1,6]$.
 
-  1. $\theta_1\sim \mathrm{Uniform}(0.1, 0.2)$, $\theta_2\sim \mathrm{Uniform}(0.3, 8.3)$, $\theta_3 = 20$
-  2. $\theta_1\sim \mathrm{Uniform}(0.1, 0.5)$, $\theta_2\sim \mathrm{Uniform}(0.3, 18.3)$, $\theta_3 = 20$
-  3. $\theta_1\sim \mathrm{Uniform}(0.1, 1)$, $\theta_2\sim \mathrm{Uniform}(0.3, 28.3)$, $\theta_3 = 20$
+**Important**: when using <tt>aceglm</tt> set $N2 = 0$ (otherwise it will result in a nasty crash!).
 
-Assess how the expected utilty changes with $n$, and graphically compare the designs obtained under different prior distributions.  
+<!-- pseudo-Bayesian design using ace -->
+3\. **Bayesian $D$-optimal design using <tt>acebayes</tt>**  
+In the notes, we examine a compartmental model. A simplified version of this model is given by
+$$
+y_i \sim N\left(\mu(x_i\,;\,\btheta), \sigma^2\right)\,, 
+$$
+with
+$$
+\mu(x_i\,;\,\btheta) = \theta_3\left[\exp\left(-\theta_1 x\right) - \exp\left(-\theta_2 x\right)\right]\,.
+$$
+Use the <tt>acenlm</tt> function in <tt>acebayes</tt> to find a Bayesian $D$-optimal design with $n=18$ runs, assuming $x \in [0, 24]$. Assume uniform prior distributions for $\theta_1,\theta_2$:
+$$
+\theta_1 \sim U(0.01884, 0.09884);\qquad \theta_2 \sim U(0.298, 8.298)
+$$
+with $\theta_3 = 21.8$; see @GJS2009 and @OWA2017. Plot the optimal design and realisations from the model.
 
-<!-- Computer experiments -->
-3\. **Computer experiments**  
-A common mathematical model used to demonstrate computer experiment methodology in the literature describes the flow of ground water through a borehole from an upper aquifer to a lower aquifer separated by a impermeable rock layer. The model has eight input variables:
 
-  - $r_w \in [0.05, 0.15]$: radius of the borehole ($m$)
-  - $r \in [100, 50000]$: radius of infuence ($m$)
-  - $T_u \in [63070, 115600]$: transmissivity of the upper aquifer ($m^2/yr$)
-  - $H_u \in [990, 1110]$: potentiometric head of the upper aquifer ($m$)
-  - $T_l \in [63.1, 116]$: transmissivity of the lower aquifer ($m^2/yr$)
-  - $H_l \in [700, 820]$: potentiometric head of the lower aquifer ($m^2/yr$)
-  - $L \in [1120, 1680]$: length of the borehole ($m$)
-  - $K_w \in [9855, 12045]$: hydraulic conductivity of borehole ($m/yr$)
 
-The output from the model is $y$, water flow rate ($m^3/yr$). The function <tt>borehole</tt> implements this model. The input to the model should be a numeric vector of length 8, giving values for the different input variables on the ranges defined above.
-
-Design a suitable computer experiment, use the <tt>borehole</tt> function to perform the experiment, and fit a Gaussian process (GP) emulator. From the GP output, which variables look to have most impact on the response?
-
-(I would suggest you fit the Gaussian process with all input variables scaled to $[0,1]$ to improve interpretability).
-
-Perform a Monte Carlo sensitivity analysis to obtain Sobol' indices and total effect indices for each variable, assuming the following distributions
-
-  - $r_w\sim N(0.10, 0.0161812^2)$
-  - $r\sim \mathrm{Lognormal}(7.71, 1.0056^2)$ (where the parameters are the mean and variance of $\log r$)   
-  - $T_u \sim \mathrm{Uniform}(63070, 115600)$
-  - $H_u\sim \mathrm{Uniform}(990, 1110)$
-  - $T_l\sim \mathrm{Uniform}(63.1, 116)$
-  - $H_l\sim \mathrm{Uniform}(700, 820)$
-  - $L\sim \mathrm{Uniform}(1120, 1680)$
-  - $K_w\sim \mathrm{Uniform}(9855, 12045)$
-
-Do these indices back up your conclusions from the GP output? Produce a plot of the predicted response against the most important variable. If you identified any potential interactions, find a way to visualise these on your plot(s). 
-
+## References
