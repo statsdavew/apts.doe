@@ -727,3 +727,61 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <12> on input line 142.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 142.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 142.
+LaTeX Font Info:    Try loading font information for U+msa on input line 142.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 142.
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/microtype/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+Overfull \hbox (337.91727pt too wide) in paragraph at lines 142--142
+ [][] 
+ []
+
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 160.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 160.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 160.
+
+./doe_preliminary.tex:185: LaTeX Error: Bad math environment delimiter.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.185 \begin{equation}
+                      \label{eq:likelihood}
+? 
+./doe_preliminary.tex:185: Emergency stop.
+ ...                                              
+                                                  
+l.185 \begin{equation}
+                      \label{eq:likelihood}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+ 
+Here is how much of TeX's memory you used:
+ 13400 strings out of 492649
+ 194904 string characters out of 6129623
+ 309459 words of memory out of 5000000
+ 17065 multiletter control sequences out of 15000+600000
+ 55915 words of font info for 77 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 34i,7n,38p,909b,474s stack positions out of 5000i,500n,10000p,200000b,80000s
+./doe_preliminary.tex:185:  ==> Fatal error occurred, no output PDF file produc
+ed!

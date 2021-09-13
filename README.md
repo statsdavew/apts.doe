@@ -6,7 +6,7 @@ Preliminary material can be found [here](preliminary/doe_preliminary.html).
 
 Notes can be found [here](notes/doe.html).
 
-  - the notes look better on screen if you press the "w" key (for widescreen).
+<!--  - the notes look better on screen if you press the "w" key (for widescreen).-->
 
 Worksheets for the computer labs.
 
