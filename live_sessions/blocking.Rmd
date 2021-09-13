@@ -1,0 +1,130 @@
+---
+title: "APTS Design of Experiments 2021"
+subtitle: "Blocking, multiple comparisons, factorial contrasts"
+author: "Dave Woods"
+date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+---
+ 
+```{r libraries}
+library(knitr) # for kable
+library(magrittr) # for the pipe operator
+library(fractional) # for fractional, to simplify matrix display
+library(emmeans) # for emmeans and pairs
+library(gmodels) # for fit.contrast
+```
+
+## Blocking
+
+Exercise experiment: 8 treatments (different ways of using an exercise bike) and two blocking factors (day and subject). The response is pulse rate. 
+
+```{r data}
+exercise <- read.csv("exercise.csv", header = T)
+colnames(exercise) <-c("Day", "Subject", "Treatment", "Y")
+kable(exercise, align = rep('c', 4))
+```
+
+Design is what is known as a latin square (incomplete block design with two blocking factors)
+
+```{r factors}
+exercise$Day <- as.factor(exercise$Day)
+exercise$Subject <- as.factor(exercise$Subject)
+exercise$Treatment <- as.factor(exercise$Treatment)
+```
+
+```{r data_treatments}
+Ymat <- matrix(exercise$Y, nrow = 8, ncol = 3, byrow = T)
+Tmat <- matrix(exercise$Treatment, nrow = 8, ncol = 3, byrow = T)
+Ymat
+Tmat
+```
+
+```{r treatment_comparisons}
+B <- cbind(b0 = 1, contrasts(exercise$Treatment))
+fractional(B)
+solve(B) %>% fractional
+```
+
+See [the vignette for the codingMatrices package](https://cran.r-project.org/web/packages/codingMatrices/vignettes/codingMatrices.pdf)
+
+```{r lm-anova}
+exercise.lm <- lm(Y ~ Day + Subject + Treatment, data = exercise)
+exercise.lm
+anova(exercise.lm)
+```
+
+Significant difference between treatments. What happens if we ignore blocks?
+
+```{r no-blocks}
+exercise_nb.lm <- lm(Y ~ Treatment, data = exercise)
+anova(exercise_nb.lm)
+```
+Very different effect of treatments - no longer adjusted for blocks (and not orthogonal).
+
+## Multiple comparisons
+
+Which treatments differ? Work out all pairwise comparisons.
+
+
+```{r Q2a.ii}
+marginal <- emmeans(exercise.lm, ~ Treatment) # emmeans and pairs from emmeans package
+pairs1 <- pairs(marginal, adjust = "none")
+pairs1
+```
+
+```{r rejected?}
+subset(transform(pairs1), p.value < 0.05) # note that transform just turns an emmeans object into a data frame
+```
+
+What is the type I error rate?
+
+[Jelly beans!](https://xkcd.com/882)
+
+```{r type-I}
+alpha <- 0.05
+1 - (1 - alpha)^nrow(transform(pairs1)) # 28 comparisons (not 8 as in I said in the lecture - oops!).
+```
+This is the type I error rate if all the tests are independent.
+
+Adjust to get *experimentwise* type I error rate of (close to) $\alpha$.
+
+```{r adjust}
+pairs_b <- pairs(marginal, adjust = "bonferroni")
+pairs_t <- pairs(marginal, adjust = "tukey")
+subset(transform(pairs_b), p.value < alpha)
+subset(transform(pairs_t), p.value < alpha)
+```
+
+## Factorial treatment structure
+
+What about if there is structure in the treatments?
+
+```{r contrasts}
+contr.duration <- c(-1, -1, -1, -1, 1, 1, 1, 1)
+contr.speed <- c(-1, -1, 1, 1, -1, -1, 1, 1)
+contr.pedal <- c(-1, 1, -1, 1, -1, 1, -1, 1)
+contr.dxs <- contr.duration * contr.speed
+contr.dxp <- contr.duration * contr.pedal
+contr.sxp <- contr.speed * contr.pedal
+contr.dxsxp <- contr.duration * contr.speed * contr.pedal
+contr_mat <- rbind(contr.duration, contr.speed, contr.pedal, contr.dxs, contr.dxp, contr.sxp, contr.dxsxp)
+cbind(treat = 1:8, t(contr_mat))
+```
+
+
+```{r fact_effects}
+fit.contrast(exercise.lm, "Treatment", contr_mat / 4) # from gmodels
+```
+Different to simply averaging observations (again because of non-orthogonal blocking)
+
+```{r obs-avg}
+with(exercise, {
+ c(
+  mean(Y[Treatment %in% 5:8]) - mean(Y[Treatment %in% 1:4]), # duration
+  mean(Y[Treatment %in% c(3, 4, 7, 8)]) - mean(Y[Treatment %in% c(1, 2, 5, 6)]), # speed
+  mean(Y[Treatment %in% c(2, 4, 6, 8)]) - mean(Y[Treatment %in% c(1, 3, 5, 7)]) # pedal
+ )
+})
+
+```
+

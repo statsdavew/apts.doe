@@ -8,6 +8,10 @@ Notes can be found [here](notes/doe.html).
 
 <!--  - the notes look better on screen if you press the "w" key (for widescreen).-->
 
+Live lecture discussions
+
+  - Session 1[html](live_sessions/blocking.nb.html) [Rmd](live_sessions/blocking.Rmd)
+
 Worksheets for the computer labs.
 
   - [Practical 1](practicals/doe_practical1.html) 
