@@ -54,10 +54,8 @@ Examine the aliasing scheme of this design. Obtain the alias strings for each ma
 
 The function <tt>fold.design</tt> in the <tt>FrF2</tt> package generates foldover designs. Check its syntax in the help file, and then use this function to generate a complete foldover of our original 16-run design. 
 
-What do you think will have happened to the alias structure of the new design? Use the <tt>alias</tt> function to check your intuition.
+What do you think will have happened to the alias structure of the new design? Use <tt>design.info()$aliased</tt> or the <tt>alias</tt> function to check your intuition.
 
-[You should be able to use <tt>design.info()$aliased</tt> but there seems to be a bug in this function that leads to an incorrect alias structure being generated.]
-    
 (c)\. We can also generate partial foldover designs, by only folding over on subsets of columns (ie only multiplying some columns by -1). Use <tt>fold.design</tt> to generate a design by folding over on $x_5$ only. Then examine the aliasing structure for the generated design. What has happened to the aliasing for the main effects and two-factor interactions involving $x_5$?
 
 <!-- Blocking and split-plots -->

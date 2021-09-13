@@ -184,8 +184,7 @@ I = x_1x_2x_3x_5 = x_1x_2x_4x_6 = x_1x_3x_4x_7 = x_2x_3x_4x_8 = x_1x_2x_3x_4x_9
 \]</span> Examine the aliasing scheme of this design. Obtain the alias strings for each main effect.</p>
 <p>(b). To <em>delias</em> main effects, we can <strong>foldover</strong> a fractional factorial design. A foldover design consists of adding a second set of <span class="math inline">\(n\)</span> runs to the design obtained by “folding over” the original runs; that is, we obtain the second design by multiplying one or more columns of the original design by -1. A complete fold-over generates this design by multiplying all columns by -1.</p>
 <p>The function <tt>fold.design</tt> in the <tt>FrF2</tt> package generates foldover designs. Check its syntax in the help file, and then use this function to generate a complete foldover of our original 16-run design.</p>
-<p>What do you think will have happened to the alias structure of the new design? Use the <tt>alias</tt> function to check your intuition.</p>
-<p>[You should be able to use <tt>design.info()$aliased</tt> but there seems to be a bug in this function that leads to an incorrect alias structure being generated.]</p>
+<p>What do you think will have happened to the alias structure of the new design? Use <tt>design.info()$aliased</tt> or the <tt>alias</tt> function to check your intuition.</p>
 <p>(c). We can also generate partial foldover designs, by only folding over on subsets of columns (ie only multiplying some columns by -1). Use <tt>fold.design</tt> to generate a design by folding over on <span class="math inline">\(x_5\)</span> only. Then examine the aliasing structure for the generated design. What has happened to the aliasing for the main effects and two-factor interactions involving <span class="math inline">\(x_5\)</span>?</p>
 <!-- Blocking and split-plots -->
 <p>2. <strong>Blocking and split-plot designs</strong><br />
