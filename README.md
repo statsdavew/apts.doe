@@ -12,6 +12,8 @@ Live lecture discussions
 
   - Session 1 [html](live_sessions/blocking.nb.html) [Rmd](live_sessions/blocking.Rmd) [data](live_sessions/exercise.csv)
 
+  - Session 2 [html](live_sessions/helicopters.nb.html) [Rmd](live_sessions/helicopters.Rmd)
+
 Worksheets for the computer labs.
 
   - [Practical 1](practicals/doe_practical1.html) [(Example solutions)](practicals/doe_practical_solution1.html)
