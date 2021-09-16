@@ -40,14 +40,15 @@ opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
 ```
 
 **Computer experiments**  
-We start by generating a maximin Latin hypercube, following the run of thumb of having 10 times as many runs as input variables. The function <tt>maximinSA_LHS</tt> requires a starting design for the optimisation; we will use a random Latin hypercube of the correct size.
+We start by generating a maximin Latin hypercube, following the run of thumb of having 10 times as many runs as input variables. The function <tt>maximinSA_LHS</tt> requires a starting design for the optimisation; we will use a random Latin hypercube of the correct size. We can visualise our final design by looking at one-dimensional projections (which should be uniform) and two-dimensional projections (the design criterion doesn't consider these, but they hopefully will look OK).
 
 ```{r cedesign}
 library(DiceDesign)
 start.design <- lhsDesign(80, 8)$design
 maximin.d <- maximinSA_LHS(start.design)
 colnames(maximin.d$design) <- c("rw", "r", "Tu", "Hu", "Tl", "Hl", "L", "Kw")
-maximin.d$design
+hist(maximin.d$design[, 1])
+pairs(maximin.d$design)
 ```
 
 To run the experiment, we need to scale our design to the appropriate ranges (<tt>DiceDesign</tt> finds designs on the scale $[0,1]$) and pass each row of the design to the <tt>borehole</tt> function. 
@@ -73,3 +74,17 @@ gp
 ```
 
 The dominant variable is $r_w$, with a large linear coefficient and a small $\theta$ (correlation parameter).
+
+We can graphically explore a bit using leave-one-out predictions. If we plot these against the response, we would hope to see a line close to the diagonal, with narrow intervals mostly crossing the line (so the response is usually within the interval). We can also work out an approximate $R^2$ value as the square of the correlation between the response and the mean prediction. The model looks pretty good on these measures.
+
+```{r gpextra}
+library(ggplot2)
+loo <- leaveOneOut.km(gp, type = "UK", trend.reestim = T)
+summary_df <- data.frame(y = y, pred = loo$mean, ymin = loo$mean - 2 * loo$sd, ymax = loo$mean + 2 * loo$sd)
+ggplot(summary_df, aes(x = y, y = pred, color = 100 * maximin.d$design[, "rw"])) + geom_point(size = 2) +
+  geom_abline(slope = 1, intercept = 0) +
+  geom_errorbar(aes(ymin = ymin, ymax = ymax)) + labs(color = "r_w")
+with(summary_df, cor(y, pred)) ^ 2
+```
+
+
