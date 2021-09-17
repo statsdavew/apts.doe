@@ -1,0 +1,135 @@
+---
+title: "APTS Design of Experiments 2021"
+subtitle: "Optimal design via algorithmic search"
+author: "Dave Woods"
+date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
+output: html_notebook
+---
+ 
+```{r libraries, message = F}
+library(apts.doe)
+library(AlgDesign)
+library(rsm)
+library(dplyr)
+library(plotly)
+```
+
+## Point exchange algorithm
+
+ - Most common optimisation algorithm for optimal design
+ - Swaps between current design and a candidate list of possible design points
+ - Can be applied with most optimality criteria, including D-optimality
+ - Implemented in package `AlgDesign`
+
+We will study three examples of using `AlgDesign` to find designs under linear models
+$$
+Y = X\beta + \epsilon\,,
+$$
+with $X$ the model matrix, $\beta$ the $p$-vector of unknown model coefficients and $\epsilon$ an $n$-vector of identically and independently normally distributed random errors, each having variance $\sigma^2$. 
+
+A $D$-optimal design maximises the determinant of the information matrix $X^T X$.
+
+## Example 1: one-factor quadratic regression
+
+D-optimal design for the regression model
+
+$$
+Y_i = \beta_0 + \beta_1 x_i + \beta_2 x_i^2 + \epsilon_i
+$$
+
+```{r ex1-algdes}
+x <- seq(-1, 1, length = 101) # candidate list
+dopt1 <- optFederov(~ quad(x), data = x, nTrials = 9, criterion = "D")
+dopt1
+```
+The function returns 
+
+ - `D`: the value of the determinant of *normalised* information matrix (divided by $n$) raised to the power $1/p$
+ - `A`: the value of the trace of the inverse of the information matrix, divided by $p$ 
+ - `Ge` and `Dea`: the $G$- and $D$-efficiencies relative to the theoretical optimal design (which may not be realisable)
+ - `rows`: the rows of the candidate list that correspond to the optimal design.
+
+## Example 2: a response surface design
+
+A pharmaceutical industry experiment (Owen et al., 2001, Organic Process Research and Development) investigated four factors in $n=30$ runs. We will find a $V$-optimal design for this experiment, assuming 
+
+$$
+-2 \le x_1, x_2, x_3, x_4 \le 2\,.
+$$ 
+
+
+Note that `AlgDesign` refers to $V$-optimality as $I$-optimality ($I$ for integrated variance). 
+
+```{r ex2-algdes}
+cand.list <- expand.grid(x1 = seq(-2, 2, length = 5), x2 = seq(-2, 2, length = 5), 
+                         x3 = seq(-2, 2, length = 5), x4 = seq(-2, 2, length = 5))
+dopt2 <- optFederov(~ quad(x1, x2, x3, x4), data = cand.list, nTrials = 30, 
+                    criterion = "I")
+dopt2
+```
+
+It is interesting to compare the performance of this design under the various optimality criteria with the original design used in the study. This was a *central composite design*, or CCD, a common multi-factor design for fitting regression models. To do this we generate a CCD using the `rsm` package.
+
+```{r ex2-evaldesign}
+ccd_design <- ccd(4, n0 = c(6, 0), randomize = F, oneblock = T, alpha = 2)
+ccd.eval <- eval.design(~ quad(x1, x2, x3, x4), design = data.frame(ccd_design), X = cand.list)
+ccd.eval$I
+round(100 * dopt2$I/ccd.eval$I)
+```
+
+## Example 3: a multi-factor experiment with dependent factor settings
+
+McNamara et al. (2005, Tech. Report) described an experiment to investigate the relationship between chemical yield and choice of solvent.
+
+ - 13 solvents available for the experiment
+ - characterised by values of three *chemical descriptors*: dielectric constant, dipole moment and water solubility
+ - Replacing a 13-level qualiative factor (solvent) with three quantitative variables
+ - combinations of the descriptors which are feasible for the experiment are determined by the list of available solvents.   
+
+```{r ex3-solvents}
+solvents <- read.csv("solvents.csv", header = T)
+solvents
+```
+$D$-optimal design to estimate a quadratic regression model with $n=20$
+
+ - the design problem is really picking the replication of each solvent
+ - `optFederov` requires the candidate list to have more rows than $n$, so we use two replicates of the solvent list
+
+```{r ex3-design}
+dopt3 <- optFederov(~ quad(dc, dp, ws), data = rbind(solvents, solvents, solvents), 
+                    nTrials = 20, criterion = "D") 
+with(dopt3$design, {
+  dopt3$design[order(solvent), ]
+})
+```
+
+Notice that not all of the solvents have been selected in the design (so some have replication 0).
+```{r ex3-count}
+dopt3$design %>% count(solvent)
+```
+Compare this design to the $D$-optimal design that would be found if we assumed all possible combinations of descriptor values were possible (or a least a much wider range). That is, what design would be chosen if we were not restricted to our list of 13 solvents?
+
+```{r ex3-design2}
+descrip.list <- expand.grid(dc = seq(-1, 1, len = 9), dp = seq(-1, 1, len = 9), 
+                            ws = seq(-1, 1, len = 9))
+dopt3b <- optFederov(~ quad(dc, dp, ws), data = descrip.list, nTrials = 20, 
+                    criterion = "D")
+with(dopt3b$design, {
+  dopt3b$design[order(dc, dp, ws), ]  
+})
+```
+
+This design has only one point in the interior of the design space (at the centre point), unlike the design constructed from the original candidate list. It has no replication.
+
+```{r ex3-deff}
+dopt3b$design %>% count(dc, dp, ws)
+round(100 * (dopt3$D/dopt3b$D) ^ (1 / 10))
+```
+
+Original design has low efficiency but is realisable (the solvents exist!), whereas we do not know if the combinations of the descriptors in the second design correspond to actual solvents.
+
+```{r ex3-plot, out.width = "50%"}
+plot_ly(dopt3$design %>% count(dc, dp, ws), x = ~dc, y = ~dp, z = ~ws, type = "scatter3d", mode = "markers", color = ~n)
+plot_ly(dopt3b$design, x = ~dc, y = ~dp, z = ~ws, type = "scatter3d", mode = "markers")
+```
+

@@ -14,6 +14,8 @@ Live lecture discussions
 
   - Session 2 [html](live_sessions/helicopters.nb.html) [Rmd](live_sessions/helicopters.Rmd)
 
+ - Session 3 [html](live_sessions/algorithms.nb.html) [Rmd](live_sessions/algorithms.Rmd)[solvents](live_sessions/solvents.csv)
+
 Worksheets for the computer labs.
 
   - [Practical 1](practicals/doe_practical1.html) [(Example solutions)](practicals/doe_practical_solution1.html)
