@@ -14,7 +14,7 @@ Additional RMarkdown notebooks
 
   - Notebook 2 [html](live_sessions/helicopters.nb.html) [Rmd](live_sessions/helicopters.Rmd)
 
- - Notebook 3 [html](live_sessions/algorithms.nb.html) [Rmd](live_sessions/algorithms.Rmd)[solvents](live_sessions/solvents.csv)
+ - Notebook 3 [html](live_sessions/algorithms.nb.html) [Rmd](live_sessions/algorithms.Rmd) [data](live_sessions/solvents.csv)
 
 Worksheets for the computer labs.
 
