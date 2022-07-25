@@ -1,12 +1,12 @@
 ---
-title: "APTS Design of Experiments 2021"
+title: "APTS Design of Experiments 2022"
 subtitle: "Optimal design via algorithmic search"
 author: "Dave Woods"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
 output: html_notebook
 ---
  
-```{r libraries, message = F}
+```{r libraries, message = F, warning = F}
 library(apts.doe)
 library(AlgDesign)
 library(rsm)

@@ -1,5 +1,5 @@
 ---
-title: "APTS Design of Experiments 2021"
+title: "APTS Design of Experiments 2022"
 subtitle: "Blocking, multiple comparisons, factorial contrasts"
 author: "Dave Woods"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
@@ -82,7 +82,7 @@ What is the type I error rate?
 
 ```{r type-I}
 alpha <- 0.05
-1 - (1 - alpha)^nrow(transform(pairs1)) # 28 comparisons (not 8 as in I said in the lecture - oops!).
+1 - (1 - alpha)^nrow(transform(pairs1)) # 28 comparisons
 ```
 This is the type I error rate if all the tests are independent.
 

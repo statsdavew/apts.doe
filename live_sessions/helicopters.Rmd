@@ -1,12 +1,12 @@
 ---
-title: "APTS Design of Experiments 2021"
+title: "APTS Design of Experiments 2022"
 subtitle: "Helicopter experiment"
 author: "Dave Woods"
 date: "Last compiled on `r format(Sys.time(), '%d %B %Y')`"
 output: html_notebook
 ---
  
-```{r libraries, message = F}
+```{r libraries, message = F, warning = F}
 library(apts.doe)
 library(FrF2) # for the half-normal plot and Plackett-Burman designs
 library(effects) # for factorial effects plots
