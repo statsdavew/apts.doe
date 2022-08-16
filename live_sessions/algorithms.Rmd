@@ -39,7 +39,7 @@ $$
 
 ```{r ex1-algdes}
 x <- seq(-1, 1, length = 101) # candidate list
-dopt1 <- optFederov(~ quad(x), data = x, nTrials = 9, criterion = "D")
+dopt1 <- optFederov(~ quad(x), data = c(x, x, x), nTrials = 9, criterion = "D")
 dopt1
 ```
 The function returns 
@@ -93,7 +93,7 @@ solvents
 $D$-optimal design to estimate a quadratic regression model with $n=20$
 
  - the design problem is really picking the replication of each solvent
- - `optFederov` requires the candidate list to have more rows than $n$, so we use two replicates of the solvent list
+ - `optFederov` requires the candidate list to have more rows than $n$, so we use three replicates of the solvent list
 
 ```{r ex3-design}
 dopt3 <- optFederov(~ quad(dc, dp, ws), data = rbind(solvents, solvents, solvents), 
